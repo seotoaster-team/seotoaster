@@ -4,7 +4,7 @@
 		<div class="list-row">
 			<div class="grid_11 list-row-item">
 				<input type="checkbox" name="addPageToFa" id="<?php echo $fa->getId(); ?>" class="add-page" <?php echo (in_array($fa->getId(), $this->currentFareasIds)) ? 'checked="checked"' : ''; ?>/>
-				<?php echo $fa->getName(); ?>&nbsp;(<span class="pcount-<?php echo $fa->getId(); ?>"><?php echo sizeof($fa->getPages()); ?></span>)
+                <a class="tpopup" title="Edit order" data-url="https://afm.local.com/backend/backend_featured/order/id/<?php echo $fa->getId(); ?>" data-pheight="560" data-pwidth="480" href="javascript:;"><?php echo $fa->getName(); ?></a>&nbsp;(<span class="pcount-<?php echo $fa->getId(); ?>"><?php echo sizeof($fa->getPages()); ?></span>)
 			</div>
 			<div class="grid_1 text-center list-row-item">
 				<a class="del-fa _tdelete ticon-remove error" data-url="<?php echo $this->toasterLink('featured', 'delete', '', null, true); ?>" data-eid="<?php echo $fa->getId(); ?>" data-callback="loadFaList" href="javascript:;" title="<?php echo $this->translate('Delete featured area'); ?>"></a>
