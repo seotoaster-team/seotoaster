@@ -143,6 +143,9 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 		if(!$faId) {
 			throw new Exceptions_SeotoasterException('Wrong featured area id');
 		}
+
+        $withoutRefresh = intval($this->getRequest()->getParam('withoutRefresh'));
+
 		$featuredArea = Application_Model_Mappers_FeaturedareaMapper::getInstance()->find($faId);
 		if(!$featuredArea instanceof Application_Model_Models_Featuredarea) {
 			throw new Exceptions_SeotoasterException('Cannot load featured area');
@@ -166,6 +169,7 @@ class Backend_FeaturedController extends Zend_Controller_Action{
 		$this->view->faPages = $featuredArea->getPages();
         $this->view->faName = $featuredArea->getName();
         $this->view->faId = $faId;
+        $this->view->withoutRefresh = $withoutRefresh;
 	}
 
     public function deleteAction()
