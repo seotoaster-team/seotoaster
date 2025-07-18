@@ -53,7 +53,7 @@ class Installer_Form_Config extends Zend_Form {
         ));
 
         $this->addElement('text', 'host', array(
-            'value'		=> 'localhost',
+            'value'		=> getenv("CLOUDRON_MYSQL_HOST"),
             'label'		=> 'Host',
 	        'required'  => true,
             'placeholder'		=> $translator->translate('Database server address'),
@@ -67,18 +67,21 @@ class Installer_Form_Config extends Zend_Form {
         ));
 
         $this->addElement('text', 'username', array(
+            'value'		=> getenv("CLOUDRON_MYSQL_USERNAME"),
             'label'		=> 'User',
             'required'  => true,
             'placeholder' => $translator->translate('User allowed to connect to database server')
         ));
 
         $this->addElement('password', 'password', array(
+            'value'		=> getenv("CLOUDRON_MYSQL_PASSWORD"),
             'label'		=> 'Password',
             'placeholder'     => $translator->translate('Password for database'),
             'renderPassword' => true
         ));
 
         $this->addElement('text', 'dbname', array(
+            'value'		=> getenv("CLOUDRON_MYSQL_DATABASE"),
             'label'		=> 'Database name',
             'required'  => true,
             'placeholder'     => $translator->translate('Name of the database to use')

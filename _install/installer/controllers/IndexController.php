@@ -262,9 +262,13 @@ class IndexController extends Zend_Controller_Action {
 
 			$params = $this->getRequest()->getParams();
 
-			if (isset($params['check']) && $params['check'] === 'settings'){
-				if ($settingsForm->isValid($params)){
-					$suReady		= $this->_createSuperUser($settingsForm->getValues());
+            if(isset($params['completeSetupParam']) && $params['completeSetupParam'] === '1') {
+                return $this->cloudronStep();
+            }
+
+            if (isset($params['check']) && $params['check'] === 'settings'){
+                if ($settingsForm->isValid($params)){
+                    $suReady		= $this->_createSuperUser($settingsForm->getValues());
 
 					if (!$settingsForm->getValue('sambaToken') && (bool)$settingsForm->getValue('createAccount')){
 						$this->_createSambaAccount($settingsForm->getValues());
@@ -314,6 +318,17 @@ class IndexController extends Zend_Controller_Action {
             }
         }
 	}
+
+    public function cloudronStep() {
+        $setSmtpResult = $this->cloudronInstallerActions('setSmtp');
+        $renameInstallResult = $this->cloudronInstallerActions('renameInstall');
+
+        $redirector = new Zend_Controller_Action_Helper_Redirector();
+        $websiteUrl = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'];
+        $redirector->gotoUrl($websiteUrl);
+
+        return true;
+    }
 
 	public function preDispatch() {
 		//solve action w/o layout if request came with PJAX header
@@ -468,46 +483,45 @@ class IndexController extends Zend_Controller_Action {
 	 * @param array $dbinfo Array with database settings to be checked
 	 * @return mixed true on success, error message on fault
 	 */
-	private function _setupDatabase($dbinfo){
-		$adapter = array('params' => $dbinfo);
-		if (extension_loaded('pdo_mysql')) {
-			$adapter['adapter'] = 'pdo_mysql';
-			$adapter['params']['driver_options'] = array(
-				PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8;'
-			);
-		} else {
-			return "You should have pdo_mysql extension installed";
-		}
+    private function _setupDatabase($dbinfo){
+        $adapter = array('params' => $dbinfo);
+        if (extension_loaded('pdo_mysql')) {
+            $adapter['adapter'] = 'pdo_mysql';
+            $adapter['params']['driver_options'] = array(
+                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8;'
+            );
+        } else {
+            return "You should have pdo_mysql extension installed";
+        }
 
-		try {
-			$db = Zend_Db::factory(new Zend_Config($adapter));
-			$this->_session->dbinfo = $adapter;
-			Zend_Db_Table::setDefaultAdapter($db);
+        $db = Zend_Db::factory(new Zend_Config($adapter));
+        $this->_session->dbinfo = $adapter;
+        Zend_Db_Table::setDefaultAdapter($db);
 
-			$file = file_get_contents(APPLICATION_PATH.'/resourses/seotoaster.sql');
-			if ($file === false){
-				return false;
-			}
-			$queries = SqlSplitter::split($file);
+        $file = file_get_contents(APPLICATION_PATH.'/resourses/seotoaster.sql');
+        if ($file === false){
+            return false;
+        }
+        $queries = SqlSplitter::split($file);
 
-			$db->beginTransaction();
+        $pdo = $db->getConnection();
 
-			try {
-				foreach ($queries as $sql) {
-					$db->query($sql);
-				}
-				
-				$db->commit();
-				return true;
-			} catch (Exception $ex) {
-				$db->rollBack();
-				return $ex->getMessage();
-			}
-
-		} catch (Exception $e){
-			return $e->getMessage();
-		}
-	}
+        try {
+            $db->beginTransaction();
+            foreach ($queries as $sql) {
+                $db->query($sql);
+            }
+            if ($pdo->inTransaction()) {
+                $db->commit();
+            }
+            return true;
+        } catch (Exception $ex) {
+            if ($pdo->inTransaction()) {
+                $db->rollBack();
+            }
+            return $ex->getMessage();
+        }
+    }
 	
 	private function _findLanguages() {
         $translate = Zend_Registry::get('Zend_Translate');
@@ -583,6 +597,50 @@ class IndexController extends Zend_Controller_Action {
 //		$info = curl_getinfo($ch);
 		curl_close($ch);
 
-		return $result;
-	}
+        return $result;
+    }
+
+    public function cloudronInstallerActions($action = 'renameInstall') {
+        if($action == 'setSmtp'){
+            $db = Zend_Db::factory( new Zend_Config($this->_session->dbinfo));
+            Zend_Db_Table_Abstract::setDefaultAdapter($db);
+            $configTable = new Zend_Db_Table('config');
+            $config =array();
+
+            $config['useSmtp'] = '1';
+            $config['smtpHost'] = getenv("CLOUDRON_MAIL_SMTP_SERVER");
+            $config['smtpLogin'] = getenv("CLOUDRON_MAIL_SMTP_USERNAME");
+            $config['smtpPassword'] = getenv("CLOUDRON_MAIL_SMTP_PASSWORD");
+            $config['smtpPort'] = getenv("CLOUDRON_MAIL_SMTP_PORT");
+            $config['smtpSsl'] = '0';
+
+            #update canonicalScheme to https
+            $config['canonicalScheme'] = 'https';
+
+            foreach ($config as $name => $value) {
+                $updateField = $configTable->getAdapter()->quoteInto('value =?', $value);
+                $configTable->getAdapter()->query('UPDATE `config` SET '.$updateField . ' WHERE  `name` = ?', $name);
+            }
+
+            return true;
+        }
+
+        if($action == 'renameInstall'){
+            define('INSTALL_PATH_DIR', realpath(__DIR__.'/../../../'));
+            $oldDir = INSTALL_PATH_DIR . '/install';
+            $newDir = INSTALL_PATH_DIR . '/_install';
+
+            if (is_dir($oldDir)) {
+                if (rename($oldDir, $newDir)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+    }
+
 }
