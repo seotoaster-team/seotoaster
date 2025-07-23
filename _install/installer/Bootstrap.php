@@ -58,6 +58,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$view->jQuery()->setVersion('1.7');
 		$view->jQuery()->setUiVersion('1.8');
 
+        $request  = new Zend_Controller_Request_Http();
+        $view->jQuery()->setCdnSsl($request->isSecure());
+
 		$viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer($view);
 		Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
 	}

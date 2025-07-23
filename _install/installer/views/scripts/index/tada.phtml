@@ -6,9 +6,23 @@
 
 <div id="finish-content" class="grid_10 prefix_1 mt30px mb20px">
     <h3 class="title-step"><?php echo $this->translate('Get ready to toast:');?></h3>
+    <?php
+    $mysqlText = "Host: ".getenv("CLOUDRON_MYSQL_HOST")."\nUsername: ".getenv("CLOUDRON_MYSQL_USERNAME")."\nPassword: ".getenv("CLOUDRON_MYSQL_PASSWORD")."\nDbname: ".getenv("CLOUDRON_MYSQL_DATABASE");
+    $smtpText  = "SMTP host: ".getenv("CLOUDRON_MAIL_SMTP_SERVER")."\nSMTP login: ".getenv("CLOUDRON_MAIL_SMTP_USERNAME")."\nSMTP password: ".getenv("CLOUDRON_MAIL_SMTP_PASSWORD")."\nSMTP port: ".getenv("CLOUDRON_MAIL_SMTP_PORT");
+    ?>
+    <div class="grid_12">
+        <h4 class="credentials-info"><?php echo $this->translate('This is your unique credentials for MySQL and SMTP. Please save these credentials in your document on your PC.'); ?></h4>
+
+        <label class="grid_12" for="mysql-credentials"><?php echo $this->translate('MySQL credentials'); ?>:</label>
+        <textarea class="grid_12" id="mysql-credentials" name="mysql-credentials" rows="5" cols="15"><?php echo htmlspecialchars($mysqlText); ?></textarea>
+
+        <label class="grid_12" for="smtp-credentials"><?php echo $this->translate('SMTP credentials'); ?>:</label>
+        <textarea class="grid_12" id="smtp-credentials" name="smtp-credentials" rows="5" cols="15"><?php echo htmlspecialchars($smtpText); ?></textarea>
+    </div>
+
     <form class="complete-setup" method="post" action="" enctype="application/x-www-form-urlencoded" name="complete-setup" >
         <input type="hidden" id="complete-setup-param" name="completeSetupParam" value="1"/>
-        <input type="submit" value="Complete setup">
+        <input class="mt10px" type="submit" value="Complete setup">
     </form>
     <ol class="finish-block hide">
         <!--li>< ?php echo $this->translate('You must remove the <b>&#147;install&#148;</b> folder in "app/data/" order to access your software.');?></li-->
