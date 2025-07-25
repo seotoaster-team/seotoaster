@@ -92,7 +92,7 @@
     </div>
     <div class="f-footer grid_12">
         <form id="update" action="<?php echo $this->websiteUrl ?>backend/backend_update/update" method="get">
-            <label class="fl-left"><?php echo $this->translate('Without backup'); ?>: <input type ="checkbox" name="withoutBackup" value = "true"></label>
+            <label class="fl-left hidden"><?php echo $this->translate('Without backup'); ?>: <input checked type ="checkbox" name="withoutBackup" value = "true"></label>
             <button class="btn ticon-refresh" type="submit" name="update"><?php echo $this->translate('Update'); ?></button>
         </form>
     </div>

@@ -626,7 +626,7 @@ class IndexController extends Zend_Controller_Action {
             return true;
         }
 
-        #set sql_mode flag
+        //set sql_mode flag
         if($action == 'setSqlMode'){
             $db = Zend_Db::factory( new Zend_Config($this->_session->dbinfo));
             Zend_Db_Table_Abstract::setDefaultAdapter($db);
