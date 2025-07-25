@@ -321,6 +321,7 @@ class IndexController extends Zend_Controller_Action {
 
     public function cloudronStep() {
         $setSmtpResult = $this->cloudronInstallerActions('setSmtp');
+        $setSqlModeResult = $this->cloudronInstallerActions('setSqlMode');
         $renameInstallResult = $this->cloudronInstallerActions('renameInstall');
 
         $redirector = new Zend_Controller_Action_Helper_Redirector();
@@ -623,6 +624,18 @@ class IndexController extends Zend_Controller_Action {
             }
 
             return true;
+        }
+
+        #set sql_mode flag
+        if($action == 'setSqlMode'){
+            $db = Zend_Db::factory( new Zend_Config($this->_session->dbinfo));
+            Zend_Db_Table_Abstract::setDefaultAdapter($db);
+            $configTable = new Zend_Db_Table('config');
+
+            $configTable->insert(array(
+                'name'  => 'useSqlMode',
+                'value' => '1'
+            ));
         }
 
         if($action == 'renameInstall'){
