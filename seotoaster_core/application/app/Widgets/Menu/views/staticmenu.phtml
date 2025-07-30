@@ -15,10 +15,22 @@
             <?php $targetBlank = 'target="_blank"';?>
         <?php endif;?>
         <li>
-            <?php if($staticPage->getNotClickable() === '1'):?>
-                <a title="<?php echo ucwords($staticPage->getH1());?>"><span><?php echo $staticPage->getNavName(); ?></span></a>
+            <?php $linkPageTitle = false;?>
+            <?php if ($staticPage->getH1() !== $staticPage->getNavName()):?>
+                <?php $linkPageTitle = true;?>
+            <?php endif;?>
+            <?php if ($linkPageTitle === true):?>
+                <?php if($staticPage->getNotClickable() === '1'):?>
+                    <a title="<?php echo ucwords($staticPage->getH1());?>"><span><?php echo $staticPage->getNavName(); ?></span></a>
+                <?php else:?>
+                    <a href="<?php echo $staticUrl;?>" <?php echo $targetBlank;?> title="<?php echo ucwords($staticPage->getH1());?>"><span><?php echo $staticPage->getNavName(); ?></span></a>
+                <?php endif;?>
             <?php else:?>
-                <a href="<?php echo $staticUrl;?>" <?php echo $targetBlank;?> title="<?php echo ucwords($staticPage->getH1());?>"><span><?php echo $staticPage->getNavName(); ?></span></a>
+                <?php if($staticPage->getNotClickable() === '1'):?>
+                    <a><span><?php echo $staticPage->getNavName(); ?></span></a>
+                <?php else:?>
+                    <a href="<?php echo $staticUrl;?>" <?php echo $targetBlank;?>><span><?php echo $staticPage->getNavName(); ?></span></a>
+                <?php endif;?>
             <?php endif;?>
         </li>
 
