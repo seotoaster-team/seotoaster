@@ -39,8 +39,17 @@
 						<img src="<?php echo $src; ?>" alt="<?php echo $page->getH1(); ?>" />
 					</a>
 				<?php endif; ?>
-				<a href="<?php echo $pageUrl; ?>" title="<?php echo $page->getH1(); ?>" <?php echo $targetBlank;?> class="page-title"><?php echo $page->getNavName(); ?></a>
-				<span><?php echo $page->getTeaserText(); ?></span>
+                <?php $linkPageTitle = false;?>
+                <?php if ($page->getH1() !== $page->getNavName()):?>
+                    <?php $linkPageTitle = true;?>
+                <?php endif;?>
+                <?php if ($linkPageTitle === true):?>
+                    <a href="<?php echo $pageUrl; ?>" title="<?php echo $page->getH1(); ?>" <?php echo $targetBlank;?> class="page-title"><?php echo $page->getNavName(); ?></a>
+                    <span><?php echo $page->getTeaserText(); ?></span>
+                <?php else:?>
+                    <a href="<?php echo $pageUrl; ?>" <?php echo $targetBlank;?> class="page-title"><?php echo $page->getNavName(); ?></a>
+                    <span><?php echo $page->getTeaserText(); ?></span>
+                <?php endif;?>
 			 </li>
 		<?php endforeach; ?>
 	</ul>
