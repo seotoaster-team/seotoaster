@@ -333,4 +333,47 @@ class Backend_MediaController extends Zend_Controller_Action
         }
         return $listFolders;
     }
+
+    public function savegaldraglistorderAction()
+    {
+        $responseHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('response');
+
+        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT) && $this->_request->isPost()) {
+            $dragList = filter_var_array($this->_request->getParams(), FILTER_SANITIZE_STRING);
+            if (!empty($dragList['list_id'])) {
+                $currentUser = Zend_Controller_Action_HelperBroker::getStaticHelper('session')->getCurrentUser();
+                $userId = $currentUser->getId();
+
+                $pageId = filter_var($this->_request->getParam('pageId'), FILTER_SANITIZE_NUMBER_INT);
+
+                $galDraggableMapper = Application_Model_Mappers_GalDraggableMapper::getInstance();
+                $listId = $dragList['list_id'];
+
+                if(!empty($listId)) {
+                    $galDraggableModel = $galDraggableMapper->find($listId);
+
+                    if(!$galDraggableModel instanceof Application_Model_Models_GalDraggableModel) {
+                        $galDraggableModel = new Application_Model_Models_GalDraggableModel();
+                        $galDraggableModel->setId($dragList['list_id']);
+                        $galDraggableModel->setData(serialize($dragList['list_data']));
+                        $galDraggableModel->setUserId($userId);
+                        $galDraggableModel->setIpAddress(Tools_System_Tools::getIpAddress());
+                        $galDraggableModel->setPageId($pageId);
+                    } else {
+                        $galDraggableModel->setData(serialize($dragList['list_data']));
+                        $galDraggableModel->setUpdatedAt(Tools_System_Tools::convertDateFromTimezone('now'));
+                        $galDraggableModel->setUserId($userId);
+                        $galDraggableModel->setIpAddress(Tools_System_Tools::getIpAddress());
+                    }
+
+                    $galDraggableMapper->save($galDraggableModel);
+
+                    $responseHelper->success($this->_translator->translate('Order has been updated'));
+                }
+                $responseHelper->fail($this->_translator->translate('List ID is empty'));
+            }
+        }
+        $responseHelper->fail('');
+    }
+
 }

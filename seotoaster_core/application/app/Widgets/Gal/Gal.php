@@ -6,9 +6,16 @@ class Widgets_Gal_Gal extends Widgets_Abstract
 
     const WITH_CONTAINER_CONTENT = 'withContent';
 
+    /**
+     * Option to create custom pictures order in gallery list
+     */
+    const OPTION_DRAGGABLE = 'draggable';
+
     private $_websiteHelper  = null;
 
     protected $_session = null;
+
+    protected $_cacheable = false;
 
     protected function _init()
     {
@@ -119,6 +126,7 @@ class Widgets_Gal_Gal extends Widgets_Abstract
             $sourceImages[$key] = array(
                 'path' => $sourcePartPath.$image,
                 'name' => $image,
+                'hash' => hash("crc32b", $image),
                 'firstloadPath' =>  $sourcePartFirstLoad.$image
             );
         }
@@ -126,7 +134,6 @@ class Widgets_Gal_Gal extends Widgets_Abstract
         $this->_view->original = str_replace($this->_websiteHelper->getPath(), $this->_websiteHelper->getUrl(), $path)
             .Tools_Image_Tools::FOLDER_ORIGINAL.DIRECTORY_SEPARATOR;
         $this->_view->folder              = $this->_options[0];
-        $this->_view->images              = $sourceImages;
         $this->_view->thumbnails          = $this->_options[1];
         $this->_view->useCaption          = isset($this->_options[3]) ? (boolean)$this->_options[3] : false;
         $this->_view->galFolderPath       = $galFolder;
@@ -149,6 +156,47 @@ class Widgets_Gal_Gal extends Widgets_Abstract
         if ($withContainer !== false) {
             $this->_view->withContainer = true;
         }
+
+        $dragListId = md5(implode(',', $this->_options));
+
+        $galDraggableMapper = Application_Model_Mappers_GalDraggableMapper::getInstance();
+        $galDraggableModel = $galDraggableMapper->find($dragListId);
+
+        if($galDraggableModel instanceof Application_Model_Models_GalDraggableModel) {
+            $galData = unserialize($galDraggableModel->getData());
+
+            if(!empty($galData)) {
+                $sortedSourceImages = array();
+                $afterImages = array();
+
+                foreach ($sourceImages as $key => $image) {
+                    $imagePosition = array_search($image['hash'], $galData);
+                    if ($imagePosition !== false) {
+                        $sortedSourceImages[$imagePosition] = $sourceImages[$key];
+                    } else {
+                        $afterImages[] = $image;
+                    }
+                }
+
+                ksort($sortedSourceImages);
+
+                if(!empty($afterImages)) {
+                    $sortedSourceImages = array_merge($sortedSourceImages, $afterImages);
+                }
+
+                $sourceImages = $sortedSourceImages;
+            }
+        }
+
+        $this->_view->images = $sourceImages;
+
+        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT) && array_search(self::OPTION_DRAGGABLE, $this->_options)) {
+            $this->_view->dragListId = $dragListId;
+            $this->_view->pageId = $this->_toasterOptions['id'];
+            
+            return $this->_view->render('gallerydraggable.phtml');
+        }
+
 
         return $this->_view->render('gallery.phtml');
     }
