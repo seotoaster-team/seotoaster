@@ -40,7 +40,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('optimizedNotifications', ''),
 ('wraplinks', '0'),
 ('takeATour', '1'),
-('version',	'3.10.0');
+('version',	'3.10.1');
 
 
 DROP TABLE IF EXISTS `container`;
@@ -1000,3 +1000,14 @@ CREATE TABLE `user_whitelist_ips` (
   PRIMARY KEY (`role_id`,`ip_address`),
   UNIQUE (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TABLE IF EXISTS `draggable_config`;
+CREATE TABLE IF NOT EXISTS `draggable_config` (
+    `id` CHAR(32) COLLATE 'utf8_unicode_ci' NOT NULL,
+    `data` MEDIUMTEXT COLLATE 'utf8_unicode_ci' NOT NULL,
+    `updated_at` TIMESTAMP,
+    `user_id` int(10) unsigned NOT NULL,
+    `ip_address` VARCHAR(45) NOT NULL,
+    `page_id` int(10) unsigned DEFAULT NULL,
+    PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
