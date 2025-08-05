@@ -174,9 +174,9 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
         $dictionary = array();
 
         if ($parentCategoryPage === null) {
-            $menuHtml = '<ul class="main_menu" >';
+            $menuHtml = '<ul class="main_menu" role="menubar">';
         } else {
-            $menuHtml = '<ul>';
+            $menuHtml = '<ul role="menu">';
         }
 
         $i = 1;
@@ -234,7 +234,7 @@ class Widgets_Menu_Menu extends Widgets_Abstract {
                 $menuItemTemplate = preg_replace('~{(submenu|ifpages)}.*{/(submenu|ifpages)}~siuU', '', $template);
             }
 
-            $menuHtml .= '<li class="' . ($parentCategoryPage === null ? 'category cat-' . ($i++) : 'page') . '">';
+            $menuHtml .= '<li class="' . ($parentCategoryPage === null ? 'category cat-' . ($i++) : 'page') . '" role="none">';
             $menuHtml .= $entityParser->setDictionary($dictionary)->parse($menuItemTemplate);
             $menuHtml .= '</li>';
         }
