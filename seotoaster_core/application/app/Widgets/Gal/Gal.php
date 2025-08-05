@@ -15,8 +15,6 @@ class Widgets_Gal_Gal extends Widgets_Abstract
 
     protected $_session = null;
 
-    protected $_cacheable = false;
-
     protected function _init()
     {
         parent::_init();
@@ -25,6 +23,10 @@ class Widgets_Gal_Gal extends Widgets_Abstract
         $this->_session  = Zend_Controller_Action_HelperBroker::getStaticHelper('session');
         $this->_view->websiteUrl = $this->_websiteHelper->getUrl();
         array_push($this->_cacheTags, __CLASS__);
+
+        if (array_search(self::OPTION_DRAGGABLE, $this->_options) !== false) {
+            $this->_cacheable = false;
+        }
     }
 
     protected function _load()
@@ -157,40 +159,42 @@ class Widgets_Gal_Gal extends Widgets_Abstract
             $this->_view->withContainer = true;
         }
 
-        $dragListId = md5(implode(',', $this->_options));
+        if(array_search(self::OPTION_DRAGGABLE, $this->_options) !== false) {
+            $dragListId = md5(implode(',', $this->_options));
 
-        $galDraggableMapper = Application_Model_Mappers_GalDraggableMapper::getInstance();
-        $galDraggableModel = $galDraggableMapper->find($dragListId);
+            $galDraggableMapper = Application_Model_Mappers_GalDraggableMapper::getInstance();
+            $galDraggableModel = $galDraggableMapper->find($dragListId);
 
-        if($galDraggableModel instanceof Application_Model_Models_GalDraggableModel) {
-            $galData = unserialize($galDraggableModel->getData());
+            if($galDraggableModel instanceof Application_Model_Models_GalDraggableModel) {
+                $galData = unserialize($galDraggableModel->getData());
 
-            if(!empty($galData)) {
-                $sortedSourceImages = array();
-                $afterImages = array();
+                if(!empty($galData)) {
+                    $sortedSourceImages = array();
+                    $afterImages = array();
 
-                foreach ($sourceImages as $key => $image) {
-                    $imagePosition = array_search($image['hash'], $galData);
-                    if ($imagePosition !== false) {
-                        $sortedSourceImages[$imagePosition] = $sourceImages[$key];
-                    } else {
-                        $afterImages[] = $image;
+                    foreach ($sourceImages as $key => $image) {
+                        $imagePosition = array_search($image['hash'], $galData);
+                        if ($imagePosition !== false) {
+                            $sortedSourceImages[$imagePosition] = $sourceImages[$key];
+                        } else {
+                            $afterImages[] = $image;
+                        }
                     }
+
+                    ksort($sortedSourceImages);
+
+                    if(!empty($afterImages)) {
+                        $sortedSourceImages = array_merge($sortedSourceImages, $afterImages);
+                    }
+
+                    $sourceImages = $sortedSourceImages;
                 }
-
-                ksort($sortedSourceImages);
-
-                if(!empty($afterImages)) {
-                    $sortedSourceImages = array_merge($sortedSourceImages, $afterImages);
-                }
-
-                $sourceImages = $sortedSourceImages;
             }
         }
 
         $this->_view->images = $sourceImages;
 
-        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT) && array_search(self::OPTION_DRAGGABLE, $this->_options)) {
+        if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT) && array_search(self::OPTION_DRAGGABLE, $this->_options) !== false) {
             $this->_view->dragListId = $dragListId;
             $this->_view->pageId = $this->_toasterOptions['id'];
             
