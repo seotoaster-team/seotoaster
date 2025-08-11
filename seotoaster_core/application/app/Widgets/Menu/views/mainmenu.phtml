@@ -1,8 +1,8 @@
 <?php if(!empty($this->pages)): ?>
-<ul class="main_menu">
+<ul class="main_menu" role="menubar">
     <?php $i = 1; ?>
     <?php foreach ($this->pages as $key => $page): ?>
-        <li class="category cat-<?php echo $i++; ?>">
+        <li class="category cat-<?php echo $i++; ?>" role="none">
             <?php if($page['external_link_status'] === '1'):?>
                 <?php $pageCategoryUrl = $page['external_link'];?>
                 <?php $targetBlank = 'target="_blank"';?>
@@ -19,13 +19,25 @@
                 }?>
                 <?php $pageCategoryUrl = $this->websiteUrl . $page['url'];?>
             <?php endif;?>
-            <?php if ($page['not_clickable'] === '1') :?>
-                <a title="<?php echo $page['h1']; ?>"><?php echo $page['navName'] ; ?></a>
+            <?php $linkPageTitle = false;?>
+            <?php if ($page['h1'] !== $page['navName']):?>
+                <?php $linkPageTitle = true;?>
+            <?php endif;?>
+            <?php if ($linkPageTitle === true):?>
+                <?php if ($page['not_clickable'] === '1') :?>
+                    <a title="<?php echo $page['h1']; ?>" role="menuitem"><?php echo $page['navName'] ; ?></a>
+                <?php else:?>
+                    <a title="<?php echo $page['h1']; ?>" href="<?php echo $pageCategoryUrl ?>" <?php echo $targetBlank;?> role="menuitem"><?php echo $page['navName'] ; ?></a>
+                <?php endif;?>
             <?php else:?>
-                <a title="<?php echo $page['h1']; ?>" href="<?php echo $pageCategoryUrl ?>" <?php echo $targetBlank;?>><?php echo $page['navName'] ; ?></a>
+                <?php if ($page['not_clickable'] === '1') :?>
+                    <a role="menuitem"><?php echo $page['navName'] ; ?></a>
+                <?php else:?>
+                    <a href="<?php echo $pageCategoryUrl ?>" <?php echo $targetBlank;?> role="menuitem"><?php echo $page['navName'] ; ?></a>
+                <?php endif;?>
             <?php endif;?>
             <?php if(isset($page['subPages']) && !empty($page['subPages']) ): ?>
-                <ul class="<?php echo str_replace('.html', '', $page['url']); ?>">
+                <ul class="<?php echo str_replace('.html', '', $page['url']); ?>" role="menu">
                     <?php foreach($page['subPages'] as $subPage): ?>
                         <?php if($subPage['external_link_status'] === '1'):?>
                             <?php $subPageUrl = $subPage['external_link'];?>
@@ -43,11 +55,23 @@
                             }?>
                             <?php $subPageUrl = $this->websiteUrl . $subPage['url'];?>
                         <?php endif;?>
-                        <li class="page">
-                            <?php if ($subPage['not_clickable'] === '1') :?>
-                                <a title="<?php echo $subPage['h1']; ?>"><?php echo $subPage['navName']; ?></a>
+                        <li class="page" role="none">
+                            <?php $subPageTitle = false;?>
+                            <?php if ($subPage['h1'] !== $subPage['navName']):?>
+                                <?php $subPageTitle = true;?>
+                            <?php endif;?>
+                            <?php if ($subPageTitle === true):?>
+                                <?php if ($subPage['not_clickable'] === '1') :?>
+                                    <a title="<?php echo $subPage['h1']; ?>" role="menuitem"><?php echo $subPage['navName']; ?></a>
+                                <?php else:?>
+                                    <a title="<?php echo $subPage['h1']; ?>" <?php echo $targetBlank;?> href="<?php echo $subPageUrl;?>" role="menuitem"><?php echo $subPage['navName']; ?></a>
+                                <?php endif;?>
                             <?php else:?>
-                                <a title="<?php echo $subPage['h1']; ?>" <?php echo $targetBlank;?> href="<?php echo $subPageUrl;?>"><?php echo $subPage['navName']; ?></a>
+                                <?php if ($subPage['not_clickable'] === '1') :?>
+                                    <a role="menuitem"><?php echo $subPage['navName']; ?></a>
+                                <?php else:?>
+                                    <a <?php echo $targetBlank;?> href="<?php echo $subPageUrl;?>" role="menuitem"><?php echo $subPage['navName']; ?></a>
+                                <?php endif;?>
                             <?php endif;?>
                         </li>
                     <?php endforeach; ?>

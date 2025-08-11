@@ -468,46 +468,45 @@ class IndexController extends Zend_Controller_Action {
 	 * @param array $dbinfo Array with database settings to be checked
 	 * @return mixed true on success, error message on fault
 	 */
-	private function _setupDatabase($dbinfo){
-		$adapter = array('params' => $dbinfo);
-		if (extension_loaded('pdo_mysql')) {
-			$adapter['adapter'] = 'pdo_mysql';
-			$adapter['params']['driver_options'] = array(
-				PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8;'
-			);
-		} else {
-			return "You should have pdo_mysql extension installed";
-		}
+    private function _setupDatabase($dbinfo){
+        $adapter = array('params' => $dbinfo);
+        if (extension_loaded('pdo_mysql')) {
+            $adapter['adapter'] = 'pdo_mysql';
+            $adapter['params']['driver_options'] = array(
+                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8;'
+            );
+        } else {
+            return "You should have pdo_mysql extension installed";
+        }
 
-		try {
-			$db = Zend_Db::factory(new Zend_Config($adapter));
-			$this->_session->dbinfo = $adapter;
-			Zend_Db_Table::setDefaultAdapter($db);
+        $db = Zend_Db::factory(new Zend_Config($adapter));
+        $this->_session->dbinfo = $adapter;
+        Zend_Db_Table::setDefaultAdapter($db);
 
-			$file = file_get_contents(APPLICATION_PATH.'/resourses/seotoaster.sql');
-			if ($file === false){
-				return false;
-			}
-			$queries = SqlSplitter::split($file);
+        $file = file_get_contents(APPLICATION_PATH.'/resourses/seotoaster.sql');
+        if ($file === false){
+            return false;
+        }
+        $queries = SqlSplitter::split($file);
 
-			$db->beginTransaction();
+        $pdo = $db->getConnection();
 
-			try {
-				foreach ($queries as $sql) {
-					$db->query($sql);
-				}
-				
-				$db->commit();
-				return true;
-			} catch (Exception $ex) {
-				$db->rollBack();
-				return $ex->getMessage();
-			}
-
-		} catch (Exception $e){
-			return $e->getMessage();
-		}
-	}
+        try {
+            $db->beginTransaction();
+            foreach ($queries as $sql) {
+                $db->query($sql);
+            }
+            if ($pdo->inTransaction()) {
+                $db->commit();
+            }
+            return true;
+        } catch (Exception $ex) {
+            if ($pdo->inTransaction()) {
+                $db->rollBack();
+            }
+            return $ex->getMessage();
+        }
+    }
 	
 	private function _findLanguages() {
         $translate = Zend_Registry::get('Zend_Translate');
