@@ -1,0 +1,40 @@
+<?php if (isset($this->images) && is_array($this->images) && !empty($this->images)): ?>
+    <ul id="sortable-<?php echo $this->dragListId; ?>" class="img_gallery" style="list-style: none;">
+        <?php foreach ($this->images as $image): ?>
+            <?php $size = getimagesize($this->galFolderPath . $image['name']); ?>
+            <li class="gallery_image sortable-gallery-list-row" data-sort-image-id="<?php echo $image['hash']; ?>">
+                <img class="" data-original="<?php echo $image['path']; ?>"
+                     src="<?php echo $image['path']; ?>"
+                     alt="<?php echo Tools_System_Tools::makeSpace(Tools_System_Tools::cutExtension($image['name'])); ?>"
+                     width="<?php echo $size[0]; ?>" height="<?php echo $size[1]; ?>"/>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    <button class="save_drag_pos btn" id="save_drag_pos-<?php echo $this->dragListId; ?>"><?php echo $this->translate('Save order');?></button>
+<?php endif; ?>
+<script>
+    $(function () {
+        $("#sortable-<?php echo $this->dragListId; ?>").sortable().disableSelection();
+
+        $('#save_drag_pos-<?php echo $this->dragListId; ?>').on('click', function () {
+            var sort_order = [];
+            $('#sortable-<?php echo $this->dragListId; ?> .sortable-gallery-list-row').each(function (index) {
+                sort_order.push($(this).data('sort-image-id'));
+            });
+
+            $.ajax({
+                url: '<?php echo $this->websiteUrl;?>' + 'backend/backend_media/savegaldraglistorder/',
+                data: {'list_data': sort_order, 'list_id': '<?php echo $this->dragListId; ?>', 'pageId': <?php echo $this->pageId; ?>},
+                type: 'post',
+                dataType: 'json'
+            }).done(function(response) {
+                if(response.error == 1){
+                    showMessage(response.responseText, true, 5000);
+                }else{
+                    showMessage('<?php echo $this->translate('Saved');?>', false, 3000);
+                }
+            });
+
+        });
+    });
+</script>
