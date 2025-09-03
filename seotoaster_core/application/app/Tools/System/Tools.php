@@ -1041,5 +1041,24 @@ class Tools_System_Tools {
         return $finalScriptPath;
     }
 
+    /**
+     * returns Browser Fingerprint
+     *
+     * @return string
+     */
+    public static function getBrowserFingerprint()
+    {
+        $parts = array(
+            $_SERVER['HTTP_USER_AGENT'] ?? '',
+            $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '',
+            $_SERVER['HTTP_ACCEPT_ENCODING'] ?? '',
+            $_SERVER['HTTP_ACCEPT'] ?? '',
+            $_SERVER['HTTP_UPGRADE_INSECURE_REQUESTS'] ?? '',
+            $_SERVER['HTTP_CONNECTION'] ?? '',
+            $_SERVER['SERVER_PROTOCOL'] ?? ''
+        );
+
+        return hash('sha256', implode('|', $parts));
+    }
 
 }
