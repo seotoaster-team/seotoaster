@@ -15,7 +15,7 @@ class Application_Model_Mappers_WebsiteActionLogMapper extends Application_Model
     public function save($model)
     {
         if (!$model instanceof Application_Model_Models_WebsiteActionLog) {
-            throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_Models_UserWhitelistIp instance');
+            throw new Exceptions_SeotoasterException('Given parameter should be and Application_Model_Models_WebsiteActionLog instance');
         }
         $data = array(
             'created_at' => $model->getCreatedAt(),

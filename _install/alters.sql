@@ -922,14 +922,10 @@ CREATE TABLE IF NOT EXISTS `website_visitors_backlog` (
 `id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique backlog entry ID',
 `created_at` DATETIME NOT NULL COMMENT 'When the intervention was applied or logged',
 `ip_address` VARCHAR(45) COMMENT 'IP address of the suspicious visitor',
-`email` VARCHAR(255) COLLATE utf8_unicode_ci COMMENT 'Email of the suspicious visitor (if applicable)',
 `action_type` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Type of intervention: COOLDOWN, BLOCK, EXTERNAL_VERIFICATION',
 `reason` TEXT COLLATE utf8_unicode_ci COMMENT 'Reason for the intervention (e.g., exceeded threshold, repeated content)',
-`name` VARCHAR(100) COLLATE utf8_unicode_ci COMMENT 'Name of the form or action related to this intervention',
 `valid_until` DATETIME COMMENT 'Until when this intervention is active',
 INDEX `idx_ip` (`ip_address`),
-INDEX `idx_email` (`email`),
-INDEX `idx_action_name` (`action_type`, `name`),
 INDEX `idx_timestamp` (`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
