@@ -1031,7 +1031,7 @@ CREATE TABLE IF NOT EXISTS `website_visitors_backlog` (
     `id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique backlog entry ID',
     `created_at` DATETIME NOT NULL COMMENT 'When the intervention was applied or logged',
     `ip_address` VARCHAR(45) COMMENT 'IP address of the suspicious visitor',
-    `action_type` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Type of intervention: COOLDOWN, BLOCK, EXTERNAL_VERIFICATION',
+    `action_type` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Type of intervention: cooldown, block',
     `reason` TEXT COLLATE utf8_unicode_ci COMMENT 'Reason for the intervention (e.g., exceeded threshold, repeated content)',
     `valid_until` DATETIME COMMENT 'Until when this intervention is active',
     INDEX `idx_ip` (`ip_address`),

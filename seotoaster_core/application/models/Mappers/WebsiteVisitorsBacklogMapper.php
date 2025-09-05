@@ -28,10 +28,32 @@ class Application_Model_Mappers_WebsiteVisitorsBacklogMapper extends Application
         if (null === ($id = $model->getId())) {
             unset($data['id']);
 
-            return $this->getDbTable()->insert($data);
+            $id = $this->getDbTable()->insert($data);
+            $model->setId($id);
         } else {
-            return $this->getDbTable()->update($data, array('id = ?' => $id));
+            $this->getDbTable()->update($data, array('id = ?' => $id));
         }
+
+        return $model;
+    }
+
+    /**
+     * @param string $ipAddress ip-address
+     * @param string $date mysql date
+     * @param array $actionTypes action types 'block'|'cooldown
+     * @return string
+     */
+    public function isActiveBlock($ipAddress, $date, $actionTypes)
+    {
+        $where = $this->getDbTable()->getAdapter()->quoteInto('ip_address = ?', $ipAddress);
+        $where .= ' AND '. $this->getDbTable()->getAdapter()->quoteInto('valid_until > ?', $date);
+        $where .= ' AND '. $this->getDbTable()->getAdapter()->quoteInto('action_type IN (?)', $actionTypes);
+        // Check active block for this IP
+        $select = $this->getDbTable()->getAdapter()->select()
+            ->from('website_visitors_backlog')->where($where);
+        $select->limit(1);
+
+        return $this->getDbTable()->getAdapter()->fetchOne($select);
     }
 
 }

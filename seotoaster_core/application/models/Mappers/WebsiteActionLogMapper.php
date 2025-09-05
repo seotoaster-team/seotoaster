@@ -30,10 +30,37 @@ class Application_Model_Mappers_WebsiteActionLogMapper extends Application_Model
         if (null === ($id = $model->getId())) {
             unset($data['id']);
 
-            return $this->getDbTable()->insert($data);
+            $id = $this->getDbTable()->insert($data);
+            $model->setId($id);
         } else {
-            return $this->getDbTable()->update($data, array('id = ?' => $id));
+            $this->getDbTable()->update($data, array('id = ?' => $id));
         }
+
+        return $model;
+    }
+
+    /**
+     * Get activity records
+     *
+     * @param string $dateFrom starting from date
+     * @param string $dateTo starting from date
+     * @param string $threshold threshold
+     * @return array
+     */
+    public function getSuspiciousActivityRecords($dateFrom, $dateTo, $threshold = 30)
+    {
+        $where = $this->getDbTable()->getAdapter()->quoteInto('created_at >= ?', $dateFrom);
+        $where .= ' AND '. $this->getDbTable()->getAdapter()->quoteInto('created_at < ?', $dateTo);
+
+        $select = $this->getDbTable()->getAdapter()->select()
+            ->from('website_action_log', array('action_type', 'name'))
+            ->group(array('action_type', 'name'))
+            ->where($where)
+            ->having('COUNT(*) >= '.$threshold);
+
+        $data = $this->getDbTable()->getAdapter()->fetchAll($select);
+
+        return $data;
     }
 
 }

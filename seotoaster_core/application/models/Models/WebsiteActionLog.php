@@ -3,6 +3,10 @@
 class Application_Model_Models_WebsiteActionLog extends Application_Model_Models_Abstract
 {
 
+    const ACTION_TYPE_FORM = 'form';
+
+    const ACTION_TYPE_REGISTRATION = 'registration';
+
     protected $_createdAt = '';
 
     protected $_ipAddress = '';
