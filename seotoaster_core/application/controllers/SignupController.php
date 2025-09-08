@@ -92,8 +92,39 @@ class SignupController extends Zend_Controller_Action {
                 $isValid = true;
             }
 
-			if($signupForm->isValid($formParams) && $isValid) {
-				//save new user
+			if ($signupForm->isValid($formParams) && $isValid) {
+
+                if (Tools_System_FormBlacklist::isBlacklisted($formParams['email'])) {
+                    $signupPageUrl = $this->_helper->session->signupPageUrl;
+                    $this->redirect($this->_helper->website->getUrl() . ($signupPageUrl ? $signupPageUrl : ''));
+                }
+
+                $validationData = $formParams;
+
+                if (!isset($validationData['name'])) {
+                    $validationData['name'] = explode(' ',$formParams['fullName'])[0];
+                }
+
+                if (!isset($validationData['lastname'])) {
+                    $validationData['lastname'] = explode(' ',$formParams['fullName'])[1];
+                }
+
+                $validationData['formName'] = 'websiteRegistration';
+                if (Tools_System_FormBlacklist::isSpam($validationData)) {
+                    $signupPageUrl = $this->_helper->session->signupPageUrl;
+                    $this->redirect($this->_helper->website->getUrl() . ($signupPageUrl ? $signupPageUrl : ''));
+                }
+
+                if (Tools_System_WebsiteLog::isBlocked()) {
+                    $signupPageUrl = $this->_helper->session->signupPageUrl;
+                    $this->redirect($this->_helper->website->getUrl() . ($signupPageUrl ? $signupPageUrl : ''));
+                }
+
+                unset($formParams['password']);
+
+                Tools_System_WebsiteLog::recordToWebsiteLog(Application_Model_Models_WebsiteActionLog::ACTION_TYPE_REGISTRATION, '', $formParams);
+
+                //save new user
 				$user = new Application_Model_Models_User($signupForm->getValues());
 
                 $timezone = $user->getTimezone();

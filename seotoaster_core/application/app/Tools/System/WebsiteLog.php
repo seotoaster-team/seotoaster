@@ -7,8 +7,8 @@ class Tools_System_WebsiteLog
      *
      * Record website action log entity
      *
-     * @param $actionType
-     * @param $name
+     * @param string $actionType action type
+     * @param string $name name
      * @param array $rawData
      * @return Application_Model_Models_WebsiteActionLog|null
      */
@@ -48,9 +48,12 @@ class Tools_System_WebsiteLog
     /**
      * Check if block is active
      *
+     * @param string $ipAddress ip-address
+     * @param string $date mysql date
+     *
      * @return bool
      */
-    public static function isBlocked($ipAddress, $date)
+    public static function isBlocked($ipAddress= '', $date = '')
     {
         if (empty($ipAddress)) {
             $ipAddress = Tools_System_Tools::getIpAddress();
