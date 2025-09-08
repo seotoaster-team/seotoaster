@@ -3,9 +3,13 @@
 class Application_Model_Models_WebsiteVisitorsBacklog extends Application_Model_Models_Abstract
 {
 
+    const ACTION_TYPE_COOLDOWN = 'cooldown';
+
     protected $_createdAt = '';
 
     protected $_ipAddress = '';
+
+    protected $_lastActionId = '';
 
     protected $_actionType = '';
 
@@ -43,6 +47,22 @@ class Application_Model_Models_WebsiteVisitorsBacklog extends Application_Model_
     public function setIpAddress($ipAddress)
     {
         $this->_ipAddress = $ipAddress;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastActionId()
+    {
+        return $this->_lastActionId;
+    }
+
+    /**
+     * @param string $lastActionId
+     */
+    public function setLastActionId($lastActionId)
+    {
+        $this->_lastActionId = $lastActionId;
     }
 
     /**

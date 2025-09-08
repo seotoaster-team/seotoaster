@@ -53,7 +53,8 @@ class Application_Model_Mappers_WebsiteActionLogMapper extends Application_Model
         $where .= ' AND '. $this->getDbTable()->getAdapter()->quoteInto('created_at < ?', $dateTo);
 
         $select = $this->getDbTable()->getAdapter()->select()
-            ->from('website_action_log', array('action_type', 'name'))
+            ->from('website_action_log', array('action_type', 'name',
+                'count' => 'COUNT(*)'))
             ->group(array('action_type', 'name'))
             ->where($where)
             ->having('COUNT(*) >= '.$threshold);
@@ -61,6 +62,29 @@ class Application_Model_Mappers_WebsiteActionLogMapper extends Application_Model
         $data = $this->getDbTable()->getAdapter()->fetchAll($select);
 
         return $data;
+    }
+
+    /**
+     * Get by action type/name
+     *
+     * @param string $actionType action type
+     * @param string $name name
+     * @param string $dateFrom starting from date
+     * @param string $dateTo starting from date
+     * @return array
+     */
+    public function getByActionTypeName($actionType, $name, $dateFrom, $dateTo)
+    {
+        $where = $this->getDbTable()->getAdapter()->quoteInto('action_type = ?', $actionType);
+        $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('name = ?', $name);
+        $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('created_at >= ?', $dateFrom);
+        $where .= ' AND ' . $this->getDbTable()->getAdapter()->quoteInto('created_at < ?', $dateTo);
+
+        $select = $this->getDbTable()->getAdapter()->select()
+            ->from('website_action_log', array('action_type', 'name', 'ip_address', 'browser_fingerprint', 'raw_data', 'id'))
+            ->where($where);
+
+        return $this->getDbTable()->getAdapter()->fetchAll($select);
     }
 
 }

@@ -20,6 +20,7 @@ class Application_Model_Mappers_WebsiteVisitorsBacklogMapper extends Application
         $data = array(
             'created_at' => $model->getCreatedAt(),
             'ip_address' => $model->getIpAddress(),
+            'last_action_id' => $model->getLastActionId(),
             'action_type' => $model->getActionType(),
             'reason' => $model->getReason(),
             'valid_until' => $model->getValidUntil(),
@@ -54,6 +55,19 @@ class Application_Model_Mappers_WebsiteVisitorsBacklogMapper extends Application
         $select->limit(1);
 
         return $this->getDbTable()->getAdapter()->fetchOne($select);
+    }
+
+    /**
+     * Find by ip address
+     *
+     * @param string $ipAddress ip-address
+     * @return Application_Model_Models_WebsiteVisitorsBacklog|null
+     */
+    public function findByIpAddress($ipAddress)
+    {
+        $where = $this->getDbTable()->getAdapter()->quoteInto('ip_address = ?', $ipAddress);
+
+        return $this->_findWhere($where);
     }
 
 }

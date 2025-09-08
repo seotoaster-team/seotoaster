@@ -50,14 +50,20 @@ class Tools_System_WebsiteLog
      *
      * @return bool
      */
-    public static function isBlocked()
+    public static function isBlocked($ipAddress, $date)
     {
-        $ipAddress = Tools_System_Tools::getIpAddress();
-        $now = Tools_System_Tools::convertDateFromTimezone('now');
+        if (empty($ipAddress)) {
+            $ipAddress = Tools_System_Tools::getIpAddress();
+        }
+
+        if (empty($date)) {
+            $date = Tools_System_Tools::convertDateFromTimezone('now');
+        }
+
         $actionTypes = array('block', 'cooldown');
 
         $websiteVisitorsBacklogMapper = Application_Model_Mappers_WebsiteVisitorsBacklogMapper::getInstance();
-        $result = $websiteVisitorsBacklogMapper->isActiveBlock($ipAddress, $now, $actionTypes);
+        $result = $websiteVisitorsBacklogMapper->isActiveBlock($ipAddress, $date, $actionTypes);
         if (!empty($result)) {
             return true;
         }

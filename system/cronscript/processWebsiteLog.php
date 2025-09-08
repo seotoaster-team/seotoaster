@@ -1,7 +1,7 @@
 <?php
 
 if (PHP_SAPI !== 'cli') {
-    //die('direct access is not allowed');
+    die('direct access is not allowed');
 }
 
 /*************************************************************************
@@ -284,13 +284,49 @@ Zend_Layout::getMvcInstance()->getLayoutPath();
 set_include_path(implode(PATH_SEPARATOR, array()));
 
 $websiteActionLogMapper = Application_Model_Mappers_WebsiteActionLogMapper::getInstance();
+$websiteVisitorsBacklogMapper = Application_Model_Mappers_WebsiteVisitorsBacklogMapper::getInstance();
 $dateFrom = Tools_System_Tools::convertDateFromTimezone('-1 hour');
 $dateTo = Tools_System_Tools::convertDateFromTimezone('now');
-$activityRecords = $websiteActionLogMapper->getSuspiciousActivityRecords($dateFrom, $dateTo);
+$threshold = 15;
+$activityRecords = $websiteActionLogMapper->getSuspiciousActivityRecords($dateFrom, $dateTo, $threshold);
 if (!empty($activityRecords)) {
     foreach ($activityRecords as $record) {
         $actionType = $record['action_type'];
         $name = $record['name'];
+
+        $listOfItemsForBlock = $websiteActionLogMapper->getByActionTypeName($actionType, $name, $dateFrom, $dateTo);
+        foreach ($listOfItemsForBlock as $itemForBlock) {
+            $now = Tools_System_Tools::convertDateFromTimezone('now');
+            $ipAddress = $itemForBlock['ip_address'];
+            $isAlreadyInBlock = Tools_System_WebsiteLog::isBlocked($ipAddress, $now);
+            if ($isAlreadyInBlock === true) {
+                continue;
+            }
+
+            $reason = sprintf(
+                'Activity on action type: "%s" with name: "%s" exceeded threshold (%d submissions between %s and %s)',
+                $actionType,
+                $name,
+                $record['count'],
+                $dateFrom,
+                $dateTo
+            );
+
+            $cooldownTo = Tools_System_Tools::convertDateFromTimezone('+12 hours');
+
+            $websiteVisitorsBacklog = $websiteVisitorsBacklogMapper->findByIpAddress($ipAddress);
+            if (!$websiteVisitorsBacklog instanceof Application_Model_Models_WebsiteVisitorsBacklog) {
+                $websiteVisitorsBacklog = new Application_Model_Models_WebsiteVisitorsBacklog();
+            }
+
+            $websiteVisitorsBacklog->setActionType(Application_Model_Models_WebsiteVisitorsBacklog::ACTION_TYPE_COOLDOWN);
+            $websiteVisitorsBacklog->setCreatedAt($now);
+            $websiteVisitorsBacklog->setIpAddress($ipAddress);
+            $websiteVisitorsBacklog->setValidUntil($cooldownTo);
+            $websiteVisitorsBacklog->setReason($reason);
+            $websiteVisitorsBacklog->setLastActionId($itemForBlock['id']);
+            $websiteVisitorsBacklogMapper->save($websiteVisitorsBacklog);
+        }
     }
 }
 
