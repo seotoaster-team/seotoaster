@@ -168,6 +168,32 @@
 	/* Widget mobile */
 	'Go to full site' => 'Полная версия сайта',
 	'Go to mobile site' => 'Мобильная версия сайта',
-	'Sign In' => 'Войти в систему'
+	'Sign In' => 'Войти в систему',
+	'ionCube Loader' => 'ionCube Loader',
+    '<strong>JSON extension for PHP:</strong> JSON (JavaScript Object Notation) support. JSON is a lightweight data-interchange format.' => '<strong>Расширение JSON для PHP:</strong> Поддержка JSON (JavaScript Object Notation). JSON — это лёгкий формат обмена данными.',
+    '<strong>Important!</strong> Make sure you <strong>turn OFF Magic quotes,</strong> either with the htacces that comes with the package or in your PHP.ini (Otherwise you will get a bunch of \\ in the templates when loading themes).' => '<strong>Важно!</strong> Убедитесь, что <strong>Magic Quotes отключены</strong> — либо с помощью htaccess, входящего в пакет, либо в файле PHP.ini (в противном случае при загрузке тем в шаблонах появятся лишние символы \\).',
+    '<strong>GMP library for PHP:</strong> GMP is a free library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating-point numbers.' => '<strong>Библиотека GMP для PHP:</strong> GMP — это бесплатная библиотека для вычислений с произвольной точностью, работающая с целыми числами со знаком, рациональными числами и числами с плавающей точкой.',
+    '<strong>Additional PHP extensions:</strong> mcrypt, xml, readline, soap' => '<strong>Дополнительные расширения PHP:</strong> mcrypt, xml, readline, soap',
+    'mcrypt PHP extension' => 'Расширение PHP mcrypt',
+    'The mcrypt PHP extension is not installed on your web server.' => 'Расширение PHP mcrypt не установлено на вашем веб-сервере.',
+    'xml PHP extension' => 'Расширение PHP xml',
+    'The xml PHP extension is not installed on your web server.' => 'Расширение PHP xml не установлено на вашем веб-сервере.',
+    'readline PHP extension' => 'Расширение PHP readline',
+    'The readline PHP extension is not installed on your web server.' => 'Расширение PHP readline не установлено на вашем веб-сервере.',
+    'soap PHP extension' => 'Расширение PHP soap',
+    'The soap PHP extension is not installed on your web server.' => 'Расширение PHP soap не установлено на вашем веб-сервере.',
+    'We\'ve detected that your web server is not equipped with the Ion Cube encryption loader. Don\'t settle for less than the entire Seotoaster experience! Seotoaster uses IonCube to encrypt great time-saving plug-ins available on the marketplace, get your website instantly setup with free real-time web analytics, create a KML file so that your local business can be found online. It is free and easy to download and install IonCube. Do it or contact your web host to do it for you.' => 'Мы обнаружили, что ваш веб-сервер не оснащён загрузчиком шифрования IonCube. Не соглашайтесь на меньшее, чем полный опыт работы с Seotoaster! Seotoaster использует IonCube для шифрования удобных плагинов, доступных на маркетплейсе, позволяет мгновенно подключить бесплатную веб-аналитику в реальном времени и создать KML-файл, чтобы ваше локальное предприятие можно было найти в интернете. IonCube можно бесплатно и легко скачать и установить. Сделайте это сами или обратитесь к вашему хостинг-провайдеру.',
+    'download and install IonCube loader' => 'скачать и установить IonCube Loader',
+    'Checking file system permissions' => 'Проверка прав доступа к файловой системе',
+    'Bravo! All good to go!' => 'Отлично! Всё готово!',
+    'Check again' => 'Проверить снова',
+    'We detected that your MySQL server has sql_mode set to' => 'Мы обнаружили, что на вашем MySQL-сервере параметр sql_mode установлен в',
+    'This setting defines SQL syntax rules and data validation behavior.</br>' => 'Этот параметр определяет правила синтаксиса SQL и поведение проверки данных.</br>',
+    'To continue the installation, please run the following command on your MySQL server:</br>' => 'Чтобы продолжить установку, выполните следующую команду на вашем MySQL-сервере:</br>',
+    'After that, proceed with Step 3: Create your super admin account.' => 'После этого перейдите к Шагу 3: Создайте учётную запись супер-администратора.',
+    'You will use these credentials to log into your toaster' => 'Эти учётные данные вы будете использовать для входа в Toaster',
+    'Note from SEO&nbsp;Samba' => 'Заметка от SEO&nbsp;Samba',
+
+
 );
 ?>
