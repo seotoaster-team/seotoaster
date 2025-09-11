@@ -1061,4 +1061,34 @@ class Tools_System_Tools {
         return hash('sha256', implode('|', $parts));
     }
 
+    /**
+     *
+     *
+     * @return bool
+     * @throws Exceptions_SeotoasterPluginException
+     */
+    public static function isIpSpam()
+    {
+        $ip = self::getIpAddress();
+
+        $response = Apps::apiCall('POST', 'appsValidateLeadFormData', array(), array(
+            'data' => array(
+                'ipAddress' => $ip,
+                'type' => 'ipValidate'
+            )
+        ), 1);
+
+        if (empty($response)) {
+            return false;
+        }
+
+        if (!empty($response['error'])) {
+            return false;
+        }
+
+        if (!empty($response['isIpBlacklisted'])) {
+            return true;
+        }
+    }
+
 }

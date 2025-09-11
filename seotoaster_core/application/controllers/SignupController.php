@@ -109,8 +109,7 @@ class SignupController extends Zend_Controller_Action {
                     $validationData['lastname'] = explode(' ',$formParams['fullName'])[1];
                 }
 
-                $validationData['formName'] = 'websiteRegistration';
-                if (Tools_System_FormBlacklist::isSpam($validationData)) {
+                if (Tools_System_Tools::isIpSpam()) {
                     $signupPageUrl = $this->_helper->session->signupPageUrl;
                     $this->redirect($this->_helper->website->getUrl() . ($signupPageUrl ? $signupPageUrl : ''));
                 }
@@ -120,6 +119,11 @@ class SignupController extends Zend_Controller_Action {
                     $this->redirect($this->_helper->website->getUrl() . ($signupPageUrl ? $signupPageUrl : ''));
                 }
 
+                $validationData['formName'] = 'websiteRegistration';
+                if (Tools_System_FormBlacklist::isSpam($validationData)) {
+                    $signupPageUrl = $this->_helper->session->signupPageUrl;
+                    $this->redirect($this->_helper->website->getUrl() . ($signupPageUrl ? $signupPageUrl : ''));
+                }
                 unset($formParams['password']);
 
                 Tools_System_WebsiteLog::recordToWebsiteLog(Application_Model_Models_WebsiteActionLog::ACTION_TYPE_REGISTRATION, '', $formParams);
