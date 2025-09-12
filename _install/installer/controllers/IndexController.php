@@ -91,6 +91,30 @@ class IndexController extends Zend_Controller_Action {
         if (in_array('gmp', $extensions)) {
             $phpRequirements['gmp'] = true;
         }
+
+        //mcrypt for PHP
+        $phpRequirements['mcrypt'] = false;
+        if (in_array('mcrypt', $extensions)) {
+            $phpRequirements['mcrypt'] = true;
+        }
+
+        //xml for PHP
+        $phpRequirements['xml'] = false;
+        if (in_array('xml', $extensions)) {
+            $phpRequirements['xml'] = true;
+        }
+
+        //readline for PHP
+        $phpRequirements['readline'] = false;
+        if (in_array('readline', $extensions)) {
+            $phpRequirements['readline'] = true;
+        }
+
+        //soap for PHP
+        $phpRequirements['soap'] = false;
+        if (in_array('soap', $extensions)) {
+            $phpRequirements['soap'] = true;
+        }
 		
 		//checking if required libraries are installed
 		foreach ($this->_requirements['phpExtensions'] as $name) {
@@ -246,6 +270,8 @@ class IndexController extends Zend_Controller_Action {
 	}
 	
 	public function step3Action() {
+        $translator = Zend_Registry::get('Zend_Translate');
+
 		$this->_session->nextStep = 3;
 
 		$settingsForm = new Installer_Form_Settings();
@@ -263,20 +289,35 @@ class IndexController extends Zend_Controller_Action {
 			$params = $this->getRequest()->getParams();
 
 			if (isset($params['check']) && $params['check'] === 'settings'){
-				if ($settingsForm->isValid($params)){
-					$suReady		= $this->_createSuperUser($settingsForm->getValues());
+                $db = Zend_Db::factory( new Zend_Config($this->_session->dbinfo));
+                Zend_Db_Table_Abstract::setDefaultAdapter($db);
 
-					if (!$settingsForm->getValue('sambaToken') && (bool)$settingsForm->getValue('createAccount')){
-						$this->_createSambaAccount($settingsForm->getValues());
-					}
+                $stmt = $db->query("SELECT @@GLOBAL.sql_mode AS sql_mode");
+                $result = $stmt->fetch();
+                $global_sql_mode = $result['sql_mode'];
 
-					if ($suReady && $this->_session->configsSaved === true) {
-						$this->getRequest()->clearParams();
-						return $this->forward('tada');
-					}
-				} else {
-					$this->view->messages = $settingsForm->getMessages();
-				}
+                if(empty($global_sql_mode) || $global_sql_mode == 'NO_AUTO_VALUE_ON_ZERO') {
+                    if ($settingsForm->isValid($params)){
+                        $suReady		= $this->_createSuperUser($settingsForm->getValues());
+
+                        if (!$settingsForm->getValue('sambaToken') && (bool)$settingsForm->getValue('createAccount')){
+                            $this->_createSambaAccount($settingsForm->getValues());
+                        }
+
+                        if ($suReady && $this->_session->configsSaved === true) {
+                            $this->getRequest()->clearParams();
+                            return $this->forward('tada');
+                        }
+                    } else {
+                        $this->view->messages[] = $settingsForm->getMessages();
+                    }
+                } else {
+                    $this->view->messages[] = $translator->translate('We detected that your MySQL server has sql_mode set to'). ' "' .$global_sql_mode.'"'.
+                        $translator->translate('This setting defines SQL syntax rules and data validation behavior.</br>').
+                        $translator->translate('To continue the installation, please run the following command on your MySQL server:</br>').'
+                        SET GLOBAL sql_mode = "";</br>'.
+                        $translator->translate('After that, proceed with Step 3: Create your super admin account.');
+                }
 			}
 		}
 		$this->view->configsSaved = $this->_session->configsSaved;
