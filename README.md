@@ -14,6 +14,7 @@ The **SeoToaster CRM Ultimate** is built on top of SeoToaster CMS & Ecommerce an
 
 - [About](#about)
 - [Why SeoToaster CRM Ultimate?](#why-seotoaster-crm-ultimate)
+- [Try SeoToaster CMS Demo Website](#try-the-seotoaster-cms-demo-website)
 - [Minimum Requirements](#minimum-requirements)
 - [Download](#download)
 - [Installation](#installation)
@@ -66,6 +67,11 @@ SeoToaster CRM Ultimate is ideal for web-centric organizations to:
 
 ---
 
+## Try the SeoToaster CMS Demo Website
+
+Log in to our [SeoToaster CMS demo](https://www.seotoaster.com/demo-seotoaster-cms-free-seo-software.html) to explore its powerful content editing features and see it in action.
+
+---
 ## Minimum Requirements
 
 - **Web server:** Apache 2, Nginx, or any web server that supports URL rewrites and PHP  
