@@ -109,8 +109,7 @@ Manage pages, users, products, leads, opportunities, and more from the admin das
 
 ## Contributing
 
-SeoToaster CMS & ECOMMERCE are developed by Seosamba under the **GPLv3 license**. We welcome and encourage contributions from everyone! For plugin, app, and core development, please follow our [development guidelines](https://www.seotoaster.com/develop-plugins-apps.html), check our [open issues]([https://github.com/your-repo-name/issues](https://github.com/seotoaster-team/seotoaster/issues)) to contribute, or contact the team to get involved.
-
+SeoToaster CMS & ECOMMERCE are developed by Seosamba under the **GPLv3 license**. We welcome and encourage contributions from everyone! For plugin, app, and core development, please follow our [development guidelines](https://www.seotoaster.com/develop-plugins-apps.html), check our [open issues](https://github.com/seotoaster-team/seotoaster/issues) to contribute, or contact the team to get involved.
 
 
 ---
