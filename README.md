@@ -109,7 +109,8 @@ Manage pages, users, products, leads, opportunities, and more from the admin das
 
 ## Contributing
 
-SeoToaster CMS & CRM are developed by Seosamba. Contributions are welcome via official channels—please check development guidelines on the website or contact the team.
+SeoToaster CMS & ECOMMERCE are developed by Seosamba under the **GPLv3 license**. We welcome and encourage contributions from everyone! For plugin, app, and core development, please follow our [development guidelines](https://www.seotoaster.com/develop-plugins-apps.html) or contact the team to get involved.
+
 
 ---
 
