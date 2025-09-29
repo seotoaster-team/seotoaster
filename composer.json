@@ -1,0 +1,27 @@
+{
+  "name": "seotoaster/seotoaster",
+  "type": "project",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://x-token-auth:ATCTT3xFfGN0EkeKT8fU4Vi3H7jmqLfkeu2KT9XgOgStz9OkJBBqpuyFsiWed0lbIIEFPzUQnqAdtPNkrTNKUumlmQN7xp0r0G8UaSrZzFWUxUHbEaneIMGZ5zVmc5L5kjw3u4XYZ8Xnk6IiAUzaqtnWIfiMhKRgv3KmKHXRi2ixg36ZEbPgpzc=325F5B5E@bitbucket.org/Seotoaster/zendlib.git"
+    }
+  ],
+  "require": {
+    "zendlib/zendlib": "dev-feature/php8.2-composer"
+  },
+  "config": {
+    "preferred-install": {
+      "zendlib/zendlib": "source",
+      "*": "dist"
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "cp -R vendor/zendlib/zendlib/* seotoaster_core/library/"
+    ],
+    "post-update-cmd": [
+      "cp -R vendor/zendlib/zendlib/* seotoaster_core/library/"
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "9f281b240c4faa3a77c47426983a647f",
+    "packages": [
+        {
+            "name": "zendlib/zendlib",
+            "version": "dev-feature/php8.2-composer",
+            "source": {
+                "type": "git",
+                "url": "https://x-token-auth:ATCTT3xFfGN0EkeKT8fU4Vi3H7jmqLfkeu2KT9XgOgStz9OkJBBqpuyFsiWed0lbIIEFPzUQnqAdtPNkrTNKUumlmQN7xp0r0G8UaSrZzFWUxUHbEaneIMGZ5zVmc5L5kjw3u4XYZ8Xnk6IiAUzaqtnWIfiMhKRgv3KmKHXRi2ixg36ZEbPgpzc=325F5B5E@bitbucket.org/Seotoaster/zendlib.git",
+                "reference": "3c8d0d68bab80d1779cca10560fba2a715287351"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Zend": "Zend/",
+                    "ZendX": "ZendX/"
+                }
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Zend library for SeoToaster",
+            "time": "2025-09-29T14:30:35+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "zendlib/zendlib": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
+}
