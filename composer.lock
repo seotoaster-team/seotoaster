@@ -4,8 +4,35 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f281b240c4faa3a77c47426983a647f",
+    "content-hash": "77e8fad20ebb12874e44c1f405cb6749",
     "packages": [
+        {
+            "name": "seosamba/ecommerce",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/seosamba/ecommerce.git",
+                "reference": "a69a4bc4cfad6201f87c7771fe8d71376995e3b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/seosamba/ecommerce/zipball/a69a4bc4cfad6201f87c7771fe8d71376995e3b4",
+                "reference": "a69a4bc4cfad6201f87c7771fe8d71376995e3b4",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoToaster\\Ecommerce\\": "src/"
+                }
+            },
+            "description": "Ecommerce plugin for SeoToaster CMS",
+            "support": {
+                "source": "https://github.com/seosamba/ecommerce/tree/feature/composer-support",
+                "issues": "https://github.com/seosamba/ecommerce/issues"
+            },
+            "time": "2025-09-29T15:46:50+00:00"
+        },
         {
             "name": "zendlib/zendlib",
             "version": "dev-feature/php8.2-composer",
@@ -32,11 +59,12 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "seosamba/ecommerce": 20,
         "zendlib/zendlib": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }
