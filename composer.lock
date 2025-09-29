@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://x-token-auth:ATCTT3xFfGN0EkeKT8fU4Vi3H7jmqLfkeu2KT9XgOgStz9OkJBBqpuyFsiWed0lbIIEFPzUQnqAdtPNkrTNKUumlmQN7xp0r0G8UaSrZzFWUxUHbEaneIMGZ5zVmc5L5kjw3u4XYZ8Xnk6IiAUzaqtnWIfiMhKRgv3KmKHXRi2ixg36ZEbPgpzc=325F5B5E@bitbucket.org/Seotoaster/zendlib.git",
-                "reference": "3c8d0d68bab80d1779cca10560fba2a715287351"
+                "reference": "e7c38f1d24dda9e154321e6ed80a2f5c08af17ea"
             },
             "type": "library",
             "autoload": {
@@ -25,7 +25,7 @@
                 "BSD-3-Clause"
             ],
             "description": "Zend library for SeoToaster",
-            "time": "2025-09-29T14:30:35+00:00"
+            "time": "2025-09-29T15:15:02+00:00"
         }
     ],
     "packages-dev": [],

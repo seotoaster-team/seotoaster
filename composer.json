@@ -18,10 +18,11 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "cp -R vendor/zendlib/zendlib/* seotoaster_core/library/"
-    ],
+      "cp -a vendor/zendlib/zendlib/. seotoaster_core/library/"
+     ],
     "post-update-cmd": [
-      "cp -R vendor/zendlib/zendlib/* seotoaster_core/library/"
-    ]
-  }
+       "cp -a vendor/zendlib/zendlib/. seotoaster_core/library/"
+     ]
+   }
+
 }
