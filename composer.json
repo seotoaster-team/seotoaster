@@ -31,17 +31,13 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://x-token-auth:ATCTT3xFfGN0EkeKT8fU4Vi3H7jmqLfkeu2KT9XgOgStz9OkJBBqpuyFsiWed0lbIIEFPzUQnqAdtPNkrTNKUumlmQN7xp0r0G8UaSrZzFWUxUHbEaneIMGZ5zVmc5L5kjw3u4XYZ8Xnk6IiAUzaqtnWIfiMhKRgv3KmKHXRi2ixg36ZEbPgpzc=325F5B5E@bitbucket.org/Seotoaster/zendlib.git"
+      "url": "https://bitbucket.org/Seotoaster/zendlib.git"
     },
     {
      "type": "vcs",
      "url": "https://github.com/seosamba/ecommerce.git"
      }
   ],
-  "require": {
-    "zendlib/zendlib": "dev-feature/php8.2-composer",
-    "seosamba/ecommerce": "dev-feature/composer-support"
-  },
   "config": {
     "preferred-install": {
       "zendlib/zendlib": "source",
@@ -49,20 +45,18 @@
       "*": "dist"
     }
   },
-  "disabled_scripts": {
-    "post-install-cmd": [
-      "cp -a vendor/zendlib/zendlib/. seotoaster_core/library/"
-     ],
-    "post-update-cmd": [
-       "cp -a vendor/zendlib/zendlib/. seotoaster_core/library/"
-     ]
-   },
    "scripts": {
      "post-install-cmd": [
-   	 "cp -a vendor/seosamba/ecommerce/. plugins/shopping"
+        "rm -rf seotoaster_core/library/.git",
+        "cp -a vendor/zendlib/zendlib/. seotoaster_core/library/",
+	    "rm -rf plugins/shopping/.git",
+	    "cp -a vendor/seosamba/ecommerce/. plugins/shopping"
      ],
      "post-update-cmd": [
-         "cp -a vendor/seosamba/ecommerce/. plugins/shopping"
+        "rm -rf seotoaster_core/library/.git",
+        "cp -a vendor/zendlib/zendlib/. seotoaster_core/library/",
+	    "rm -rf plugins/shopping/.git",
+	    "cp -a vendor/seosamba/ecommerce/. plugins/shopping"
      ]
    }
 

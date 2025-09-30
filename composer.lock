@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "77e8fad20ebb12874e44c1f405cb6749",
+    "content-hash": "d1a9c46576d50d9a0ca67eefd7884a68",
     "packages": [
         {
             "name": "seosamba/ecommerce",
@@ -38,8 +38,14 @@
             "version": "dev-feature/php8.2-composer",
             "source": {
                 "type": "git",
-                "url": "https://x-token-auth:ATCTT3xFfGN0EkeKT8fU4Vi3H7jmqLfkeu2KT9XgOgStz9OkJBBqpuyFsiWed0lbIIEFPzUQnqAdtPNkrTNKUumlmQN7xp0r0G8UaSrZzFWUxUHbEaneIMGZ5zVmc5L5kjw3u4XYZ8Xnk6IiAUzaqtnWIfiMhKRgv3KmKHXRi2ixg36ZEbPgpzc=325F5B5E@bitbucket.org/Seotoaster/zendlib.git",
+                "url": "https://bitbucket.org/Seotoaster/zendlib.git",
                 "reference": "e7c38f1d24dda9e154321e6ed80a2f5c08af17ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/Seotoaster/zendlib/get/e7c38f1d24dda9e154321e6ed80a2f5c08af17ea.zip",
+                "reference": "e7c38f1d24dda9e154321e6ed80a2f5c08af17ea",
+                "shasum": ""
             },
             "type": "library",
             "autoload": {
@@ -52,6 +58,10 @@
                 "BSD-3-Clause"
             ],
             "description": "Zend library for SeoToaster",
+            "homepage": "https://bitbucket.org/Seotoaster/zendlib",
+            "support": {
+                "source": "https://bitbucket.org/Seotoaster/zendlib/src/e7c38f1d24dda9e154321e6ed80a2f5c08af17ea/?at=feature/php8.2-composer"
+            },
             "time": "2025-09-29T15:15:02+00:00"
         }
     ],
@@ -64,7 +74,19 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": {},
+    "platform": {
+        "php": ">=7.4 <=8.2",
+        "ext-curl": "*",
+        "ext-gd": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-pdo_mysql": "*",
+        "ext-xml": "*",
+        "ext-gmp": "*",
+        "ext-zip": "*",
+        "ext-ioncube-loader": "*",
+        "ext-mcrypt": "*"
+    },
     "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
