@@ -1,0 +1,2118 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "c5d359f24d13fbe37448dc9c2261f87a",
+    "packages": [
+        {
+            "name": "beberlei/assert",
+            "version": "v2.9.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/beberlei/assert.git",
+                "reference": "124317de301b7c91d5fce34c98bba2c6925bec95"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/beberlei/assert/zipball/124317de301b7c91d5fce34c98bba2c6925bec95",
+                "reference": "124317de301b7c91d5fce34c98bba2c6925bec95",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.1.1",
+                "phpunit/phpunit": "^4.8.35|^5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "lib/Assert/functions.php"
+                ],
+                "psr-4": {
+                    "Assert\\": "lib/Assert"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Richard Quadling",
+                    "email": "rquadling@gmail.com",
+                    "role": "Collaborator"
+                }
+            ],
+            "description": "Thin assertion library for input validation in business models.",
+            "keywords": [
+                "assert",
+                "assertion",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/beberlei/assert/issues",
+                "source": "https://github.com/beberlei/assert/tree/v2.9.9"
+            },
+            "time": "2019-05-28T15:27:37+00:00"
+        },
+        {
+            "name": "fgrosse/phpasn1",
+            "version": "v2.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fgrosse/PHPASN1.git",
+                "reference": "42060ed45344789fb9f21f9f1864fc47b9e3507b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fgrosse/PHPASN1/zipball/42060ed45344789fb9f21f9f1864fc47b9e3507b",
+                "reference": "42060ed45344789fb9f21f9f1864fc47b9e3507b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "~2.0",
+                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
+            },
+            "suggest": {
+                "ext-bcmath": "BCmath is the fallback extension for big integer calculations",
+                "ext-curl": "For loading OID information from the web if they have not bee defined statically",
+                "ext-gmp": "GMP is the preferred extension for big integer calculations",
+                "phpseclib/bcmath_compat": "BCmath polyfill for servers where neither GMP nor BCmath is available"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "FG\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Friedrich Große",
+                    "email": "friedrich.grosse@gmail.com",
+                    "homepage": "https://github.com/FGrosse",
+                    "role": "Author"
+                },
+                {
+                    "name": "All contributors",
+                    "homepage": "https://github.com/FGrosse/PHPASN1/contributors"
+                }
+            ],
+            "description": "A PHP Framework that allows you to encode and decode arbitrary ASN.1 structures using the ITU-T X.690 Encoding Rules.",
+            "homepage": "https://github.com/FGrosse/PHPASN1",
+            "keywords": [
+                "DER",
+                "asn.1",
+                "asn1",
+                "ber",
+                "binary",
+                "decoding",
+                "encoding",
+                "x.509",
+                "x.690",
+                "x509",
+                "x690"
+            ],
+            "support": {
+                "issues": "https://github.com/fgrosse/PHPASN1/issues",
+                "source": "https://github.com/fgrosse/PHPASN1/tree/v2.5.0"
+            },
+            "abandoned": true,
+            "time": "2022-12-19T11:08:26+00:00"
+        },
+        {
+            "name": "guzzlehttp/guzzle",
+            "version": "6.5.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "a52f0440530b54fa079ce76e8c5d196a42cad981"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/a52f0440530b54fa079ce76e8c5d196a42cad981",
+                "reference": "a52f0440530b54fa079ce76e8c5d196a42cad981",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/promises": "^1.0",
+                "guzzlehttp/psr7": "^1.9",
+                "php": ">=5.5",
+                "symfony/polyfill-intl-idn": "^1.17"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.4 || ^7.0",
+                "psr/log": "^1.1"
+            },
+            "suggest": {
+                "psr/log": "Required for using the Log middleware"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.5-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions_include.php"
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Jeremy Lindblom",
+                    "email": "jeremeamia@gmail.com",
+                    "homepage": "https://github.com/jeremeamia"
+                },
+                {
+                    "name": "George Mponos",
+                    "email": "gmponos@gmail.com",
+                    "homepage": "https://github.com/gmponos"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com",
+                    "homepage": "https://github.com/sagikazarmark"
+                },
+                {
+                    "name": "Tobias Schultze",
+                    "email": "webmaster@tubo-world.de",
+                    "homepage": "https://github.com/Tobion"
+                }
+            ],
+            "description": "Guzzle is a PHP HTTP client library",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
+            ],
+            "support": {
+                "issues": "https://github.com/guzzle/guzzle/issues",
+                "source": "https://github.com/guzzle/guzzle/tree/6.5.8"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/Nyholm",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/guzzle",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-06-20T22:16:07+00:00"
+        },
+        {
+            "name": "guzzlehttp/promises",
+            "version": "1.5.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/promises.git",
+                "reference": "67ab6e18aaa14d753cc148911d273f6e6cb6721e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/67ab6e18aaa14d753cc148911d273f6e6cb6721e",
+                "reference": "67ab6e18aaa14d753cc148911d273f6e6cb6721e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^4.4 || ^5.1"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/functions_include.php"
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\Promise\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                },
+                {
+                    "name": "Tobias Schultze",
+                    "email": "webmaster@tubo-world.de",
+                    "homepage": "https://github.com/Tobion"
+                }
+            ],
+            "description": "Guzzle promises library",
+            "keywords": [
+                "promise"
+            ],
+            "support": {
+                "issues": "https://github.com/guzzle/promises/issues",
+                "source": "https://github.com/guzzle/promises/tree/1.5.3"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/Nyholm",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/promises",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-05-21T12:31:43+00:00"
+        },
+        {
+            "name": "guzzlehttp/psr7",
+            "version": "1.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/psr7.git",
+                "reference": "e4490cabc77465aaee90b20cfc9a770f8c04be6b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/e4490cabc77465aaee90b20cfc9a770f8c04be6b",
+                "reference": "e4490cabc77465aaee90b20cfc9a770f8c04be6b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "psr/http-message": "~1.0",
+                "ralouphie/getallheaders": "^2.0.5 || ^3.0.0"
+            },
+            "provide": {
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "ext-zlib": "*",
+                "phpunit/phpunit": "~4.8.36 || ^5.7.27 || ^6.5.14 || ^7.5.20 || ^8.5.8 || ^9.3.10"
+            },
+            "suggest": {
+                "laminas/laminas-httphandlerrunner": "Emit PSR-7 responses"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/functions_include.php"
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\Psr7\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "George Mponos",
+                    "email": "gmponos@gmail.com",
+                    "homepage": "https://github.com/gmponos"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com",
+                    "homepage": "https://github.com/sagikazarmark"
+                },
+                {
+                    "name": "Tobias Schultze",
+                    "email": "webmaster@tubo-world.de",
+                    "homepage": "https://github.com/Tobion"
+                }
+            ],
+            "description": "PSR-7 message implementation that also provides common utility methods",
+            "keywords": [
+                "http",
+                "message",
+                "psr-7",
+                "request",
+                "response",
+                "stream",
+                "uri",
+                "url"
+            ],
+            "support": {
+                "issues": "https://github.com/guzzle/psr7/issues",
+                "source": "https://github.com/guzzle/psr7/tree/1.9.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/Nyholm",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/psr7",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-04-17T16:00:37+00:00"
+        },
+        {
+            "name": "mdanter/ecc",
+            "version": "v0.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpecc/phpecc.git",
+                "reference": "b95f25cc1bacc83a9f0ccd375900b7cfd343029e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpecc/phpecc/zipball/b95f25cc1bacc83a9f0ccd375900b7cfd343029e",
+                "reference": "b95f25cc1bacc83a9f0ccd375900b7cfd343029e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gmp": "*",
+                "fgrosse/phpasn1": "^2.0",
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.0",
+                "squizlabs/php_codesniffer": "^2.0",
+                "symfony/yaml": "^2.6|^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mdanter\\Ecc\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matyas Danter",
+                    "homepage": "http://matejdanter.com/",
+                    "role": "Author"
+                },
+                {
+                    "name": "Thibaud Fabre",
+                    "email": "thibaud@aztech.io",
+                    "homepage": "http://aztech.io",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Thomas Kerin",
+                    "email": "afk11@users.noreply.github.com",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "PHP Elliptic Curve Cryptography library",
+            "homepage": "https://github.com/phpecc/phpecc",
+            "keywords": [
+                "Diffie",
+                "ECDSA",
+                "Hellman",
+                "curve",
+                "ecdh",
+                "elliptic",
+                "nistp192",
+                "nistp224",
+                "nistp256",
+                "nistp384",
+                "nistp521",
+                "phpecc",
+                "secp256k1",
+                "secp256r1"
+            ],
+            "support": {
+                "issues": "https://github.com/phpecc/phpecc/issues",
+                "source": "https://github.com/phpecc/phpecc/tree/master"
+            },
+            "abandoned": "paragonie/ecc",
+            "time": "2018-12-03T18:17:01+00:00"
+        },
+        {
+            "name": "minishlink/web-push",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/web-push-libs/web-push-php.git",
+                "reference": "6e1b88c46351ea3850cb1e9ae9565b8c61a58396"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/web-push-libs/web-push-php/zipball/6e1b88c46351ea3850cb1e9ae9565b8c61a58396",
+                "reference": "6e1b88c46351ea3850cb1e9ae9565b8c61a58396",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2",
+                "lib-openssl": "*",
+                "mdanter/ecc": "^0.5.0",
+                "php": "^7.0",
+                "spomky-labs/base64url": "^1.0",
+                "spomky-labs/jose": "^7.0",
+                "spomky-labs/php-aes-gcm": "^1.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Minishlink\\WebPush\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Louis Lagrange",
+                    "email": "lagrange.louis@gmail.com",
+                    "homepage": "https://github.com/Minishlink"
+                }
+            ],
+            "description": "Web Push library for PHP",
+            "homepage": "https://github.com/web-push-libs/web-push-php",
+            "keywords": [
+                "Push API",
+                "WebPush",
+                "notifications",
+                "push",
+                "web"
+            ],
+            "support": {
+                "issues": "https://github.com/web-push-libs/web-push-php/issues",
+                "source": "https://github.com/web-push-libs/web-push-php/tree/master"
+            },
+            "time": "2017-11-22T20:04:25+00:00"
+        },
+        {
+            "name": "psr/cache",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/cache.git",
+                "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/cache/zipball/d11b50ad223250cf17b86e38383413f5a6764bf8",
+                "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Cache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for caching libraries",
+            "keywords": [
+                "cache",
+                "psr",
+                "psr-6"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/cache/tree/master"
+            },
+            "time": "2016-08-06T20:24:11+00:00"
+        },
+        {
+            "name": "psr/http-message",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
+                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP messages",
+            "homepage": "https://github.com/php-fig/http-message",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/http-message/tree/1.1"
+            },
+            "time": "2023-04-04T09:50:52+00:00"
+        },
+        {
+            "name": "ralouphie/getallheaders",
+            "version": "3.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ralouphie/getallheaders.git",
+                "reference": "120b605dfeb996808c31b6477290a714d356e822"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/120b605dfeb996808c31b6477290a714d356e822",
+                "reference": "120b605dfeb996808c31b6477290a714d356e822",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^5 || ^6.5"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/getallheaders.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ralph Khattar",
+                    "email": "ralph.khattar@gmail.com"
+                }
+            ],
+            "description": "A polyfill for getallheaders.",
+            "support": {
+                "issues": "https://github.com/ralouphie/getallheaders/issues",
+                "source": "https://github.com/ralouphie/getallheaders/tree/develop"
+            },
+            "time": "2019-03-08T08:55:37+00:00"
+        },
+        {
+            "name": "seosamba/apps",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/apps.git",
+                "reference": "9ae2bdd846f088be55027949b2a2180188d27bf2"
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\Apps\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Apps plugin for SeoToaster CMS",
+            "time": "2025-09-30T14:19:31+00:00"
+        },
+        {
+            "name": "seosamba/crm",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/crm.git",
+                "reference": "db35e24d0dcc77bce9e1f908bf523e0e677f5a6e"
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-pdo_mysql": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\CRM\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "CRM plugin for SeoToaster CMS",
+            "time": "2025-10-02T09:28:12+00:00"
+        },
+        {
+            "name": "seosamba/dashboard",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/dashboard.git",
+                "reference": "08ab2da6101f61441efd44b05331aa06becb9ca1"
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\Dashboard\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Dashboard plugin for SeoToaster CMS",
+            "time": "2025-09-30T15:23:34+00:00"
+        },
+        {
+            "name": "seosamba/delivery",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/delivery.git",
+                "reference": "6e6a07609e9bafbab24cab05dec786769ca1d202"
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\Delivery\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Delivery plugin for SeoToaster CMS",
+            "time": "2025-10-02T09:09:23+00:00"
+        },
+        {
+            "name": "seosamba/ecommerce",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/seosamba/ecommerce.git",
+                "reference": "a69a4bc4cfad6201f87c7771fe8d71376995e3b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/seosamba/ecommerce/zipball/a69a4bc4cfad6201f87c7771fe8d71376995e3b4",
+                "reference": "a69a4bc4cfad6201f87c7771fe8d71376995e3b4",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoToaster\\Ecommerce\\": "src/"
+                }
+            },
+            "description": "Ecommerce plugin for SeoToaster CMS",
+            "support": {
+                "source": "https://github.com/seosamba/ecommerce/tree/feature/composer-support",
+                "issues": "https://github.com/seosamba/ecommerce/issues"
+            },
+            "time": "2025-09-29T15:46:50+00:00"
+        },
+        {
+            "name": "seosamba/ecommerce-cart",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/seosamba/ecommerce-cart.git",
+                "reference": "f708d86aaa7697392eba0f3c1649f7825c9fbcad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/seosamba/ecommerce-cart/zipball/f708d86aaa7697392eba0f3c1649f7825c9fbcad",
+                "reference": "f708d86aaa7697392eba0f3c1649f7825c9fbcad",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EcommerceCart\\": "src/"
+                }
+            },
+            "support": {
+                "source": "https://github.com/seosamba/ecommerce-cart/tree/feature/composer-support",
+                "issues": "https://github.com/seosamba/ecommerce-cart/issues"
+            },
+            "time": "2025-09-30T09:38:17+00:00"
+        },
+        {
+            "name": "seosamba/ecommerce-promo",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/seosamba/ecommerce-promo.git",
+                "reference": "a2f356c77410a37057a78ed6a727881c86e8eeeb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/seosamba/ecommerce-promo/zipball/a2f356c77410a37057a78ed6a727881c86e8eeeb",
+                "reference": "a2f356c77410a37057a78ed6a727881c86e8eeeb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "ext-pdo_mysql": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\EcommercePromo\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Promotions module for SeoToaster Ecommerce",
+            "support": {
+                "source": "https://github.com/seosamba/ecommerce-promo/tree/feature/composer-support",
+                "issues": "https://github.com/seosamba/ecommerce-promo/issues"
+            },
+            "time": "2025-09-30T12:29:54+00:00"
+        },
+        {
+            "name": "seosamba/ecommerce-quote",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/seosamba/ecommerce-quote.git",
+                "reference": "73dc4b8f27ebd8f5c0b1aba498d718c8ca1471af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/seosamba/ecommerce-quote/zipball/73dc4b8f27ebd8f5c0b1aba498d718c8ca1471af",
+                "reference": "73dc4b8f27ebd8f5c0b1aba498d718c8ca1471af",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "ext-pdo_mysql": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\EcommerceQuote\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Quote/Inquiry module for SeoToaster Ecommerce",
+            "support": {
+                "source": "https://github.com/seosamba/ecommerce-quote/tree/feature/composer-support",
+                "issues": "https://github.com/seosamba/ecommerce-quote/issues"
+            },
+            "time": "2025-09-30T12:22:27+00:00"
+        },
+        {
+            "name": "seosamba/emailsequence",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/emailsequence.git",
+                "reference": "e23aefa62911ae9dff7775fd55cf33ff818ad548"
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\EmailSequence\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Email Sequence plugin for SeoToaster CMS",
+            "time": "2025-10-02T09:24:13+00:00"
+        },
+        {
+            "name": "seosamba/encodedapi",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/encodedapi.git",
+                "reference": "ed0b284cc9ab39c2aea9d10b0f6bf42d4d09a388"
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\EncodedApi\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Encoded API plugin for SeoToaster CMS",
+            "time": "2025-10-02T10:58:06+00:00"
+        },
+        {
+            "name": "seosamba/encodedleads",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/encodedleads.git",
+                "reference": "04efb6ed532b1677b0abf4bff17b2552c09a80f4"
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\EncodedLeads\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Encoded Leads plugin for SeoToaster CMS",
+            "time": "2025-10-02T10:57:36+00:00"
+        },
+        {
+            "name": "seosamba/flatrateshipping",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/flatrateshipping.git",
+                "reference": "93b2e50de753d84bcf3119daf52ac309d065c310"
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\FlatRateShipping\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Flat Rate Shipping plugin for SeoToaster CMS",
+            "time": "2025-09-30T15:19:03+00:00"
+        },
+        {
+            "name": "seosamba/freedashboardtheme",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/freedashboardtheme.git",
+                "reference": "db5114b303f273762490a737dfb064130a01b657"
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\DashboardTheme\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Dashboard Theme plugin for SeoToaster CMS",
+            "time": "2025-09-30T15:48:53+00:00"
+        },
+        {
+            "name": "seosamba/freetheme",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/freetheme.git",
+                "reference": "0e4e0534a4f6585e3cb7856c1a90fa65724e4996"
+            },
+            "require": {
+                "php": ">=7.4 <=8.2"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\FreeTheme\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Free theme for SeoToaster CMS",
+            "time": "2025-10-02T13:02:03+00:00"
+        },
+        {
+            "name": "seosamba/invoicetopdf",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/invoicetopdf.git",
+                "reference": "d39a766b4aeccd3c9dbfeb177e5a76473cf2e072"
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-pdo_mysql": "*",
+                "ext-zip": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\InvoiceToPdf\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Invoice to PDF plugin for SeoToaster CMS",
+            "time": "2025-09-30T14:56:26+00:00"
+        },
+        {
+            "name": "seosamba/netcontent",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/netcontent.git",
+                "reference": "399c5c6595039d3fac3699c7ab874d2906e82b00"
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "ext-pdo_mysql": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\NetContent\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "NetContent module for SeoToaster CMS",
+            "time": "2025-09-30T12:58:42+00:00"
+        },
+        {
+            "name": "seosamba/newslog",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/newslog.git",
+                "reference": "4870db1c94b31e9d7a5f083a8b838befdccc6cfd"
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "ext-pdo_mysql": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\NewsLog\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "News Log module for SeoToaster CMS",
+            "time": "2025-09-30T13:56:20+00:00"
+        },
+        {
+            "name": "seosamba/notifier",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/notifier.git",
+                "reference": "6aa1ac4d6f49fb931c2bd0858459c166c1a76e7f"
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "minishlink/web-push": "^2.0",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\Notifier\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Notifier plugin for SeoToaster CMS",
+            "time": "2025-09-30T14:36:55+00:00"
+        },
+        {
+            "name": "seosamba/paypal",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/paypal.git",
+                "reference": "562f1af046998d948b45d2bd1380af8f3d880ee9"
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\Paypal\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Paypal plugin for SeoToaster CMS",
+            "time": "2025-10-02T09:19:33+00:00"
+        },
+        {
+            "name": "seosamba/productonly",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/productonly.git",
+                "reference": "56d29ce8713a5251d3eb178f8faae3e959e140ba"
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\ProductOnly\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Product Only plugin for SeoToaster CMS",
+            "time": "2025-09-30T15:59:44+00:00"
+        },
+        {
+            "name": "seosamba/socialposter",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/socialposter.git",
+                "reference": "4e4011ae23a54b3bd9e94f629b01af227f10ec2c"
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\SocialPoster\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Social Poster plugin for SeoToaster CMS",
+            "time": "2025-09-30T14:01:06+00:00"
+        },
+        {
+            "name": "seosamba/toastauth",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/toastauth.git",
+                "reference": "dbefe95569c108a59f97c6bac5ab7f60a0299885"
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\ToastAuth\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "ToastAuth plugin for SeoToaster CMS",
+            "time": "2025-09-30T14:23:17+00:00"
+        },
+        {
+            "name": "seosamba/toasterstats",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/toasterstats.git",
+                "reference": "b2eb8ae1c83c8e3cf3bf1921130dff4850896e42"
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\ToasterStats\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Toaster Stats plugin for SeoToaster CMS",
+            "time": "2025-09-30T15:52:13+00:00"
+        },
+        {
+            "name": "seosamba/webbuilder",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/webbuilder.git",
+                "reference": "7daef43c646c7e20c4194ed6f38e5bd7f1601506"
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\WebBuilder\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Web Builder plugin for SeoToaster CMS",
+            "time": "2025-09-30T14:09:16+00:00"
+        },
+        {
+            "name": "seosamba/websiteidcard",
+            "version": "dev-feature/composer-support",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/websiteidcard.git",
+                "reference": "22cfee94a33d863aa7f2efe0aaf2b2bdd799fa44"
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "ext-pdo_mysql": "*",
+                "php": ">=7.4 <=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeoSamba\\WebsiteIdCard\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "SeoToaster Team",
+                    "email": "andrei@seosamba.com"
+                }
+            ],
+            "description": "Website ID Card module for SeoToaster CMS",
+            "time": "2025-09-30T13:50:09+00:00"
+        },
+        {
+            "name": "spomky-labs/aes-key-wrap",
+            "version": "v4.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Spomky-Labs/aes-key-wrap.git",
+                "reference": "6d302dc2d20cd61fc8bf0e253d628c70724d302a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Spomky-Labs/aes-key-wrap/zipball/6d302dc2d20cd61fc8bf0e253d628c70724d302a",
+                "reference": "6d302dc2d20cd61fc8bf0e253d628c70724d302a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "lib-openssl": "*",
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.0",
+                "satooshi/php-coveralls": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AESKW\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florent Morselli",
+                    "homepage": "https://github.com/Spomky-Labs/aes-key-wrap/contributors"
+                }
+            ],
+            "description": "AES Key Wrap for PHP.",
+            "homepage": "https://github.com/Spomky-Labs/aes-key-wrap",
+            "keywords": [
+                "A128KW",
+                "A192KW",
+                "A256KW",
+                "RFC3394",
+                "RFC5649",
+                "aes",
+                "key",
+                "padding",
+                "wrap"
+            ],
+            "support": {
+                "issues": "https://github.com/Spomky-Labs/aes-key-wrap/issues",
+                "source": "https://github.com/Spomky-Labs/aes-key-wrap/tree/master"
+            },
+            "time": "2017-10-28T16:15:26+00:00"
+        },
+        {
+            "name": "spomky-labs/base64url",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Spomky-Labs/base64url.git",
+                "reference": "ef6d5fb93894063d9cee996022259fd08d6646ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Spomky-Labs/base64url/zipball/ef6d5fb93894063d9cee996022259fd08d6646ea",
+                "reference": "ef6d5fb93894063d9cee996022259fd08d6646ea",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3|^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0|^5.0",
+                "satooshi/php-coveralls": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Base64Url\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florent Morselli",
+                    "homepage": "https://github.com/Spomky-Labs/base64url/contributors"
+                }
+            ],
+            "description": "Base 64 URL Safe Encoding/decoding PHP Library",
+            "homepage": "https://github.com/Spomky-Labs/base64url",
+            "keywords": [
+                "base64",
+                "rfc4648",
+                "safe",
+                "url"
+            ],
+            "support": {
+                "issues": "https://github.com/Spomky-Labs/base64url/issues",
+                "source": "https://github.com/Spomky-Labs/base64url/tree/master"
+            },
+            "time": "2016-01-21T19:50:30+00:00"
+        },
+        {
+            "name": "spomky-labs/jose",
+            "version": "v7.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Spomky-Labs/jose.git",
+                "reference": "c7835297fa6a2c00dcdcbfadd67f7ea099b226a1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Spomky-Labs/jose/zipball/c7835297fa6a2c00dcdcbfadd67f7ea099b226a1",
+                "reference": "c7835297fa6a2c00dcdcbfadd67f7ea099b226a1",
+                "shasum": ""
+            },
+            "require": {
+                "beberlei/assert": "^2.4",
+                "fgrosse/phpasn1": "^2.0",
+                "lib-openssl": "*",
+                "mdanter/ecc": "0.5.*",
+                "php": "^7.0",
+                "psr/cache": "^1.0",
+                "spomky-labs/aes-key-wrap": "^3.0|^4.0",
+                "spomky-labs/base64url": "^1.0",
+                "spomky-labs/php-aes-gcm": "^1.2",
+                "symfony/polyfill-mbstring": "^1.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.0",
+                "satooshi/php-coveralls": "^2.0",
+                "symfony/cache": "^2.0|^3.0|^4.0"
+            },
+            "suggest": {
+                "ext-crypto": "Highly recommended when you use AES GCM based algorithms.",
+                "ext-curve25519": "For EdDSA with X25519 curves support.",
+                "ext-ed25519": "For EdDSA with Ed25519 curves support."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "7.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Jose\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florent Morselli",
+                    "homepage": "https://github.com/Spomky"
+                },
+                {
+                    "name": "All contributors",
+                    "homepage": "https://github.com/Spomky-Labs/jose/contributors"
+                }
+            ],
+            "description": "JSON Object Signing and Encryption library for PHP.",
+            "homepage": "https://github.com/Spomky-Labs/Jose",
+            "keywords": [
+                "JOSE",
+                "JWE",
+                "JWK",
+                "JWKSet",
+                "JWS",
+                "Jot",
+                "RFC7515",
+                "RFC7516",
+                "RFC7517",
+                "RFC7518",
+                "RFC7519",
+                "RFC7520",
+                "jwa",
+                "jwt"
+            ],
+            "support": {
+                "issues": "https://github.com/Spomky-Labs/jose/issues",
+                "source": "https://github.com/Spomky-Labs/jose/tree/master"
+            },
+            "abandoned": "web-token/jwt-framework",
+            "time": "2018-05-03T07:34:56+00:00"
+        },
+        {
+            "name": "spomky-labs/php-aes-gcm",
+            "version": "v1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Spomky-Labs/php-aes-gcm.git",
+                "reference": "e3900f2eb29a98476ae94c25c5c4aebb32ebf338"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Spomky-Labs/php-aes-gcm/zipball/e3900f2eb29a98476ae94c25c5c4aebb32ebf338",
+                "reference": "e3900f2eb29a98476ae94c25c5c4aebb32ebf338",
+                "shasum": ""
+            },
+            "require": {
+                "beberlei/assert": "^2.4",
+                "lib-openssl": "*",
+                "php": ">=5.4",
+                "symfony/polyfill-mbstring": "^1.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.5|^5.0",
+                "satooshi/php-coveralls": "^1.0"
+            },
+            "suggest": {
+                "ext-crypto": "Highly recommended for better performance."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AESGCM\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florent Morselli",
+                    "homepage": "https://github.com/Spomky"
+                },
+                {
+                    "name": "All contributors",
+                    "homepage": "https://github.com/Spomky-Labs/php-aes-gcm/contributors"
+                }
+            ],
+            "description": "AES GCM (Galois Counter Mode) PHP implementation.",
+            "homepage": "https://github.com/Spomky-Labs/php-aes-gcm",
+            "keywords": [
+                "AES-GCM",
+                "Galois Counter Mode",
+                "aes",
+                "gcm"
+            ],
+            "support": {
+                "issues": "https://github.com/Spomky-Labs/php-aes-gcm/issues",
+                "source": "https://github.com/Spomky-Labs/php-aes-gcm/tree/v1.x"
+            },
+            "time": "2018-11-07T14:39:44+00:00"
+        },
+        {
+            "name": "symfony/polyfill-intl-idn",
+            "version": "v1.33.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-intl-idn.git",
+                "reference": "9614ac4d8061dc257ecc64cba1b140873dce8ad3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/9614ac4d8061dc257ecc64cba1b140873dce8ad3",
+                "reference": "9614ac4d8061dc257ecc64cba1b140873dce8ad3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2",
+                "symfony/polyfill-intl-normalizer": "^1.10"
+            },
+            "suggest": {
+                "ext-intl": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Intl\\Idn\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Laurent Bassin",
+                    "email": "laurent@bassin.info"
+                },
+                {
+                    "name": "Trevor Rowbotham",
+                    "email": "trevor.rowbotham@pm.me"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for intl's idn_to_ascii and idn_to_utf8 functions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "idn",
+                "intl",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-intl-idn/tree/v1.33.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-09-10T14:38:51+00:00"
+        },
+        {
+            "name": "symfony/polyfill-intl-normalizer",
+            "version": "v1.33.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-intl-normalizer.git",
+                "reference": "3833d7255cc303546435cb650316bff708a1c75c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/3833d7255cc303546435cb650316bff708a1c75c",
+                "reference": "3833d7255cc303546435cb650316bff708a1c75c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "suggest": {
+                "ext-intl": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Intl\\Normalizer\\": ""
+                },
+                "classmap": [
+                    "Resources/stubs"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for intl's Normalizer class and related functions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "intl",
+                "normalizer",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.33.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-09-09T11:45:10+00:00"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "version": "v1.33.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-mbstring.git",
+                "reference": "6d857f4d76bd4b343eac26d6b539585d2bc56493"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/6d857f4d76bd4b343eac26d6b539585d2bc56493",
+                "reference": "6d857f4d76bd4b343eac26d6b539585d2bc56493",
+                "shasum": ""
+            },
+            "require": {
+                "ext-iconv": "*",
+                "php": ">=7.2"
+            },
+            "provide": {
+                "ext-mbstring": "*"
+            },
+            "suggest": {
+                "ext-mbstring": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the Mbstring extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "mbstring",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.33.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-12-23T08:48:59+00:00"
+        },
+        {
+            "name": "zendlib/zendlib",
+            "version": "dev-feature/php8.2-composer",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:Seotoaster/zendlib.git",
+                "reference": "e7c38f1d24dda9e154321e6ed80a2f5c08af17ea"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Zend": "Zend/",
+                    "ZendX": "ZendX/"
+                }
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Zend library for SeoToaster",
+            "time": "2025-09-29T15:15:02+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "seosamba/apps": 20,
+        "seosamba/crm": 20,
+        "seosamba/dashboard": 20,
+        "seosamba/delivery": 20,
+        "seosamba/ecommerce": 20,
+        "seosamba/ecommerce-cart": 20,
+        "seosamba/ecommerce-promo": 20,
+        "seosamba/ecommerce-quote": 20,
+        "seosamba/emailsequence": 20,
+        "seosamba/encodedapi": 20,
+        "seosamba/encodedleads": 20,
+        "seosamba/flatrateshipping": 20,
+        "seosamba/freedashboardtheme": 20,
+        "seosamba/freetheme": 20,
+        "seosamba/invoicetopdf": 20,
+        "seosamba/netcontent": 20,
+        "seosamba/newslog": 20,
+        "seosamba/notifier": 20,
+        "seosamba/paypal": 20,
+        "seosamba/productonly": 20,
+        "seosamba/socialposter": 20,
+        "seosamba/toastauth": 20,
+        "seosamba/toasterstats": 20,
+        "seosamba/webbuilder": 20,
+        "seosamba/websiteidcard": 20,
+        "zendlib/zendlib": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.4 <=8.2",
+        "ext-curl": "*",
+        "ext-gd": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-pdo_mysql": "*",
+        "ext-xml": "*",
+        "ext-gmp": "*",
+        "ext-zip": "*",
+        "ext-ioncube-loader": "*",
+        "ext-mcrypt": "*"
+    },
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
+}

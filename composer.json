@@ -45,7 +45,9 @@
     "seosamba/emailsequence": "dev-feature/composer-support",
     "seosamba/crm": "dev-feature/composer-support",
     "seosamba/encodedapi": "dev-master",
-    "seosamba/encodedleads": "dev-master"
+    "seosamba/encodedleads": "dev-master",
+    "seosamba/freetheme": "dev-master"
+
   },
   "suggest": {
     "ext-imap": "Required for email features"
@@ -150,6 +152,10 @@
     {
       "type": "vcs",
       "url": "git@bitbucket.org:Seotoaster/encodedleads.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/freetheme.git"
     }
   ],
   "config": {
@@ -179,6 +185,7 @@
       "seosamba/crm": "source",
       "seosamba/encodedapi": "source",
       "seosamba/encodedleads": "source",
+      "seosamba/freetheme": "source",
       "*": "dist"
     }
   },
@@ -233,7 +240,14 @@
       "rm -rf plugins/api/.git",
       "cp -a vendor/seosamba/encodedapi/. plugins/api",
       "rm -rf plugins/leads/.git",
-      "cp -a vendor/seosamba/encodedleads/. plugins/leads"
+      "cp -a vendor/seosamba/encodedleads/. plugins/leads",
+      "test -f system/coreinfo.php || (cp system/coreinfo.php.default system/coreinfo.php && mv _install install)",
+      "test -f robots.txt || cp robots.txt.default robots.txt",
+      "test -f favicon.ico || cp favicon.ico.default favicon.ico",
+      "test -f manifest.json || cp manifest.json.default manifest.json",
+      "test -f .htaccess || cp .htaccess.default .htaccess",
+      "cp -a vendor/seosamba/freetheme/. themes/default",
+      "rm -rf themes/default/.git"
     ],
     "post-update-cmd": [
       "rm -rf seotoaster_core/library/.git",
@@ -285,7 +299,14 @@
       "rm -rf plugins/api/.git",
       "cp -a vendor/seosamba/encodedapi/. plugins/api",
       "rm -rf plugins/leads/.git",
-      "cp -a vendor/seosamba/encodedleads/. plugins/leads"
+      "cp -a vendor/seosamba/encodedleads/. plugins/leads",
+      "test -f system/coreinfo.php || (cp system/coreinfo.php.default system/coreinfo.php && mv _install install)",
+      "test -f robots.txt || cp robots.txt.default robots.txt",
+      "test -f favicon.ico || cp favicon.ico.default favicon.ico",
+      "test -f manifest.json || cp manifest.json.default manifest.json",
+      "test -f .htaccess || cp .htaccess.default .htaccess",
+      "cp -a vendor/seosamba/freetheme/. themes/default",
+      "rm -rf themes/default/.git"
     ]
   }
 }
