@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c5d359f24d13fbe37448dc9c2261f87a",
+    "content-hash": "d6d19d63837d9ba7e564ee6e9a70401a",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -727,12 +727,12 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/apps.git",
-                "reference": "9ae2bdd846f088be55027949b2a2180188d27bf2"
+                "reference": "aabe6750a1331aafa7778c8b446c93f62ecf425f"
             },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -750,7 +750,7 @@
                 }
             ],
             "description": "Apps plugin for SeoToaster CMS",
-            "time": "2025-09-30T14:19:31+00:00"
+            "time": "2025-10-02T13:52:00+00:00"
         },
         {
             "name": "seosamba/crm",
@@ -758,13 +758,13 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/crm.git",
-                "reference": "db35e24d0dcc77bce9e1f908bf523e0e677f5a6e"
+                "reference": "8498378b3745ab97d832cce12d3b863fcfbab857"
             },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "ext-pdo_mysql": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -782,7 +782,7 @@
                 }
             ],
             "description": "CRM plugin for SeoToaster CMS",
-            "time": "2025-10-02T09:28:12+00:00"
+            "time": "2025-10-02T13:52:48+00:00"
         },
         {
             "name": "seosamba/dashboard",
@@ -790,12 +790,12 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/dashboard.git",
-                "reference": "08ab2da6101f61441efd44b05331aa06becb9ca1"
+                "reference": "94848a7409104467a3e53022a2fb8155885fee4e"
             },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -813,7 +813,7 @@
                 }
             ],
             "description": "Dashboard plugin for SeoToaster CMS",
-            "time": "2025-09-30T15:23:34+00:00"
+            "time": "2025-10-02T13:53:29+00:00"
         },
         {
             "name": "seosamba/delivery",
@@ -821,12 +821,12 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/delivery.git",
-                "reference": "6e6a07609e9bafbab24cab05dec786769ca1d202"
+                "reference": "0344a3e1d72704678ec6e1e459316b0943feca8e"
             },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -844,7 +844,7 @@
                 }
             ],
             "description": "Delivery plugin for SeoToaster CMS",
-            "time": "2025-10-02T09:09:23+00:00"
+            "time": "2025-10-02T13:54:09+00:00"
         },
         {
             "name": "seosamba/ecommerce",
@@ -905,18 +905,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/seosamba/ecommerce-promo.git",
-                "reference": "a2f356c77410a37057a78ed6a727881c86e8eeeb"
+                "reference": "abb7b747f0e0ae6e35683711ee7b3afc9b810e93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/seosamba/ecommerce-promo/zipball/a2f356c77410a37057a78ed6a727881c86e8eeeb",
-                "reference": "a2f356c77410a37057a78ed6a727881c86e8eeeb",
+                "url": "https://api.github.com/repos/seosamba/ecommerce-promo/zipball/abb7b747f0e0ae6e35683711ee7b3afc9b810e93",
+                "reference": "abb7b747f0e0ae6e35683711ee7b3afc9b810e93",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
                 "ext-pdo_mysql": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -938,7 +938,7 @@
                 "source": "https://github.com/seosamba/ecommerce-promo/tree/feature/composer-support",
                 "issues": "https://github.com/seosamba/ecommerce-promo/issues"
             },
-            "time": "2025-09-30T12:29:54+00:00"
+            "time": "2025-10-02T14:14:02+00:00"
         },
         {
             "name": "seosamba/ecommerce-quote",
@@ -946,18 +946,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/seosamba/ecommerce-quote.git",
-                "reference": "73dc4b8f27ebd8f5c0b1aba498d718c8ca1471af"
+                "reference": "c5c3a3532ee895c1f9eccf697109b376f9607842"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/seosamba/ecommerce-quote/zipball/73dc4b8f27ebd8f5c0b1aba498d718c8ca1471af",
-                "reference": "73dc4b8f27ebd8f5c0b1aba498d718c8ca1471af",
+                "url": "https://api.github.com/repos/seosamba/ecommerce-quote/zipball/c5c3a3532ee895c1f9eccf697109b376f9607842",
+                "reference": "c5c3a3532ee895c1f9eccf697109b376f9607842",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
                 "ext-pdo_mysql": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -979,7 +979,7 @@
                 "source": "https://github.com/seosamba/ecommerce-quote/tree/feature/composer-support",
                 "issues": "https://github.com/seosamba/ecommerce-quote/issues"
             },
-            "time": "2025-09-30T12:22:27+00:00"
+            "time": "2025-10-02T14:14:59+00:00"
         },
         {
             "name": "seosamba/emailsequence",
@@ -987,12 +987,12 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/emailsequence.git",
-                "reference": "e23aefa62911ae9dff7775fd55cf33ff818ad548"
+                "reference": "0b960f7a4f41925961b4aa559ee45166108a7364"
             },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -1010,7 +1010,7 @@
                 }
             ],
             "description": "Email Sequence plugin for SeoToaster CMS",
-            "time": "2025-10-02T09:24:13+00:00"
+            "time": "2025-10-02T13:54:35+00:00"
         },
         {
             "name": "seosamba/encodedapi",
@@ -1018,13 +1018,13 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/encodedapi.git",
-                "reference": "ed0b284cc9ab39c2aea9d10b0f6bf42d4d09a388"
+                "reference": "5c054e4b22bbea0911dfccfcee67e6b79be54bb9"
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "default-branch": true,
             "type": "library",
@@ -1043,7 +1043,7 @@
                 }
             ],
             "description": "Encoded API plugin for SeoToaster CMS",
-            "time": "2025-10-02T10:58:06+00:00"
+            "time": "2025-10-02T13:51:23+00:00"
         },
         {
             "name": "seosamba/encodedleads",
@@ -1051,13 +1051,13 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/encodedleads.git",
-                "reference": "04efb6ed532b1677b0abf4bff17b2552c09a80f4"
+                "reference": "f9cda6a3c9b5573f4a0988efea1c920d5602de31"
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "default-branch": true,
             "type": "library",
@@ -1076,7 +1076,7 @@
                 }
             ],
             "description": "Encoded Leads plugin for SeoToaster CMS",
-            "time": "2025-10-02T10:57:36+00:00"
+            "time": "2025-10-02T14:04:53+00:00"
         },
         {
             "name": "seosamba/flatrateshipping",
@@ -1084,12 +1084,12 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/flatrateshipping.git",
-                "reference": "93b2e50de753d84bcf3119daf52ac309d065c310"
+                "reference": "ff584916951b7079af4f730843df03cc4add81db"
             },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -1107,7 +1107,7 @@
                 }
             ],
             "description": "Flat Rate Shipping plugin for SeoToaster CMS",
-            "time": "2025-09-30T15:19:03+00:00"
+            "time": "2025-10-02T13:55:00+00:00"
         },
         {
             "name": "seosamba/freedashboardtheme",
@@ -1115,12 +1115,12 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/freedashboardtheme.git",
-                "reference": "db5114b303f273762490a737dfb064130a01b657"
+                "reference": "a607c39d562d1a0b4c1688e9c0b3c77266a48a5d"
             },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "default-branch": true,
             "type": "library",
@@ -1139,7 +1139,7 @@
                 }
             ],
             "description": "Dashboard Theme plugin for SeoToaster CMS",
-            "time": "2025-09-30T15:48:53+00:00"
+            "time": "2025-10-02T14:20:20+00:00"
         },
         {
             "name": "seosamba/freetheme",
@@ -1147,10 +1147,10 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/freetheme.git",
-                "reference": "0e4e0534a4f6585e3cb7856c1a90fa65724e4996"
+                "reference": "928465d88c9a73240384ec6e3c5cec5accf7e0da"
             },
             "require": {
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "default-branch": true,
             "type": "library",
@@ -1169,7 +1169,7 @@
                 }
             ],
             "description": "Free theme for SeoToaster CMS",
-            "time": "2025-10-02T13:02:03+00:00"
+            "time": "2025-10-02T14:18:53+00:00"
         },
         {
             "name": "seosamba/invoicetopdf",
@@ -1177,7 +1177,7 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/invoicetopdf.git",
-                "reference": "d39a766b4aeccd3c9dbfeb177e5a76473cf2e072"
+                "reference": "ff345a9a033801e9bfa7907d72f1bcaf36426597"
             },
             "require": {
                 "ext-dom": "*",
@@ -1185,7 +1185,7 @@
                 "ext-mbstring": "*",
                 "ext-pdo_mysql": "*",
                 "ext-zip": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -1203,7 +1203,7 @@
                 }
             ],
             "description": "Invoice to PDF plugin for SeoToaster CMS",
-            "time": "2025-09-30T14:56:26+00:00"
+            "time": "2025-10-02T13:55:46+00:00"
         },
         {
             "name": "seosamba/netcontent",
@@ -1211,12 +1211,12 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/netcontent.git",
-                "reference": "399c5c6595039d3fac3699c7ab874d2906e82b00"
+                "reference": "4f4172a6731317c805ccd3683aebd4145b379390"
             },
             "require": {
                 "ext-mbstring": "*",
                 "ext-pdo_mysql": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -1234,7 +1234,7 @@
                 }
             ],
             "description": "NetContent module for SeoToaster CMS",
-            "time": "2025-09-30T12:58:42+00:00"
+            "time": "2025-10-02T14:05:26+00:00"
         },
         {
             "name": "seosamba/newslog",
@@ -1242,12 +1242,12 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/newslog.git",
-                "reference": "4870db1c94b31e9d7a5f083a8b838befdccc6cfd"
+                "reference": "b97fb981532c5c70ced8f9ae98926d57185ce808"
             },
             "require": {
                 "ext-mbstring": "*",
                 "ext-pdo_mysql": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -1265,7 +1265,7 @@
                 }
             ],
             "description": "News Log module for SeoToaster CMS",
-            "time": "2025-09-30T13:56:20+00:00"
+            "time": "2025-10-02T14:06:35+00:00"
         },
         {
             "name": "seosamba/notifier",
@@ -1273,13 +1273,13 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/notifier.git",
-                "reference": "6aa1ac4d6f49fb931c2bd0858459c166c1a76e7f"
+                "reference": "964e8dd28b0ac0bf55b9425ae17b62e09cf2d198"
             },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "minishlink/web-push": "^2.0",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -1297,7 +1297,7 @@
                 }
             ],
             "description": "Notifier plugin for SeoToaster CMS",
-            "time": "2025-09-30T14:36:55+00:00"
+            "time": "2025-10-02T14:08:40+00:00"
         },
         {
             "name": "seosamba/paypal",
@@ -1305,12 +1305,12 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/paypal.git",
-                "reference": "562f1af046998d948b45d2bd1380af8f3d880ee9"
+                "reference": "e5437bc59685575bc697ce64561df6758fb66349"
             },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -1328,7 +1328,7 @@
                 }
             ],
             "description": "Paypal plugin for SeoToaster CMS",
-            "time": "2025-10-02T09:19:33+00:00"
+            "time": "2025-10-02T14:09:23+00:00"
         },
         {
             "name": "seosamba/productonly",
@@ -1336,12 +1336,12 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/productonly.git",
-                "reference": "56d29ce8713a5251d3eb178f8faae3e959e140ba"
+                "reference": "846decd3700ff38d19910b05d429ba72fb45793e"
             },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -1359,7 +1359,7 @@
                 }
             ],
             "description": "Product Only plugin for SeoToaster CMS",
-            "time": "2025-09-30T15:59:44+00:00"
+            "time": "2025-10-02T14:13:27+00:00"
         },
         {
             "name": "seosamba/socialposter",
@@ -1367,13 +1367,13 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/socialposter.git",
-                "reference": "4e4011ae23a54b3bd9e94f629b01af227f10ec2c"
+                "reference": "c250c3a4d4ce2437e1059e5264d030f617e40b36"
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -1391,7 +1391,7 @@
                 }
             ],
             "description": "Social Poster plugin for SeoToaster CMS",
-            "time": "2025-09-30T14:01:06+00:00"
+            "time": "2025-10-02T14:15:44+00:00"
         },
         {
             "name": "seosamba/toastauth",
@@ -1399,12 +1399,12 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/toastauth.git",
-                "reference": "dbefe95569c108a59f97c6bac5ab7f60a0299885"
+                "reference": "141856a190fa69c94fd03e895ff27e7e9bd476f3"
             },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -1422,7 +1422,7 @@
                 }
             ],
             "description": "ToastAuth plugin for SeoToaster CMS",
-            "time": "2025-09-30T14:23:17+00:00"
+            "time": "2025-10-02T14:16:13+00:00"
         },
         {
             "name": "seosamba/toasterstats",
@@ -1430,12 +1430,12 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/toasterstats.git",
-                "reference": "b2eb8ae1c83c8e3cf3bf1921130dff4850896e42"
+                "reference": "c2118454796bb604e0894965a5edd6af57ea6e83"
             },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -1453,7 +1453,7 @@
                 }
             ],
             "description": "Toaster Stats plugin for SeoToaster CMS",
-            "time": "2025-09-30T15:52:13+00:00"
+            "time": "2025-10-02T14:16:53+00:00"
         },
         {
             "name": "seosamba/webbuilder",
@@ -1461,12 +1461,12 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/webbuilder.git",
-                "reference": "7daef43c646c7e20c4194ed6f38e5bd7f1601506"
+                "reference": "e2b2b781e591a5164161466e2d740fede9f17bf2"
             },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -1484,7 +1484,7 @@
                 }
             ],
             "description": "Web Builder plugin for SeoToaster CMS",
-            "time": "2025-09-30T14:09:16+00:00"
+            "time": "2025-10-02T14:17:20+00:00"
         },
         {
             "name": "seosamba/websiteidcard",
@@ -1492,12 +1492,12 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:Seotoaster/websiteidcard.git",
-                "reference": "22cfee94a33d863aa7f2efe0aaf2b2bdd799fa44"
+                "reference": "fa0adf2ce2362aea3288c43fe5bff9f474f6777c"
             },
             "require": {
                 "ext-mbstring": "*",
                 "ext-pdo_mysql": "*",
-                "php": ">=7.4 <=8.2"
+                "php": ">=7.4 <8.3"
             },
             "type": "library",
             "autoload": {
@@ -1515,7 +1515,7 @@
                 }
             ],
             "description": "Website ID Card module for SeoToaster CMS",
-            "time": "2025-09-30T13:50:09+00:00"
+            "time": "2025-10-02T14:17:44+00:00"
         },
         {
             "name": "spomky-labs/aes-key-wrap",
@@ -2101,7 +2101,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.4 <=8.2",
+        "php": ">=7.4 <8.3",
         "ext-curl": "*",
         "ext-gd": "*",
         "ext-json": "*",
