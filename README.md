@@ -125,7 +125,7 @@ Clone the current repository using:
     cd seotoaster
 
 ### Install PHP dependencies
-Install PHP dependencies using Composer. This will download ZendLib and all minimum required plugins:
+Install PHP dependencies using Composer. This will download ZendLib and all minimum required plugins, which will then be available in the admin panel for activation:
 
     composer install
 
