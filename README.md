@@ -130,9 +130,14 @@ Install PHP dependencies using Composer. This will download ZendLib and all mini
     composer install
 
 ### Installation Wizard
-Run the installation wizard in your browser.  
 
-After finishing the installation wizard, go to the admin panel, open **Other → Plugins**, and activate all plugins. They are already downloaded and ready to use.
+Run the installation wizard in your browser.
+
+After finishing the installation wizard, go to the admin panel, open **Other → Plugins**, and activate all plugins. They are already downloaded and ready to use.  
+
+**Alternatively**, you can run the following PHP script from the console to install default plugins automatically:
+
+    php installDefaultPlugins.php
 
 ---
 
