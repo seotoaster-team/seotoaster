@@ -6,7 +6,7 @@
 
 [SeoToaster](https://www.seotoaster.com/) is a flexible and powerful CMS developed by **SeoSamba** ([seosamba.com](https://www.seosamba.com/)) for building and managing websites efficiently.  
 
-The **SeoToaster CRM Ultimate** is built on top of SeoToaster CMS & Ecommerce and adds advanced CRM features to automate sales and track leads, opportunities, and interactions with your brand.
+The **SeoToaster CRM Ultimate** is built on top of SeoToaster CMS & Ecommerce and adds advanced CRM features to automate sales and track leads, opportunities, and interactions with your brand...
 
 ---
 
