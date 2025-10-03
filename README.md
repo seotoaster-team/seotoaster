@@ -6,7 +6,7 @@
 
 [SeoToaster](https://www.seotoaster.com/) is a flexible and powerful CMS developed by **SeoSamba** ([seosamba.com](https://www.seosamba.com/)) for building and managing websites efficiently.  
 
-The **SeoToaster CRM Ultimate** is built on top of SeoToaster CMS & Ecommerce and adds advanced CRM features to automate sales and track leads, opportunities, and interactions with your brand...
+The **SeoToaster CRM Ultimate** is built on top of SeoToaster CMS & Ecommerce and adds advanced CRM features to automate sales and track leads, opportunities, and interactions with your brand.
 
 ---
 
@@ -19,6 +19,7 @@ The **SeoToaster CRM Ultimate** is built on top of SeoToaster CMS & Ecommerce an
 - [Download](#download)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Development Environment](#development-environment)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
@@ -110,6 +111,28 @@ Access the admin panel at:
 
 
 Manage pages, users, products, leads, opportunities, and more from the admin dashboard.
+
+---
+
+## Development Environment
+
+To start the development environment for the first time:
+
+### Clone the repository
+Clone the current repository using:
+
+    git clone https://github.com/seotoaster-team/seotoaster.git
+    cd seotoaster
+
+### Install PHP dependencies
+Install PHP dependencies using Composer. This will download ZendLib and all minimum required plugins:
+
+    composer install
+
+### Installation Wizard
+Run the installation wizard in your browser.  
+
+After finishing the installation wizard, go to the admin panel, open **Other → Plugins**, and activate all plugins. They are already downloaded and ready to use.
 
 ---
 
