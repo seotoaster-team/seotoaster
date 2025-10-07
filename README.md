@@ -19,6 +19,7 @@ The **SeoToaster CRM Ultimate** is built on top of SeoToaster CMS & Ecommerce an
 - [Download](#download)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Development Environment](#development-environment)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
@@ -110,6 +111,33 @@ Access the admin panel at:
 
 
 Manage pages, users, products, leads, opportunities, and more from the admin dashboard.
+
+---
+
+## Development Environment
+
+To start the development environment for the first time:
+
+### Clone the repository
+Clone the current repository using:
+
+    git clone https://github.com/seotoaster-team/seotoaster.git
+    cd seotoaster
+
+### Setup Dependencies
+Install PHP dependencies using Composer. This will download ZendLib and all minimum required plugins, which will then be available in the admin panel for activation:
+
+    composer install
+
+### Installation Wizard
+
+Run the installation wizard in your browser.
+
+After finishing the installation wizard, go to the admin panel, open **Other → Plugins**, and activate all plugins. They are already downloaded and ready to use.  
+
+**Alternatively**, you can run the following PHP script from the console to install default plugins automatically:
+
+    php installDefaultPlugins.php
 
 ---
 
