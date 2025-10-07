@@ -33,7 +33,7 @@
     "seosamba/webbuilder": "dev-master",
     "seosamba/apps": "dev-master",
     "seosamba/toastauth": "dev-master",
-    "seosamba/notifier": "dev-feature/composer-support",
+    "seosamba/notifier": "dev-master",
     "seosamba/invoicetopdf": "dev-master",
     "seosamba/flatrateshipping": "dev-master",
     "seosamba/dashboard": "dev-master",
