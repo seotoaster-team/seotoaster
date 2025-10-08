@@ -46,13 +46,21 @@
 					<?php echo $this->settingsForm->getElement('sambaToken')->renderViewHelper(); ?>
 				</div>
 			</div>
-
 			<?php echo $this->settingsForm->getElement('check'); ?>
 
 			<div class="mt30px textcentered">
 				<?php echo $this->settingsForm->getElement('submit'); ?>
 			</div>
 		</fieldset>
+        <?php if (!empty($this->messages)): ?>
+            <div class="grid_12">
+                <?php foreach ($this->messages as $msg) :?>
+                    <div class="box-error mt10px">
+                        <?php echo $msg; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif;?>
 	</form>
 </div>
 <script>

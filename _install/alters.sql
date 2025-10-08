@@ -889,6 +889,22 @@ UPDATE `user` SET `timezone` = 'America/New_York' WHERE `timezone` IS NULL AND `
 -- version: 3.9.2
 -- Pre package version
 
+-- 31/07/2025
+-- version: 3.10.0
+CREATE TABLE IF NOT EXISTS `draggable_config` (
+    `id` CHAR(32) COLLATE 'utf8_unicode_ci' NOT NULL,
+    `data` MEDIUMTEXT COLLATE 'utf8_unicode_ci' NOT NULL,
+    `updated_at` TIMESTAMP,
+    `user_id` int(10) unsigned NOT NULL,
+    `ip_address` VARCHAR(45) NOT NULL,
+    `page_id` int(10) unsigned DEFAULT NULL,
+    PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- 08/10/2025
+-- version: 3.10.1
+-- Pre package version
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.10.0' WHERE `name`='version';
+UPDATE `config` SET `value`='3.11.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

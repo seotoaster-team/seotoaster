@@ -361,7 +361,7 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 			foreach ($images as $key => $image) {
                 $srcPath        = Tools_Content_Tools::applyMediaServers($sourcePartPath);
-	            $imageName      = preg_replace('~\.(jpg|png|gif|jpeg)~i', '', $image);
+	            $imageName      = preg_replace('~\.(jpg|png|gif|jpeg|webp)~i', '', $image);
 				$imageSize      = getimagesize($path . '/' . $type . '/' . $image);
                 if ($dontWrapImages) {
                     $imageElement = htmlspecialchars('<img border="0" alt="' . str_replace('-', '&nbsp;', $imageName) . '" src="' . $srcPath . '/' . $type . '/' . $image . '" width="' . $imageSize[0] . '" height="' . $imageSize[1] . '" />');
