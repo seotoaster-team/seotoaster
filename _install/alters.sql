@@ -902,7 +902,10 @@ CREATE TABLE IF NOT EXISTS `draggable_config` (
     PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- 08/10/2025
+-- version: 3.10.1
+-- Pre package version
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.10.1' WHERE `name`='version';
+UPDATE `config` SET `value`='3.11.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
