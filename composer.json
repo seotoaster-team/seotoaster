@@ -1,0 +1,312 @@
+{
+  "name": "seotoaster/seotoaster",
+  "type": "project",
+  "description": "Open-source CMS & Ecommerce for SEO and website management",
+  "license": "GPL-3.0",
+  "authors": [
+    {
+      "name": "SeoToaster Team",
+      "email": "andrei@seosamba.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4 <8.3",
+    "ext-curl": "*",
+    "ext-gd": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "ext-pdo_mysql": "*",
+    "ext-xml": "*",
+    "ext-gmp": "*",
+    "ext-zip": "*",
+    "ext-ioncube-loader": "*",
+    "ext-mcrypt": "*",
+    "zendlib/zendlib": "dev-feature/php8.2-composer",
+    "seosamba/ecommerce": "dev-develop",
+    "seosamba/ecommerce-cart": "dev-develop",
+    "seosamba/ecommerce-quote": "dev-master",
+    "seosamba/ecommerce-promo": "dev-master",
+    "seosamba/netcontent": "dev-master",
+    "seosamba/websiteidcard": "dev-master",
+    "seosamba/newslog": "dev-master",
+    "seosamba/socialposter": "dev-master",
+    "seosamba/webbuilder": "dev-master",
+    "seosamba/apps": "dev-master",
+    "seosamba/toastauth": "dev-master",
+    "seosamba/notifier": "dev-master",
+    "seosamba/invoicetopdf": "dev-master",
+    "seosamba/flatrateshipping": "dev-master",
+    "seosamba/dashboard": "dev-master",
+    "seosamba/freedashboardtheme": "dev-master",
+    "seosamba/toasterstats": "dev-master",
+    "seosamba/productonly": "dev-master",
+    "seosamba/delivery": "dev-master",
+    "seosamba/paypal": "dev-master",
+    "seosamba/emailsequence": "dev-master",
+    "seosamba/crm": "dev-master",
+    "seosamba/encodedapi": "dev-master",
+    "seosamba/encodedleads": "dev-master",
+    "seosamba/freetheme": "dev-master"
+
+  },
+  "suggest": {
+    "ext-imap": "Required for email features"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/zendlib.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:seosamba/ecommerce.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:seosamba/ecommerce-cart.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:seosamba/ecommerce-quote.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:seosamba/ecommerce-promo.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/netcontent.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/websiteidcard.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/newslog.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/socialposter.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/webbuilder.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/apps.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/toastauth.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/notifier.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/invoicetopdf.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/flatrateshipping.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/dashboard.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/freedashboardtheme.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/toasterstats.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/productonly.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/delivery.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/paypal.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/emailsequence.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/crm.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/encodedapi.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/encodedleads.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:Seotoaster/freetheme.git"
+    }
+  ],
+  "config": {
+    "preferred-install": {
+      "zendlib/zendlib": "source",
+      "seosamba/ecommerce": "source",
+      "seosamba/ecommerce-cart": "source",
+      "seosamba/ecommerce-quote": "source",
+      "seosamba/ecommerce-promo": "source",
+      "seosamba/netcontent": "source",
+      "seosamba/websiteidcard": "source",
+      "seosamba/newslog": "source",
+      "seosamba/socialposter": "source",
+      "seosamba/webbuilder": "source",
+      "seosamba/apps": "source",
+      "seosamba/toastauth": "source",
+      "seosamba/notifier": "source",
+      "seosamba/invoicetopdf": "source",
+      "seosamba/flatrateshipping": "source",
+      "seosamba/dashboard": "source",
+      "seosamba/freedashboardtheme": "source",
+      "seosamba/toasterstats": "source",
+      "seosamba/productonly": "source",
+      "seosamba/delivery": "source",
+      "seosamba/paypal": "source",
+      "seosamba/emailsequence": "source",
+      "seosamba/crm": "source",
+      "seosamba/encodedapi": "source",
+      "seosamba/encodedleads": "source",
+      "seosamba/freetheme": "source",
+      "*": "dist"
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "rm -rf seotoaster_core/library/.git",
+      "cp -a vendor/zendlib/zendlib/. seotoaster_core/library/",
+      "rm -rf plugins/shopping/.git",
+      "cp -a vendor/seosamba/ecommerce/. plugins/shopping",
+      "rm -rf plugins/cart/.git",
+      "cp -a vendor/seosamba/ecommerce-cart/. plugins/cart",
+      "rm -rf plugins/quote/.git",
+      "cp -a vendor/seosamba/ecommerce-quote/. plugins/quote",
+      "rm -rf plugins/promo/.git",
+      "cp -a vendor/seosamba/ecommerce-promo/. plugins/promo",
+      "rm -rf plugins/netcontent/.git",
+      "cp -a vendor/seosamba/netcontent/. plugins/netcontent",
+      "rm -rf plugins/widcard/.git",
+      "cp -a vendor/seosamba/websiteidcard/. plugins/widcard",
+      "rm -rf plugins/newslog/.git",
+      "cp -a vendor/seosamba/newslog/. plugins/newslog",
+      "rm -rf plugins/socialposter/.git",
+      "cp -a vendor/seosamba/socialposter/. plugins/socialposter",
+      "rm -rf plugins/webbuilder/.git",
+      "cp -a vendor/seosamba/webbuilder/. plugins/webbuilder",
+      "rm -rf plugins/apps/.git",
+      "cp -a vendor/seosamba/apps/. plugins/apps",
+      "rm -rf plugins/toastauth/.git",
+      "cp -a vendor/seosamba/toastauth/. plugins/toastauth",
+      "rm -rf plugins/notifier/.git",
+      "cp -a vendor/seosamba/notifier/. plugins/notifier",
+      "rm -rf plugins/invoicetopdf/.git",
+      "cp -a vendor/seosamba/invoicetopdf/. plugins/invoicetopdf",
+      "rm -rf plugins/flatrateshipping/.git",
+      "cp -a vendor/seosamba/flatrateshipping/. plugins/flatrateshipping",
+      "rm -rf plugins/dashboard/.git",
+      "cp -a vendor/seosamba/dashboard/. plugins/dashboard",
+      "rm -rf plugins/dashboard/web/themes/dashboardtheme/.git",
+      "cp -a vendor/seosamba/freedashboardtheme/. plugins/dashboard/web/themes/dashboardtheme",
+      "rm -rf plugins/toasterstats/.git",
+      "cp -a vendor/seosamba/toasterstats/. plugins/toasterstats",
+      "rm -rf plugins/productonly/.git",
+      "cp -a vendor/seosamba/productonly/. plugins/productonly",
+      "rm -rf plugins/delivery/.git",
+      "cp -a vendor/seosamba/delivery/. plugins/delivery",
+      "rm -rf plugins/paypal/.git",
+      "cp -a vendor/seosamba/paypal/. plugins/paypal",
+      "rm -rf plugins/emailsequence/.git",
+      "cp -a vendor/seosamba/emailsequence/. plugins/emailsequence",
+      "rm -rf plugins/crm/.git",
+      "cp -a vendor/seosamba/crm/. plugins/crm",
+      "rm -rf plugins/api/.git",
+      "cp -a vendor/seosamba/encodedapi/. plugins/api",
+      "rm -rf plugins/leads/.git",
+      "cp -a vendor/seosamba/encodedleads/. plugins/leads",
+      "test -f system/coreinfo.php || (cp system/coreinfo.php.default system/coreinfo.php && mv _install install)",
+      "test -f robots.txt || cp robots.txt.default robots.txt",
+      "test -f favicon.ico || cp favicon.ico.default favicon.ico",
+      "test -f manifest.json || cp manifest.json.default manifest.json",
+      "test -f .htaccess || cp .htaccess.default .htaccess",
+      "cp -a vendor/seosamba/freetheme/. themes/default",
+      "rm -rf themes/default/.git"
+    ],
+    "post-update-cmd": [
+      "rm -rf seotoaster_core/library/.git",
+      "cp -a vendor/zendlib/zendlib/. seotoaster_core/library/",
+      "rm -rf plugins/shopping/.git",
+      "cp -a vendor/seosamba/ecommerce/. plugins/shopping",
+      "rm -rf plugins/cart/.git",
+      "cp -a vendor/seosamba/ecommerce-cart/. plugins/cart",
+      "rm -rf plugins/quote/.git",
+      "cp -a vendor/seosamba/ecommerce-quote/. plugins/quote",
+      "rm -rf plugins/promo/.git",
+      "cp -a vendor/seosamba/ecommerce-promo/. plugins/promo",
+      "rm -rf plugins/netcontent/.git",
+      "cp -a vendor/seosamba/netcontent/. plugins/netcontent",
+      "rm -rf plugins/widcard/.git",
+      "cp -a vendor/seosamba/websiteidcard/. plugins/widcard",
+      "rm -rf plugins/newslog/.git",
+      "cp -a vendor/seosamba/newslog/. plugins/newslog",
+      "rm -rf plugins/socialposter/.git",
+      "cp -a vendor/seosamba/socialposter/. plugins/socialposter",
+      "rm -rf plugins/webbuilder/.git",
+      "cp -a vendor/seosamba/webbuilder/. plugins/webbuilder",
+      "rm -rf plugins/apps/.git",
+      "cp -a vendor/seosamba/apps/. plugins/apps",
+      "rm -rf plugins/toastauth/.git",
+      "cp -a vendor/seosamba/toastauth/. plugins/toastauth",
+      "rm -rf plugins/notifier/.git",
+      "cp -a vendor/seosamba/notifier/. plugins/notifier",
+      "rm -rf plugins/invoicetopdf/.git",
+      "cp -a vendor/seosamba/invoicetopdf/. plugins/invoicetopdf",
+      "rm -rf plugins/flatrateshipping/.git",
+      "cp -a vendor/seosamba/flatrateshipping/. plugins/flatrateshipping",
+      "rm -rf plugins/dashboard/.git",
+      "cp -a vendor/seosamba/dashboard/. plugins/dashboard",
+      "rm -rf plugins/dashboard/web/themes/dashboardtheme/.git",
+      "cp -a vendor/seosamba/freedashboardtheme/. plugins/dashboard/web/themes/dashboardtheme",
+      "rm -rf plugins/toasterstats/.git",
+      "cp -a vendor/seosamba/toasterstats/. plugins/toasterstats",
+      "rm -rf plugins/productonly/.git",
+      "cp -a vendor/seosamba/productonly/. plugins/productonly",
+      "rm -rf plugins/delivery/.git",
+      "cp -a vendor/seosamba/delivery/. plugins/delivery",
+      "rm -rf plugins/paypal/.git",
+      "cp -a vendor/seosamba/paypal/. plugins/paypal",
+      "rm -rf plugins/emailsequence/.git",
+      "cp -a vendor/seosamba/emailsequence/. plugins/emailsequence",
+      "rm -rf plugins/crm/.git",
+      "cp -a vendor/seosamba/crm/. plugins/crm",
+      "rm -rf plugins/api/.git",
+      "cp -a vendor/seosamba/encodedapi/. plugins/api",
+      "rm -rf plugins/leads/.git",
+      "cp -a vendor/seosamba/encodedleads/. plugins/leads",
+      "test -f system/coreinfo.php || (cp system/coreinfo.php.default system/coreinfo.php && mv _install install)",
+      "test -f robots.txt || cp robots.txt.default robots.txt",
+      "test -f favicon.ico || cp favicon.ico.default favicon.ico",
+      "test -f manifest.json || cp manifest.json.default manifest.json",
+      "test -f .htaccess || cp .htaccess.default .htaccess",
+      "cp -a vendor/seosamba/freetheme/. themes/default",
+      "rm -rf themes/default/.git"
+    ]
+  }
+}
