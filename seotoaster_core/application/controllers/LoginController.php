@@ -431,7 +431,7 @@ class LoginController extends Zend_Controller_Action {
         }
         $passResetMsg = $this->_helper->flashMessenger->getMessages('passreset');
         if (!empty($passResetMsg)) {
-            $this->view->retrieveSuccessMessage = join($passResetMsg, PHP_EOL);
+            $this->view->retrieveSuccessMessage = join(PHP_EOL, $passResetMsg);
         }
 
         $this->view->messages   = $this->_helper->flashMessenger->getMessages();

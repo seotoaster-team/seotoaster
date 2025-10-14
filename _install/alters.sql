@@ -901,8 +901,12 @@ CREATE TABLE IF NOT EXISTS `draggable_config` (
     PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- 03/09/2025
+-- 08/10/2025
 -- version: 3.10.1
+-- Pre package version
+
+-- 03/09/2025
+-- version: 3.11.0
 CREATE TABLE IF NOT EXISTS `website_action_log` (
 `id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique log entry ID',
 `created_at` DATETIME NOT NULL COMMENT 'When the action occurred',
@@ -932,5 +936,5 @@ INDEX `idx_last_action` (`last_action_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.10.2' WHERE `name`='version';
+UPDATE `config` SET `value`='3.11.1' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

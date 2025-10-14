@@ -421,5 +421,32 @@ return array(
 	'Shipping information' => 'INFORMACE O DOPRAVĚ',
 	'Your cart is empty.' => 'Váš nákupní košík je prázdný.',
 	'Edit product' => 'Upravit produkt',
-	'Sign In' => 'Přihlásit se'
+	'Sign In' => 'Přihlásit se',
+	'ionCube Loader' => 'ionCube Loader',
+	'<strong>JSON extension for PHP:</strong> JSON (JavaScript Object Notation) support. JSON is a lightweight data-interchange format.' => '<strong>Rozšíření JSON pro PHP:</strong> Podpora JSON (JavaScript Object Notation). JSON je lehký formát pro výměnu dat.',
+	'<strong>Important!</strong> Make sure you <strong>turn OFF Magic quotes,</strong> either with the htacces that comes with the package or in your PHP.ini (Otherwise you will get a bunch of \\ in the templates when loading themes).' => '<strong>Důležité!</strong> Ujistěte se, že máte <strong>vypnuté Magic quotes</strong>, buď pomocí htaccess souboru, který je součástí balíčku, nebo v PHP.ini (jinak se v šablonách při načítání motivů objeví spousta zpětných lomítek \\).',
+	'<strong>GMP library for PHP:</strong> GMP is a free library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating-point numbers.' => '<strong>Knihovna GMP pro PHP:</strong> GMP je bezplatná knihovna pro aritmetiku s libovolnou přesností, která pracuje se znaménkovými celými čísly, racionálními čísly a čísly s plovoucí desetinnou čárkou.',
+	'<strong>Additional PHP extensions:</strong> mcrypt, xml, readline, soap' => '<strong>Další PHP rozšíření:</strong> mcrypt, xml, readline, soap',
+	'mcrypt PHP extension' => 'PHP rozšíření mcrypt',
+	'The mcrypt PHP extension is not installed on your web server.' => 'PHP rozšíření mcrypt není na vašem webovém serveru nainstalováno.',
+	'xml PHP extension' => 'PHP rozšíření xml',
+	'The xml PHP extension is not installed on your web server.' => 'PHP rozšíření xml není na vašem webovém serveru nainstalováno.',
+	'readline PHP extension' => 'PHP rozšíření readline',
+	'The readline PHP extension is not installed on your web server.' => 'PHP rozšíření readline není na vašem webovém serveru nainstalováno.',
+	'soap PHP extension' => 'PHP rozšíření soap',
+	'The soap PHP extension is not installed on your web server.' => 'PHP rozšíření soap není na vašem webovém serveru nainstalováno.',
+	'We\'ve detected that your web server is not equipped with the Ion Cube encryption loader. Don\'t settle for less than the entire Seotoaster experience! Seotoaster uses IonCube to encrypt great time-saving plug-ins available on the marketplace, get your website instantly setup with free real-time web analytics, create a KML file so that your local business can be found online. It is free and easy to download and install IonCube. Do it or contact your web host to do it for you.' => 'Zjistili jsme, že váš webový server není vybaven načítačem šifrování IonCube. Nesmiřujte se s ničím menším než s plným zážitkem Seotoaster! Seotoaster používá IonCube k šifrování skvělých doplňků šetřících čas dostupných na tržišti, okamžitě nastaví váš web s bezplatnou analýzou webu v reálném čase, vytvoří KML soubor, aby byla vaše lokální firma nalezitelná online. IonCube je zdarma a snadno se stahuje a instaluje. Udělejte to, nebo požádejte svého poskytovatele hostingu, aby to udělal za vás.',
+	'download and install IonCube loader' => 'stáhnout a nainstalovat IonCube loader',
+	'Checking file system permissions' => 'Kontrola oprávnění souborového systému',
+	'Bravo! All good to go!' => 'Bravo! Vše je připraveno!',
+	'Check again' => 'Zkontrolovat znovu',
+	'We detected that your MySQL server has sql_mode set to' => 'Zjistili jsme, že váš MySQL server má sql_mode nastaveno na',
+	'This setting defines SQL syntax rules and data validation behavior.</br>' => 'Toto nastavení určuje pravidla syntaxe SQL a chování při ověřování dat.</br>',
+	'To continue the installation, please run the following command on your MySQL server:</br>' => 'Chcete-li pokračovat v instalaci, spusťte na svém MySQL serveru následující příkaz:</br>',
+	'After that, proceed with Step 3: Create your super admin account.' => 'Poté pokračujte krokem 3: Vytvořte si účet super administrátora.',
+	'You will use these credentials to log into your toaster' => 'Tyto přihlašovací údaje použijete k přihlášení do vašeho Toasteru',
+	'Note from SEO&nbsp;Samba' => 'Poznámka od SEO&nbsp;Samba',
+
+
+
 );

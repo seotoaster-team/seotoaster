@@ -27,3 +27,4 @@ system/js/external/tinymce/*.gz
 manifest.json
 favicon.ico
 node_modules/
+vendor/
