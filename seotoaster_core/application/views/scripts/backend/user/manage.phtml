@@ -14,7 +14,7 @@
 
     )); ?>
 	<div class="f-content flex-column mb40px grid_12">
-		<div id="add-user" class="show-right">
+		<div id="add-user" class="show-right keep-open">
 			<div class="header">
 				<?php echo $this->translate('Add new user'); ?>
 				<div class="closebutton">
@@ -349,6 +349,8 @@
                 if(!sneakPeek.length) {
                     $('.sneak-peek-eye').append('<span class="sneak-peek"></span>');
                 }
+
+                $(document).find('#frm-user').find('#user-id').val('');
             });
         });
 
