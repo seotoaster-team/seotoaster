@@ -40,6 +40,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('optimizedNotifications', ''),
 ('wraplinks', '0'),
 ('takeATour', '1'),
+('useSqlMode', '1'),
 ('version',	'3.11.0');
 
 

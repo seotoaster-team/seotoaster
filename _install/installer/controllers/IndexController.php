@@ -289,34 +289,19 @@ class IndexController extends Zend_Controller_Action {
 			$params = $this->getRequest()->getParams();
 
 			if (isset($params['check']) && $params['check'] === 'settings'){
-                $db = Zend_Db::factory( new Zend_Config($this->_session->dbinfo));
-                Zend_Db_Table_Abstract::setDefaultAdapter($db);
+                if ($settingsForm->isValid($params)){
+                    $suReady		= $this->_createSuperUser($settingsForm->getValues());
 
-                $stmt = $db->query("SELECT @@GLOBAL.sql_mode AS sql_mode");
-                $result = $stmt->fetch();
-                $global_sql_mode = $result['sql_mode'];
+                    if (!$settingsForm->getValue('sambaToken') && (bool)$settingsForm->getValue('createAccount')){
+                        $this->_createSambaAccount($settingsForm->getValues());
+                    }
 
-                if(empty($global_sql_mode) || $global_sql_mode == 'NO_AUTO_VALUE_ON_ZERO') {
-                    if ($settingsForm->isValid($params)){
-                        $suReady		= $this->_createSuperUser($settingsForm->getValues());
-
-                        if (!$settingsForm->getValue('sambaToken') && (bool)$settingsForm->getValue('createAccount')){
-                            $this->_createSambaAccount($settingsForm->getValues());
-                        }
-
-                        if ($suReady && $this->_session->configsSaved === true) {
-                            $this->getRequest()->clearParams();
-                            return $this->forward('tada');
-                        }
-                    } else {
-                        $this->view->messages[] = $settingsForm->getMessages();
+                    if ($suReady && $this->_session->configsSaved === true) {
+                        $this->getRequest()->clearParams();
+                        return $this->forward('tada');
                     }
                 } else {
-                    $this->view->messages[] = $translator->translate('We detected that your MySQL server has sql_mode set to'). ' "' .$global_sql_mode.'"'.
-                        $translator->translate('This setting defines SQL syntax rules and data validation behavior.</br>').
-                        $translator->translate('To continue the installation, please run the following command on your MySQL server:</br>').'
-                        SET GLOBAL sql_mode = "";</br>'.
-                        $translator->translate('After that, proceed with Step 3: Create your super admin account.');
+                    $this->view->messages = $settingsForm->getMessages();
                 }
 			}
 		}

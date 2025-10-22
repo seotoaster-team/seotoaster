@@ -76,6 +76,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $database->query('SET NAMES UTF8');
             $database->query('SET CHARACTER SET utf8');
         }
+
+        // Set empty sql_mode
+        $database->query("SET sql_mode=''");
+
         Zend_Db_Table_Abstract::setDefaultAdapter($database);
         Zend_Registry::set('dbAdapter', $database);
     }
