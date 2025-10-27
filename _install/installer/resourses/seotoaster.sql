@@ -1015,7 +1015,7 @@ CREATE TABLE IF NOT EXISTS `draggable_config` (
 CREATE TABLE IF NOT EXISTS `website_action_log` (
     `id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique log entry ID',
     `created_at` DATETIME NOT NULL COMMENT 'When the action occurred',
-    `ip_address` VARCHAR(45) NOT NULL COMMENT 'IP address of the user performing the action',
+    `ip_address` VARCHAR(45) COMMENT 'IP address of the user performing the action',
     `email` VARCHAR(255) COLLATE utf8_unicode_ci COMMENT 'Email or username submitted (if applicable)',
     `action_type` VARCHAR(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'General type of action: registration, form, plugin_, etc.',
     `name` VARCHAR(100) COLLATE utf8_unicode_ci COMMENT 'Specific form or registration name (e.g., Newsletter Signup)',
