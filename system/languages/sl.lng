@@ -221,6 +221,7 @@ return array(
     'After that, proceed with Step 3: Create your super admin account.' => 'Nato nadaljujte s 3. korakom: Ustvarite svoj račun super skrbnika.',
     'You will use these credentials to log into your toaster' => 'Te poverilnice boste uporabili za prijavo v svoj Toaster',
     'Note from SEO&nbsp;Samba' => 'Opomba od SEO&nbsp;Samba',
+    '<strong>Please ensure that your PHP version is either 7.4.x or 8.2.x.</strong>' => '<strong>Prepričajte se, da je vaša različica PHP 7.4.x ali 8.2.x.</strong>',
 
 
 );
