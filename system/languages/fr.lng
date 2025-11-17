@@ -1132,6 +1132,7 @@
     'Web server' => 'Serveur Web',
     'Apache2, Nginx. Any web server that can do re-writes and support php should work too (not tested).' => 'Apache 2, Nginx. N\'importe quel serveur web qui support le PHP (non testé).',
     '<strong>PHP 7.2.0</strong>' => '<strong>PHP 7.2.0</strong>',
+    '<strong>Please ensure that your PHP version is either 7.4.x or 8.2.x.</strong>' => '<strong>Veuillez vous assurer que votre version de PHP est soit 7.4.x, soit 8.2.x.</strong>',
     '<strong>PDO</strong> extension for PHP' => 'Extension <strong>PDO</strong> pour PHP',
     '<strong>MBString:</strong> Works with any language' => '<strong>Mbstring:</strong> Fonctionne avec Fonctionne avec toutes les langues',
     '<strong>GD Library 2.0</strong> or newer: Works with images' => 'Libaries <strong>GD 2.0</strong> ou plus récent: Fonctionne avec images',

@@ -18,6 +18,7 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
      */
     protected $_accessList = array(
         Tools_Security_Acl::ROLE_SUPERADMIN => array('allow' => array('post')),
+        Tools_Security_Acl::ROLE_ADMIN => array('allow' => array('post')),
     );
 
     public function init()
@@ -41,7 +42,7 @@ class Api_Toaster_Searchreindex extends Api_Service_Abstract
         }
         $currentUserRole = $this->_sessionHelper->getCurrentUser()->getRoleId();
 
-        if ($currentUserRole === Tools_Security_Acl::ROLE_SUPERADMIN) {
+        if ($currentUserRole === Tools_Security_Acl::ROLE_SUPERADMIN || $currentUserRole === Tools_Security_Acl::ROLE_ADMIN) {
             $responseHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('response');
             $indexPagesOffset = !empty($this->_sessionHelper->indexPagesOffset) ? $this->_sessionHelper->indexPagesOffset : 0;
             $searchIndexFolder = $this->_websiteHelper->getPath() . 'cache/' . Widgets_Search_Search::INDEX_FOLDER;

@@ -13,6 +13,7 @@ return array(
     'Web server' => 'Web server',
     'Apache2, Nginx. Any web server that can do re-writes and support php should work too (not tested).' => 'Apache 2, Nginx. Jede Web-Server, der Wieder schreibt und php Unterstützung tun können, sollte funktionieren auch (nicht getestet).',
     '<strong>PHP 7.2.0</strong>' => '<strong>PHP 7.2.0</strong>',
+    '<strong>Please ensure that your PHP version is either 7.4.x or 8.2.x.</strong>' => '<strong>Bitte stellen Sie sicher, dass Ihre PHP-Version entweder 7.4.x oder 8.2.x ist.</strong>',
     '<strong>PDO</strong> extension for PHP' => '<strong>PDO-Erweiterung</strong> für PHP ',
     '<strong>MBString:</strong> Works with any language' => '<strong>MBSTRING:</strong> Funktioniert mit jeder Sprache ',
     '<strong>GD Library 2.0</strong> or newer: Works with images' => '<strong>GD Libaries 2.0</strong> oder neuer: Arbeiten mit Bildern ',

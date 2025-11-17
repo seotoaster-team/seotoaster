@@ -400,6 +400,34 @@ class Backend_FormController extends Zend_Controller_Action {
 
                 }
 
+                if (Tools_System_Tools::isIpSpam()) {
+                    if ($xmlHttpRequest) {
+                        $this->_helper->response->success($form->getMessageSuccess());
+                    }
+
+                    if (isset($formParams['conversionPageUrl'])) {
+                        $conversionPageUrl = $formParams['conversionPageUrl'];
+                        $this->redirect($conversionPageUrl);
+                    }
+
+                    $sessionHelper->toasterFormSuccess = $form->getMessageSuccess();
+                    $this->redirect($formParams['formUrl']);
+                }
+
+                if (Tools_System_WebsiteLog::isBlocked()) {
+                    if ($xmlHttpRequest) {
+                        $this->_helper->response->success($form->getMessageSuccess());
+                    }
+
+                    if (isset($formParams['conversionPageUrl'])) {
+                        $conversionPageUrl = $formParams['conversionPageUrl'];
+                        $this->redirect($conversionPageUrl);
+                    }
+
+                    $sessionHelper->toasterFormSuccess = $form->getMessageSuccess();
+                    $this->redirect($formParams['formUrl']);
+                }
+
                 if (Tools_System_FormBlacklist::isSpam($formParams)) {
                     if($xmlHttpRequest){
                         $this->_helper->response->success($form->getMessageSuccess());
@@ -416,7 +444,9 @@ class Backend_FormController extends Zend_Controller_Action {
 
                 unset($formParams['uploadLimitSize']);
                 unset($formParams['g-recaptcha-response']);
-                
+
+                Tools_System_WebsiteLog::recordToWebsiteLog(Application_Model_Models_WebsiteActionLog::ACTION_TYPE_FORM, $formParams['formName'], $formParams);
+
                 //prepare form auto reply pdf
                 $autoReplyPdfTemplate = $form->getAutoReplyPdfTemplate();
                 if (!empty($autoReplyPdfTemplate)) {
