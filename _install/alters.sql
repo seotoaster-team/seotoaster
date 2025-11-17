@@ -906,6 +906,36 @@ CREATE TABLE IF NOT EXISTS `draggable_config` (
 -- version: 3.10.1
 -- Pre package version
 
+-- 03/09/2025
+-- version: 3.11.0
+CREATE TABLE IF NOT EXISTS `website_action_log` (
+`id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique log entry ID',
+`created_at` DATETIME NOT NULL COMMENT 'When the action occurred',
+`ip_address` VARCHAR(45) COMMENT 'IP address of the user performing the action',
+`email` VARCHAR(255) COLLATE utf8_unicode_ci COMMENT 'Email or username submitted (if applicable)',
+`action_type` VARCHAR(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'General type of action: registration, form, plugin_, etc.',
+`name` VARCHAR(100) COLLATE utf8_unicode_ci COMMENT 'Specific form or registration name (e.g., Newsletter Signup)',
+`browser_fingerprint` VARCHAR(255) COLLATE utf8_unicode_ci COMMENT 'Optional: fingerprint or user agent for identifying the browser/device',
+`raw_data` TEXT COLLATE utf8_unicode_ci COMMENT 'Full JSON of the submitted data for verification and analysis',
+INDEX `idx_ip_timestamp` (`ip_address`, `created_at`),
+INDEX `idx_email_timestamp` (`email`, `created_at`),
+INDEX `idx_action_name_timestamp` (`action_type`, `name`, `created_at`),
+INDEX `idx_timestamp` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `website_visitors_backlog` (
+`id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique backlog entry ID',
+`created_at` DATETIME NOT NULL COMMENT 'When the intervention was applied or logged',
+`ip_address` VARCHAR(45) COMMENT 'IP address of the suspicious visitor',
+`last_action_id` BIGINT NULL COMMENT 'Last action ID from website_action_log that triggered this intervention',
+`action_type` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Type of intervention: cooldown, block',
+`reason` TEXT COLLATE utf8_unicode_ci COMMENT 'Reason for the intervention (e.g., exceeded threshold, repeated content)',
+`valid_until` DATETIME COMMENT 'Until when this intervention is active',
+INDEX `idx_ip` (`ip_address`),
+INDEX `idx_timestamp` (`created_at`),
+INDEX `idx_last_action` (`last_action_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.11.0' WHERE `name`='version';
+UPDATE `config` SET `value`='3.11.1' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

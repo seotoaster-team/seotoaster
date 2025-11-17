@@ -275,8 +275,16 @@ $(function(){
     $(document).on('mouseup', '.seotoaster', function (e) {
         var container = $(".show-left, .show-right");
         if (container.has(e.target).length === 0){
-            $('.show-left').hide("slide", { direction: "left"});
-            $('.show-right').hide("slide", { direction: "right"});
+            container.each(function () {
+                var cont = $(this);
+                if (!cont.hasClass('keep-open')) {
+                    if (cont.hasClass('show-left')) {
+                        cont.hide("slide", { direction: "left" });
+                    } else if (cont.hasClass('show-right')) {
+                        cont.hide("slide", { direction: "right" });
+                    }
+                }
+            });
             //return false;
         }
     }).on('click', '.closebutton .hide-block', function(){
