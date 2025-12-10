@@ -40,7 +40,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('optimizedNotifications', ''),
 ('wraplinks', '0'),
 ('takeATour', '1'),
-('version',	'3.11.1');
+('version',	'3.11.2');
 
 
 DROP TABLE IF EXISTS `container`;
@@ -168,6 +168,8 @@ CREATE TABLE `form` (
   `admin_text` TEXT DEFAULT NULL,
   `reply_email` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0',
   `auto_reply_pdf_template` VARCHAR(255) DEFAULT NULL,
+  `apply_conversion_code_global` ENUM('0', '1') DEFAULT '0',
+  `conversion_code` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

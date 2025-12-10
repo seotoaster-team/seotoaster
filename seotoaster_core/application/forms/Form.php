@@ -39,6 +39,10 @@ class Application_Form_Form extends Application_Form_Secure
 
     protected $_autoReplyPdfTemplate = '';
 
+    protected $_applyConversionCodeGlobal = '';
+
+    protected $_conversionCode = '';
+
     public function init()
     {
         parent::init();
@@ -54,6 +58,7 @@ class Application_Form_Form extends Application_Form_Secure
                 'cols' => '45',
                 'rows' => '4',
                 'required' => true,
+                'style' => 'min-height:100px',
                 'filters' => array('StringTrim')
             ))
         );
@@ -197,6 +202,7 @@ class Application_Form_Form extends Application_Form_Secure
         $this->addElement(
             new Zend_Form_Element_Textarea(array(
                 'id' => 'tracking-code',
+                'class' => 'code-area',
                 'name' => 'trackingCode',
                 'label' => 'Conversion tracking code',
                 'value' => $this->_trackingCode,
@@ -284,6 +290,28 @@ class Application_Form_Form extends Application_Form_Secure
                 'class' => 'btn ticon-save grid_3',
                 'escape' => false
             )
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Textarea(array(
+                'id' => 'conversion-code',
+                'class' => 'code-area',
+                'name' => 'conversionCode',
+                'label' => 'Conversion tracking code',
+                'value' => $this->_conversionCode,
+                'cols' => '45',
+                'rows' => '4',
+                'filters' => array('StringTrim')
+            ))
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Checkbox(array(
+                'id' => 'apply-conversion-code-global',
+                'name' => 'applyConversionCodeGlobal',
+                'label' => 'Apply conversion code global',
+                'value' => $this->_applyConversionCodeGlobal,
+            ))
         );
 
         $this->setElementDecorators(array('ViewHelper', 'Label'));
