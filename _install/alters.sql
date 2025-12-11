@@ -936,6 +936,12 @@ INDEX `idx_timestamp` (`created_at`),
 INDEX `idx_last_action` (`last_action_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- 10.11.2025
+-- Add form global conversion code
+-- version: 3.11.1
+ALTER TABLE `form` ADD `apply_conversion_code_global` ENUM('0', '1') DEFAULT '0';
+ALTER TABLE `form` ADD `conversion_code` text COLLATE utf8_unicode_ci;
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.11.1' WHERE `name`='version';
+UPDATE `config` SET `value`='3.11.2' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

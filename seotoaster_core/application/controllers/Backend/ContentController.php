@@ -155,7 +155,24 @@ class Backend_ContentController extends Zend_Controller_Action {
 
 			$pageId        = ($containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICCONTENT || $containerData['containerType'] == Application_Model_Models_Container::TYPE_STATICHEADER || $containerData['containerType'] == Application_Model_Models_Container::TYPE_PREPOPSTATIC) ? null : $containerData['pageId'];
 			$containerId   = ($containerData['containerId']) ? $containerData['containerId'] : null;
-			$container     = new Application_Model_Models_Container();
+
+            $type = $containerData['containerType'];
+			if (empty($containerId) && ((int) $type === Application_Model_Models_Container::TYPE_PREPOP || (int) $type === Application_Model_Models_Container::TYPE_PREPOPSTATIC)) {
+                $containerName = $containerData['containerName'];
+			    $container = Application_Model_Mappers_ContainerMapper::getInstance()->findByName(
+                    $containerName,
+                    $pageId,
+                    $type
+                );
+
+			    if (!$container instanceof Application_Model_Models_Container) {
+                    $container = new Application_Model_Models_Container();
+                } else {
+                    $containerId = $container->getId();
+                }
+            } else {
+                $container = new Application_Model_Models_Container();
+            }
 
 			$container->registerObserver(new Tools_Seo_Watchdog());
 			$container->registerObserver(new Tools_Search_Watchdog());
