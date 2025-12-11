@@ -7,27 +7,41 @@
 
     switch($this->elementType) {
         case Widgets_Prepop_Prepop::TYPE_TEXT:
-            echo $this->formText($this->prepopName, html_entity_decode($this->prepopContent), array('class' => $this->prepopName . $staticOption . ' prepop-' . $this->elementType, 'maxlength' => ($this->limit) ? $this->limit : ''));
+            echo $this->formText($this->prepopName, html_entity_decode($this->prepopContent), array(
+                    'class' => $this->prepopName . $staticOption . ' prepop-' . $this->elementType,
+                    'maxlength' => ($this->limit) ? $this->limit : '',
+                    'data-prepop-container-id' => $this->prepopConainerId
+            ));
         break;
         case Widgets_Prepop_Prepop::TYPE_SELECT:
             if(!empty($this->defaultOptionSelection)) {
                 $defaultOptionSelection[0] = $this->defaultOptionSelection;
                 $this->options = $defaultOptionSelection + $this->options;
             }
-            echo $this->formSelect($this->prepopName, $this->prepopContent, array('class' => $this->prepopName . $staticOption . ' prepop-' . $this->elementType), $this->options);
+            echo $this->formSelect($this->prepopName, $this->prepopContent, array(
+                    'class' => $this->prepopName . $staticOption . ' prepop-' . $this->elementType,
+                    'data-prepop-container-id' => $this->prepopConainerId
+            ), $this->options);
         break;
         case Widgets_Prepop_Prepop::TYPE_RADIO:
             echo $this->formRadio($this->prepopName, $this->prepopContent, array(
                     'class'      => $this->prepopName . ' prepop-' . $this->elementType,
+                    'data-prepop-container-id' => $this->prepopConainerId
                 ),
             $this->options);
         break;
         case Widgets_Prepop_Prepop::TYPE_TEXTAREA:
-            echo $this->formTextarea($this->prepopName, html_entity_decode($this->prepopContent), array('class' => $this->prepopName . ' prepop-' . $this->elementType, 'maxlength' => ($this->limit) ? $this->limit : ''));
+            echo $this->formTextarea($this->prepopName, html_entity_decode($this->prepopContent), array(
+                    'class' => $this->prepopName . ' prepop-' . $this->elementType,
+                    'maxlength' => ($this->limit) ? $this->limit : '',
+                    'data-prepop-container-id' => $this->prepopConainerId
+                )
+            );
         break;
         case Widgets_Prepop_Prepop::TYPE_CHECKBOX:
             echo $this->formMultiCheckbox($this->prepopName, ($this->prepopContent) ? explode('~', $this->prepopContent) : null, array(
-                'class'      => $this->prepopName . ' prepop-' . $this->elementType
+                'class'      => $this->prepopName . ' prepop-' . $this->elementType,
+                'data-prepop-container-id' => $this->prepopConainerId
             ),
             $this->options);
         break;
@@ -76,7 +90,17 @@
                 containerName : self.container.name,
                 published     : self.container.published,
                 secureToken   : self.secureToken
-            }, 'json');
+            }, null, 'json')
+                .done(function(response) {
+                    if (parseInt(response.error) === 0 && !self.container.id) {
+                        $(self.elSelector).data('prepop-container-id', response.responseText);
+                    } else if(parseInt(response.error) === 1) {
+                        showMessage(response.responseText, true);
+                    }
+                })
+                .fail(function(xhr, status, error) {
+                    console.error('Error:', status, error);
+                });
 
         },
         _validate: function() {
@@ -98,8 +122,26 @@
         prepop.pageId = '<?php echo $this->commonOptions['pageId']; ?>';
         prepop.container.type = '<?php echo $this->commonOptions['containerType']; ?>';
         prepop.container.name = '<?php echo $this->commonOptions['containerName']; ?>';
-        prepop.container.id = '<?php echo $this->prepopConainerId; ?>';
         prepop.type = '<?php echo $this->elementType; ?>';
+
+        var elSelector = '#'+prepop.container.name;
+
+        if (prepop.type === 'radio') {
+            elSelector = '.'+prepop.container.name+'.prepop-radio';
+        }
+
+        if (prepop.type === 'checkbox') {
+            elSelector = '.'+prepop.container.name+'.prepop-checkbox';
+        }
+
+        prepop.elSelector = elSelector;
+
+        if (!$(prepop.elSelector).data('prepop-container-id')) {
+            prepop.container.id = '<?php echo $this->prepopConainerId; ?>';
+        } else {
+            prepop.container.id = $(prepop.elSelector).data('prepop-container-id');
+        }
+
         prepop.name = '<?php echo $this->prepopName; ?>';
         prepop.secureToken = '<?php echo $this->secureToken; ?>';
         //setting the content

@@ -2,14 +2,25 @@
     <?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Form properties' .' '. $this->translate('for'). ' '.$this->formForm->getElement('name')->getValue(), 'helpSection' => $this->helpSection)); ?>
     <form id="formWidget" class="_fajax _reload condensed" data-norefresh="1" action="<?php echo $this->websiteUrl?>backend/backend_form/manageform/" method="post">
         <fieldset class="content-auto">
-            <p id="form-code" class="grid_6 mt0px">
+            <p id="form-code" class="grid_6">
                 <a class="screen-size ticon-expand warning inverse fl-right" data-type="form" data-size="form-code"></a>
                 <?php echo $this->formForm->getElement('code')->renderLabel(); ?>
                 <?php echo $this->formForm->getElement('code')->renderViewHelper(); ?>
             </p>
-            <p class="grid_6 mt0px">
+            <p class="grid_6">
+                <label class="fl-right" for="apply-conversion-code-global"><b><?php echo $this->translate('Use a conversion code for all forms with this name');?></b>
+                    <input id="apply-conversion-code-global" class="apply-conversion-code-global switcher" <?php echo (!empty($this->globalConversionCode) ? 'checked' :'');?> name="applyConversionCodeGlobal" type="checkbox" value="<?php echo $this->globalConversionCode;?>"/>
+                </label>
+            </p>
+            <p id="tracking-code-block" class="grid_6 <?php echo (!empty($this->globalConversionCode) ? 'hidden' :'');?>">
+                <a class="screen-size ticon-expand warning inverse fl-right" data-type="form" data-size="tracking-code-block"></a>
                 <?php echo $this->formForm->getElement('trackingCode')->renderLabel(); ?>
                 <?php echo $this->formForm->getElement('trackingCode')->renderViewHelper(); ?>
+            </p>
+            <p id="conversion-code-block" class="grid_6 <?php echo (empty($this->globalConversionCode) ? 'hidden' :'');?>">
+                <a class="screen-size ticon-expand warning inverse fl-right" data-type="form" data-size="conversion-code-block"></a>
+                <?php echo $this->formForm->getElement('conversionCode')->renderLabel(); ?>
+                <?php echo $this->formForm->getElement('conversionCode')->renderViewHelper(); ?>
             </p>
             <?php if(isset($this->trackingPageUrl)):?>
             <p class="grid_12 mt15px mb15px text-center">
@@ -176,6 +187,18 @@ $(document).on('change', '#reply-mail-template', function(e){
 
 $(document).on('change', '#auto-reply-pdf-template', function(e){
     changeEmailTemplatePreview($(e.currentTarget).val(), '#auto-reply-pdf-template-page-preview-link', '#auto-reply-pdf-template-page-preview-link-block', '#auto-reply-pdf-template-page-preview-selector-block');
+});
+
+$(document).on('change', '#apply-conversion-code-global', function(e){
+    if ($(e.currentTarget).is(':checked')) {
+        $('#conversion-code-block').removeClass('hidden');
+        $('#tracking-code-block').addClass('hidden');
+        $('#apply-conversion-code-global').val('1');
+    } else {
+        $('#tracking-code-block').removeClass('hidden');
+        $('#conversion-code-block').addClass('hidden');
+        $('#apply-conversion-code-global').val('0');
+    }
 });
 
 function changeEmailTemplatePreview(templateId, previewLinkId, previewLinkBlockId, selectorBlockId)

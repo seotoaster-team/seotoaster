@@ -91,9 +91,14 @@ class Backend_FormController extends Zend_Controller_Action {
         $formForm->getElement('autoReplyPdfTemplate')->setMultioptions(array_merge(array(0 => 'select template'), $autoReplyPdfTemplates));
 
         $replyEmail = 0;
+        $globalConversionCode = 0;
 		if($form !== null) {
 		    if($form->getReplyEmail()) {
                 $replyEmail = 1;
+            }
+
+            if ($form->getApplyConversionCodeGlobal()) {
+                $globalConversionCode = 1;
             }
 
 			$formForm->populate($form->toArray());
@@ -138,6 +143,7 @@ class Backend_FormController extends Zend_Controller_Action {
         $this->view->pageUrlAutoReplyPdfTemplate = $pageUrlAutoReplyPdfTemplate;
 
         $this->view->replyEmail = $replyEmail;
+        $this->view->globalConversionCode = $globalConversionCode;
         $this->view->regularTemplates = $regularPageTemplates;
         $this->view->pageId = $pageId;
 		$this->view->formForm = $formForm;

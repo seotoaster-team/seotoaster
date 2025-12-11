@@ -126,10 +126,23 @@ class Widgets_Form_Form extends Widgets_Abstract {
         if(isset($sessionHelper->formName) && isset($sessionHelper->formPageId)){
             $formName   = $sessionHelper->formName;
             $formPageId = $sessionHelper->formPageId;
-            $conversionCode = Application_Model_Mappers_FormPageConversionMapper::getInstance()->getConversionCode($formName, $formPageId);
-            if(!empty($conversionCode)){
-                $trackingCode = $conversionCode[0]->getConversionCode();
+            $formModel       = Application_Model_Mappers_FormMapper::getInstance()->findByName($formName);
+            $applyConversionCodeGlobalFlag = false;
+            if ($formModel instanceof Application_Model_Models_Form) {
+                $applyConversionCodeGlobal = $formModel->getApplyConversionCodeGlobal();
+                if (!empty($applyConversionCodeGlobal)) {
+                    $applyConversionCodeGlobalFlag = true;
+                    $trackingCode = $formModel->getConversionCode();
+                }
             }
+
+            if ($applyConversionCodeGlobalFlag === false) {
+                $conversionCode = Application_Model_Mappers_FormPageConversionMapper::getInstance()->getConversionCode($formName, $formPageId);
+                if(!empty($conversionCode)){
+                    $trackingCode = $conversionCode[0]->getConversionCode();
+                }
+            }
+
             unset($sessionHelper->formName);
             unset($sessionHelper->formPageId);
             

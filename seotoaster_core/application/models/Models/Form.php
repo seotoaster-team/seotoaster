@@ -48,6 +48,10 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract
 
     protected $_autoReplyPdfTemplate = '';
 
+    protected $_applyConversionCodeGlobal = 0;
+
+    protected $_conversionCode = '';
+
     public function getId()
     {
         return $this->_id;
@@ -331,6 +335,39 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract
     {
         $this->_autoReplyPdfTemplate = $autoReplyPdfTemplate;
     }
+
+    /**
+     * @return int
+     */
+    public function getApplyConversionCodeGlobal()
+    {
+        return $this->_applyConversionCodeGlobal;
+    }
+
+    /**
+     * @param int $applyConversionCodeGlobal
+     */
+    public function setApplyConversionCodeGlobal($applyConversionCodeGlobal)
+    {
+        $this->_applyConversionCodeGlobal = $applyConversionCodeGlobal;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConversionCode()
+    {
+        return $this->_conversionCode;
+    }
+
+    /**
+     * @param string $conversionCode
+     */
+    public function setConversionCode($conversionCode)
+    {
+        $this->_conversionCode = $conversionCode;
+    }
+
 
 
 
