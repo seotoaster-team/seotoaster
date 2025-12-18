@@ -43,6 +43,17 @@ class Application_Form_Form extends Application_Form_Secure
 
     protected $_conversionCode = '';
 
+    protected $_applyDownloadFileGlobal = '';
+
+    protected $_downloadFileFolder = '';
+
+    protected $_downloadFileName = '';
+
+    protected $_downloadFileFolderLocal = '';
+
+    protected $_downloadFileNameLocal = '';
+
+
     public function init()
     {
         parent::init();
@@ -311,6 +322,55 @@ class Application_Form_Form extends Application_Form_Secure
                 'name' => 'applyConversionCodeGlobal',
                 'label' => 'Apply conversion code global',
                 'value' => $this->_applyConversionCodeGlobal,
+            ))
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Checkbox(array(
+                'id' => 'apply-download-file-global',
+                'name' => 'applyDownloadFileGlobal',
+                'label' => 'Apply download file global',
+                'value' => $this->_applyDownloadFileGlobal,
+            ))
+        );
+
+        $this->addElement(new Zend_Form_Element_Select(array(
+            'name'         => 'downloadFileFolder',
+            'id'           => 'download-file-folder',
+            'multiOptions' => ['0' => 'Select a download folder'] + Tools_Filesystem_Tools::getFoldersList(),
+            'registerInArrayValidator' => false,
+            'value' => $this->_downloadFileFolder,
+            'class' => 'download-file-folder'
+        )));
+
+        $this->addElement(
+            new Zend_Form_Element_Text(array(
+                'id' => 'download-file-name',
+                'name' => 'downloadFileName',
+                'label' => 'Download file name',
+                'value' => $this->_downloadFileName,
+                'required' => false,
+                'filters' => array('StringTrim', new Zend_Filter_StripTags())
+            ))
+        );
+
+        $this->addElement(new Zend_Form_Element_Select(array(
+            'name'         => 'downloadFileFolderLocal',
+            'id'           => 'download-file-folder-local',
+            'multiOptions' => ['0' => 'Select a download folder'] + Tools_Filesystem_Tools::getFoldersList(),
+            'registerInArrayValidator' => false,
+            'value' => $this->_downloadFileFolderLocal,
+            'class' => 'download-file-folder'
+        )));
+
+        $this->addElement(
+            new Zend_Form_Element_Text(array(
+                'id' => 'download-file-name-local',
+                'name' => 'downloadFileNameLocal',
+                'label' => 'Download file name',
+                'value' => $this->_downloadFileNameLocal,
+                'required' => false,
+                'filters' => array('StringTrim', new Zend_Filter_StripTags())
             ))
         );
 

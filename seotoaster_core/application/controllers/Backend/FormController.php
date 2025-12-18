@@ -25,13 +25,15 @@ class Backend_FormController extends Zend_Controller_Action {
 			'delete'  => 'json',
 			'loadforms'   => 'json',
 			'receiveform' => 'json',
-            'gettemplatepreviewlink' => 'json'
+            'gettemplatepreviewlink' => 'json',
+            'getfilesfolder' => 'json'
 		))->initContext('json');
     }
 
     public function manageformAction() {
 		$formForm = new Application_Form_Form();
         $formPageConversionMapper = Application_Model_Mappers_FormPageConversionMapper::getInstance();
+        $formDownloadFileMapper = Application_Model_Mappers_FormDownloadFileMapper::getInstance();
         $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
         if($this->getRequest()->isPost()) {
             $formForm = Tools_System_Tools::addTokenValidatorZendForm($formForm, Tools_System_Tools::ACTION_PREFIX_FORMS);
@@ -49,10 +51,35 @@ class Backend_FormController extends Zend_Controller_Action {
                 if(isset($formData['thankyouTemplate']) && $formData['thankyouTemplate'] != 'select'){
                     $trackingPageUrl = $this->_createTrackingPage($formData['name'], $formData['thankyouTemplate']);
                 }
+
+                if (!empty($formData['downloadFileFolder']) && empty($formData['downloadFileName'])) {
+                    $this->_helper->response->fail($this->_helper->language->translate('Please specify file to download'));
+                }
+
+                if (!empty($formData['downloadFileFolderLocal']) && empty($formData['downloadFileNameLocal'])) {
+                    $this->_helper->response->fail($this->_helper->language->translate('Please specify file to download'));
+                }
+
                 $this->_addConversionCode();
                 $formPageConversionModel->setFormName($formData['name']);
                 $formPageConversionModel->setPageId($formData['pageId']);
                 $formPageConversionModel->setConversionCode($formData['trackingCode']);
+                if (empty($formData['applyDownloadFileGlobal'])) {
+                    $form->setApplyDownloadFileGlobal('0');
+                    $downloadFileModel = $formDownloadFileMapper->findRecord($formData['name'], $formData['pageId']);
+                    if (!$downloadFileModel instanceof Application_Model_Models_FormDownloadFile) {
+                        $downloadFileModel = new Application_Model_Models_FormDownloadFile();
+                        $downloadFileModel->setPageId($formData['pageId']);
+                        $downloadFileModel->setFormName($formData['name']);
+                    }
+
+                    $downloadFileModel->setFileFolder($formData['downloadFileFolderLocal']);
+                    $downloadFileModel->setFileName($formData['downloadFileNameLocal']);
+                    $formDownloadFileMapper->save($downloadFileModel);
+                } else {
+                    $form->setApplyDownloadFileGlobal('1');
+                }
+
                 $formPageConversionMapper->save($formPageConversionModel);
                 Application_Model_Mappers_FormMapper::getInstance()->save($form);
 				$this->_helper->response->success($this->_helper->language->translate('Form saved'));
@@ -92,6 +119,9 @@ class Backend_FormController extends Zend_Controller_Action {
 
         $replyEmail = 0;
         $globalConversionCode = 0;
+        $globalDownloadFile = 0;
+        $globalFilesList = array();
+        $localFilesList = array();
 		if($form !== null) {
 		    if($form->getReplyEmail()) {
                 $replyEmail = 1;
@@ -101,7 +131,25 @@ class Backend_FormController extends Zend_Controller_Action {
                 $globalConversionCode = 1;
             }
 
+            if ($form->getApplyDownloadFileGlobal()) {
+                $globalDownloadFile = 1;
+            }
+
 			$formForm->populate($form->toArray());
+
+            $downloadFileFolder = $formForm->getElement('downloadFileFolder')->getValue();
+            if (!empty($downloadFileFolder)) {
+                $globalFilesList = Tools_Filesystem_Tools::getFilesFromFolder($this->_helper->website->getMedia() . $downloadFileFolder);
+            }
+
+            $formDownloadFileModel = $formDownloadFileMapper->findRecord($formName, $pageId);
+            if ($formDownloadFileModel instanceof Application_Model_Models_FormDownloadFile) {
+                $localDownloadFileName = $formDownloadFileModel->getFileName();
+                $downloadFileFolderLocal = $formDownloadFileModel->getFileFolder();
+                $formForm->getElement('downloadFileFolderLocal')->setValue($downloadFileFolderLocal);
+                $formForm->getElement('downloadFileNameLocal')->setValue($localDownloadFileName);
+                $localFilesList = Tools_Filesystem_Tools::getFilesFromFolder($this->_helper->website->getMedia() . $downloadFileFolderLocal);
+            }
 		}
 
 		//get email templates page
@@ -144,6 +192,9 @@ class Backend_FormController extends Zend_Controller_Action {
 
         $this->view->replyEmail = $replyEmail;
         $this->view->globalConversionCode = $globalConversionCode;
+        $this->view->globalDownloadFile = $globalDownloadFile;
+        $this->view->globalFilesList = $globalFilesList;
+        $this->view->localFilesList = $localFilesList;
         $this->view->regularTemplates = $regularPageTemplates;
         $this->view->pageId = $pageId;
 		$this->view->formForm = $formForm;
@@ -172,6 +223,21 @@ class Backend_FormController extends Zend_Controller_Action {
 
         }
         $this->_helper->response->fail('');
+    }
+
+
+    public function getfilesfolderAction()
+    {
+        $folderName = filter_var($this->getRequest()->getParam('folder'), FILTER_SANITIZE_STRING);
+        $folderPath = $this->_helper->website->getMedia() . $folderName;
+        $files = Tools_Filesystem_Tools::getFilesFromFolder($folderPath);
+        if (!empty($files)) {
+            $this->_helper->response->success(array(
+                'files' => $files
+            ));
+        }
+
+        $this->_helper->response->fail($this->_helper->language->translate('No files found in folder'));
     }
 
     public function validateEmail($emails){

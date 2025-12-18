@@ -240,4 +240,61 @@ class Tools_Filesystem_Tools {
 
         return str_replace('\\', '/', trim($path));
     }
+
+    /**
+     *
+     * Get folders list
+     *
+     * @param bool $imagesOnly
+     * @return array|false
+     * @throws Exceptions_SeotoasterException
+     * @throws Zend_Exception
+     */
+    public static function getFoldersList($imagesOnly = false)
+    {
+
+        $websiteConfig = Zend_Registry::get('website');
+
+        $listFolders = Tools_Filesystem_Tools::scanDirectoryForDirs(
+            $websiteConfig['path'] . $websiteConfig['media']
+        );
+        if (!empty ($listFolders)) {
+            if ($imagesOnly) {
+                foreach ($listFolders as $key => $folder) {
+                    if (!is_dir($websiteConfig['path'] . $websiteConfig['media'] . $folder . '/small')) {
+                        unset($listFolders[$key]);
+                    }
+                }
+            }
+            $listFolders = array_combine($listFolders, $listFolders);
+
+            natcasesort($listFolders);
+        }
+        return $listFolders;
+    }
+
+    /**
+     * Get files from folder
+     *
+     * @param string $folder
+     * @return array|false
+     * @throws Zend_Exception
+     */
+    public static function getFilesFromFolder($folder)
+    {
+        $websiteConfig = Zend_Registry::get('website');
+
+        $path = realpath($websiteConfig['path'] . trim($folder, ' \/'));
+        if (!empty($path)) {
+            $files = array();
+            $dir = new DirectoryIterator($path);
+            foreach ($dir as $fileinfo) {
+                if ($fileinfo->isFile() && !$fileinfo->isDot() && strpos($fileinfo->getFilename(), '.') !== (int)0) {
+                    $files[] = $fileinfo->getFilename();
+                }
+            }
+            return $files;
+        }
+        return false;
+    }
 }

@@ -40,7 +40,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('optimizedNotifications', ''),
 ('wraplinks', '0'),
 ('takeATour', '1'),
-('version',	'3.11.2');
+('version',	'3.11.3');
 
 
 DROP TABLE IF EXISTS `container`;
@@ -170,6 +170,9 @@ CREATE TABLE `form` (
   `auto_reply_pdf_template` VARCHAR(255) DEFAULT NULL,
   `apply_conversion_code_global` ENUM('0', '1') DEFAULT '0',
   `conversion_code` text COLLATE utf8_unicode_ci,
+  `apply_download_file_global` ENUM('0', '1') DEFAULT '0',
+  `download_file_folder` varchar(255) COLLATE utf8_unicode_ci,
+  `download_file_name` varchar(255) COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -182,6 +185,16 @@ CREATE TABLE `form_page_conversion` (
   PRIMARY KEY (`page_id`,`form_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+DROP TABLE IF EXISTS `form_download_file`;
+CREATE TABLE `form_download_file` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `page_id` int(10) unsigned NOT NULL,
+  `form_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `file_folder` varchar(255) COLLATE utf8_unicode_ci,
+  `file_name` varchar(255) COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_form_download` (`page_id`,`form_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 DROP TABLE IF EXISTS `link_container`;
 CREATE TABLE `link_container` (

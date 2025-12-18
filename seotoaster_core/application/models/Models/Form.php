@@ -52,6 +52,12 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract
 
     protected $_conversionCode = '';
 
+    protected $_applyDownloadFileGlobal = '';
+
+    protected $_downloadFileFolder = '';
+
+    protected $_downloadFileName = '';
+
     public function getId()
     {
         return $this->_id;
@@ -368,7 +374,53 @@ class Application_Model_Models_Form extends Application_Model_Models_Abstract
         $this->_conversionCode = $conversionCode;
     }
 
+    /**
+     * @return string
+     */
+    public function getApplyDownloadFileGlobal()
+    {
+        return $this->_applyDownloadFileGlobal;
+    }
 
+    /**
+     * @param string $applyDownloadFileGlobal
+     */
+    public function setApplyDownloadFileGlobal($applyDownloadFileGlobal)
+    {
+        $this->_applyDownloadFileGlobal = $applyDownloadFileGlobal;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDownloadFileFolder()
+    {
+        return $this->_downloadFileFolder;
+    }
+
+    /**
+     * @param string $downloadFileFolder
+     */
+    public function setDownloadFileFolder($downloadFileFolder)
+    {
+        $this->_downloadFileFolder = $downloadFileFolder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDownloadFileName()
+    {
+        return $this->_downloadFileName;
+    }
+
+    /**
+     * @param string $downloadFileName
+     */
+    public function setDownloadFileName($downloadFileName)
+    {
+        $this->_downloadFileName = $downloadFileName;
+    }
 
 
 }
