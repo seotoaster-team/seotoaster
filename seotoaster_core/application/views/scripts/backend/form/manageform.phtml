@@ -169,7 +169,7 @@
             <fieldset class="grid_12 background mt10px download-file-settings">
                 <legend class="h2 background m0px p5px">
                     <?php echo $this->translate('Form file download settings');?>
-                    <a href="javascript:;" target="_blank" title="<?php echo $this->translate('Find more information about file download here');?>" class="tooltip info ticon-info-sign icon16"></a>
+                    <a href="javascript:;" target="_blank" title="<?php echo $this->translate('These settings allow users to download a file after submitting the form. You can either use the same file for all forms with the same form name or assign a specific file to each form individually.');?>" class="tooltip info ticon-info-sign icon16"></a>
                 </legend>
                 <p class="grid_12">
                     <label for="apply-download-file-global"><b><?php echo $this->translate('Use a file download for all forms with the same name');?></b>
@@ -194,6 +194,9 @@
                     <?php if (!empty($this->formForm->getElement('downloadFileName')->getValue())):?>
                         <?php $folderBlockClass = '';?>
                     <?php endif;?>
+                    <?php if(empty($this->globalFilesList)):?>
+                        <?php $folderBlockClass = 'hidden';?>
+                    <?php endif;?>
                     <span id="download-files-list-block" class="grid_6 <?php echo $folderBlockClass;?> omega">
                         <select name="downloadFileName" id="download-file-name">
                             <?php if (!empty($this->globalFilesList)):?>
@@ -212,6 +215,9 @@
                     <?php $folderBlockClass = 'hidden';?>
                     <?php if (!empty($this->formForm->getElement('downloadFileNameLocal')->getValue())):?>
                         <?php $folderBlockClass = '';?>
+                    <?php endif;?>
+                    <?php if(empty($this->localFilesList)):?>
+                        <?php $folderBlockClass = 'hidden';?>
                     <?php endif;?>
                     <span id="download-files-list-block-local" class="grid_6 <?php echo $folderBlockClass;?> omega">
                         <select name="downloadFileNameLocal" id="download-file-name-local">
@@ -238,6 +244,13 @@
 </div>
 
 <script type="application/javascript">
+
+setTimeout(() => $('.ticon-info-sign').tooltip({
+    content: function () {
+        return $(this).attr("title");
+    }
+}),  100);
+
 
 $(document).on('change', '#admin-mail-template', function(e){
     changeEmailTemplatePreview($(e.currentTarget).val(), '#admin-template-page-preview-link', '#admin-template-page-preview-link-block', '#admin-template-page-preview-selector-block');
