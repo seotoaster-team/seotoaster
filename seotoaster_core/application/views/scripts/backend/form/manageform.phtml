@@ -300,7 +300,14 @@ $(document).on('change', '.download-file-folder', function(e){
     var self = this;
 
     if (parseInt($(this).val()) === 0) {
-        $('#download-files-list-block').addClass('hidden');
+        if ($(self).attr('id') === 'download-file-folder') {
+            $('#download-files-list-block').addClass('hidden');
+        }
+
+        if ($(self).attr('id') === 'download-file-folder-local') {
+            $('#download-files-list-block-local').addClass('hidden');
+        }
+
         return false;
     }
 
