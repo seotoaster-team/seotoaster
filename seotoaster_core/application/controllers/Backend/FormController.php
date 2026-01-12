@@ -11,7 +11,8 @@ class Backend_FormController extends Zend_Controller_Action {
 
 	public static $_allowedActions = array(
 		'receiveform',
-        'refreshcaptcha'
+        'refreshcaptcha',
+        'downloadformfile'
 	);
 
     public function init() {
@@ -25,13 +26,15 @@ class Backend_FormController extends Zend_Controller_Action {
 			'delete'  => 'json',
 			'loadforms'   => 'json',
 			'receiveform' => 'json',
-            'gettemplatepreviewlink' => 'json'
+            'gettemplatepreviewlink' => 'json',
+            'getfilesfolder' => 'json'
 		))->initContext('json');
     }
 
     public function manageformAction() {
 		$formForm = new Application_Form_Form();
         $formPageConversionMapper = Application_Model_Mappers_FormPageConversionMapper::getInstance();
+        $formDownloadFileMapper = Application_Model_Mappers_FormDownloadFileMapper::getInstance();
         $pageMapper = Application_Model_Mappers_PageMapper::getInstance();
         if($this->getRequest()->isPost()) {
             $formForm = Tools_System_Tools::addTokenValidatorZendForm($formForm, Tools_System_Tools::ACTION_PREFIX_FORMS);
@@ -49,10 +52,36 @@ class Backend_FormController extends Zend_Controller_Action {
                 if(isset($formData['thankyouTemplate']) && $formData['thankyouTemplate'] != 'select'){
                     $trackingPageUrl = $this->_createTrackingPage($formData['name'], $formData['thankyouTemplate']);
                 }
+
+                if (!empty($formData['downloadFileFolder']) && empty($formData['downloadFileName'])) {
+                    $this->_helper->response->fail($this->_helper->language->translate('Please specify file to download'));
+                }
+
+                if (!empty($formData['downloadFileFolderLocal']) && empty($formData['downloadFileNameLocal'])) {
+                    $this->_helper->response->fail($this->_helper->language->translate('Please specify file to download'));
+                }
+
                 $this->_addConversionCode();
+                $this->_addDownloadCode();
                 $formPageConversionModel->setFormName($formData['name']);
                 $formPageConversionModel->setPageId($formData['pageId']);
                 $formPageConversionModel->setConversionCode($formData['trackingCode']);
+                if (empty($formData['applyDownloadFileGlobal'])) {
+                    $form->setApplyDownloadFileGlobal('0');
+                    $downloadFileModel = $formDownloadFileMapper->findRecord($formData['name'], $formData['pageId']);
+                    if (!$downloadFileModel instanceof Application_Model_Models_FormDownloadFile) {
+                        $downloadFileModel = new Application_Model_Models_FormDownloadFile();
+                        $downloadFileModel->setPageId($formData['pageId']);
+                        $downloadFileModel->setFormName($formData['name']);
+                    }
+
+                    $downloadFileModel->setFileFolder($formData['downloadFileFolderLocal']);
+                    $downloadFileModel->setFileName($formData['downloadFileNameLocal']);
+                    $formDownloadFileMapper->save($downloadFileModel);
+                } else {
+                    $form->setApplyDownloadFileGlobal('1');
+                }
+
                 $formPageConversionMapper->save($formPageConversionModel);
                 Application_Model_Mappers_FormMapper::getInstance()->save($form);
 				$this->_helper->response->success($this->_helper->language->translate('Form saved'));
@@ -92,6 +121,9 @@ class Backend_FormController extends Zend_Controller_Action {
 
         $replyEmail = 0;
         $globalConversionCode = 0;
+        $globalDownloadFile = 0;
+        $globalFilesList = array();
+        $localFilesList = array();
 		if($form !== null) {
 		    if($form->getReplyEmail()) {
                 $replyEmail = 1;
@@ -101,7 +133,25 @@ class Backend_FormController extends Zend_Controller_Action {
                 $globalConversionCode = 1;
             }
 
+            if ($form->getApplyDownloadFileGlobal()) {
+                $globalDownloadFile = 1;
+            }
+
 			$formForm->populate($form->toArray());
+
+            $downloadFileFolder = $formForm->getElement('downloadFileFolder')->getValue();
+            if (!empty($downloadFileFolder)) {
+                $globalFilesList = Tools_Filesystem_Tools::getFilesFromFolder($this->_helper->website->getMedia() . $downloadFileFolder);
+            }
+
+            $formDownloadFileModel = $formDownloadFileMapper->findRecord($formName, $pageId);
+            if ($formDownloadFileModel instanceof Application_Model_Models_FormDownloadFile) {
+                $localDownloadFileName = $formDownloadFileModel->getFileName();
+                $downloadFileFolderLocal = $formDownloadFileModel->getFileFolder();
+                $formForm->getElement('downloadFileFolderLocal')->setValue($downloadFileFolderLocal);
+                $formForm->getElement('downloadFileNameLocal')->setValue($localDownloadFileName);
+                $localFilesList = Tools_Filesystem_Tools::getFilesFromFolder($this->_helper->website->getMedia() . $downloadFileFolderLocal);
+            }
 		}
 
 		//get email templates page
@@ -144,6 +194,9 @@ class Backend_FormController extends Zend_Controller_Action {
 
         $this->view->replyEmail = $replyEmail;
         $this->view->globalConversionCode = $globalConversionCode;
+        $this->view->globalDownloadFile = $globalDownloadFile;
+        $this->view->globalFilesList = $globalFilesList;
+        $this->view->localFilesList = $localFilesList;
         $this->view->regularTemplates = $regularPageTemplates;
         $this->view->pageId = $pageId;
 		$this->view->formForm = $formForm;
@@ -172,6 +225,21 @@ class Backend_FormController extends Zend_Controller_Action {
 
         }
         $this->_helper->response->fail('');
+    }
+
+
+    public function getfilesfolderAction()
+    {
+        $folderName = filter_var($this->getRequest()->getParam('folder'), FILTER_SANITIZE_STRING);
+        $folderPath = $this->_helper->website->getMedia() . $folderName;
+        $files = Tools_Filesystem_Tools::getFilesFromFolder($folderPath);
+        if (!empty($files)) {
+            $this->_helper->response->success(array(
+                'files' => $files
+            ));
+        }
+
+        $this->_helper->response->fail($this->_helper->language->translate('No files found in folder'));
     }
 
     public function validateEmail($emails){
@@ -350,6 +418,32 @@ class Backend_FormController extends Zend_Controller_Action {
 
                 $sessionHelper->formName   = $formParams['formName'];
                 $sessionHelper->formPageId = $formParams['formPageId'];
+
+                $forceDownloadFile = false;
+                $applyDownloadFileGlobalFlag = false;
+                if ($form instanceof Application_Model_Models_Form) {
+                    $applyDownloadFileGlobal = $form->getApplyDownloadFileGlobal();
+                    if (!empty($applyDownloadFileGlobal)) {
+                        $applyDownloadFileGlobalFlag = true;
+                        $downloadFileFolder = $form->getDownloadFileFolder();
+                        $downloadFileName = $form->getDownloadFileName();
+                    }
+                }
+
+                if ($applyDownloadFileGlobalFlag === false) {
+                    $downloadFileModel = Application_Model_Mappers_FormDownloadFileMapper::getInstance()->findRecord($formName, $formParams['formPageId']);
+                    if ($downloadFileModel instanceof Application_Model_Models_FormDownloadFile) {
+                        $downloadFileFolder = $downloadFileModel->getFileFolder();
+                        $downloadFileName = $downloadFileModel->getFileName();
+                    }
+                }
+
+                if (!empty($downloadFileFolder) && !empty($downloadFileName)) {
+                    $forceDownloadFile = true;
+                    $sessionHelper->downloadFileSystemFormName = $formParams['formName'];
+                    $sessionHelper->downloadFileSystemFormPageId = $formParams['formPageId'];
+                }
+
 				unset($formParams['formPageId']);
                 unset($formParams['submit']);
                 if(isset($formParams['conversionPageUrl'])){
@@ -494,7 +588,11 @@ class Backend_FormController extends Zend_Controller_Action {
                     $form->notifyObservers();
                     $this->_removeAttachedFiles($removeFiles);
                     if($xmlHttpRequest){
-                        $this->_helper->response->success($form->getMessageSuccess());
+                        if ($forceDownloadFile === true) {
+                            $this->_helper->response->success(array('forceFileDownload' => 1, 'message' => $form->getMessageSuccess()));
+                        } else {
+                            $this->_helper->response->success($form->getMessageSuccess());
+                        }
                     }
                     //redirect to conversion page
                     if($conversionPageUrl){
@@ -511,6 +609,52 @@ class Backend_FormController extends Zend_Controller_Action {
                 $this->_redirect($formParams['formUrl']);
 			}
         }
+    }
+
+    public function downloadformfileAction()
+    {
+        $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Session');
+        if (isset($sessionHelper->downloadFileSystemFormName) && isset($sessionHelper->downloadFileSystemFormPageId)) {
+            $formName = $sessionHelper->downloadFileSystemFormName;
+            $formPageId = $sessionHelper->downloadFileSystemFormPageId;
+            $formModel = Application_Model_Mappers_FormMapper::getInstance()->findByName($formName);
+            $applyDownloadFileGlobalFlag = false;
+            if ($formModel instanceof Application_Model_Models_Form) {
+                $applyDownloadFileGlobal = $formModel->getApplyDownloadFileGlobal();
+                if (!empty($applyDownloadFileGlobal)) {
+                    $applyDownloadFileGlobalFlag = true;
+                    $downloadFileFolder = $formModel->getDownloadFileFolder();
+                    $downloadFileName = $formModel->getDownloadFileName();
+                }
+            }
+
+            if ($applyDownloadFileGlobalFlag === false) {
+                $downloadFileModel = Application_Model_Mappers_FormDownloadFileMapper::getInstance()->findRecord($formName, $formPageId);
+                if ($downloadFileModel instanceof Application_Model_Models_FormDownloadFile) {
+                    $downloadFileFolder = $downloadFileModel->getFileFolder();
+                    $downloadFileName = $downloadFileModel->getFileName();
+                }
+            }
+
+            if (!empty($downloadFileFolder) && !empty($downloadFileName)) {
+
+                $filePath = realpath($this->_helper->website->getPath() . $this->_helper->website->getMedia() . $downloadFileFolder . DIRECTORY_SEPARATOR . $downloadFileName);
+
+                if ($filePath && is_file($filePath) && is_readable($filePath)) {
+                    $front = Zend_Controller_Front::getInstance();
+                    $response = $front->getResponse();
+                    $response->setHeader('Content-Disposition', 'attachment; filename=' . basename($filePath))
+                        ->setHeader('Content-type', 'application/force-download');
+                    readfile($filePath);
+                    $response->sendResponse();
+                }
+            }
+
+            unset($sessionHelper->downloadFileSystemFormName);
+            unset($sessionHelper->downloadFileSystemFormPageId);
+        }
+
+        exit;
     }
 
     /**
@@ -594,6 +738,29 @@ class Backend_FormController extends Zend_Controller_Action {
             if(!preg_match('~\{\$form\:conversioncode\}~',$seoTopData)){
                 $seoDataModel->setId($id);
                 $seoDataModel->setSeoTop($seoTopData.' {$form:conversioncode}');
+                $seoDataModel->setSeoHead($seoHeadData);
+                $seoDataModel->setSeoBottom($seoBottomData);
+                $seoDataMapper->save($seoDataModel);
+            }
+        }
+    }
+
+    private function _addDownloadCode()
+    {
+        $seoDataMapper = Application_Model_Mappers_SeodataMapper::getInstance();
+        $seoDataModel = new Application_Model_Models_Seodata();
+        $seoData = $seoDataMapper->fetchAll();
+        if (empty($seoData)) {
+            $seoDataModel->setSeoTop('{$form:downloadfile}');
+            $seoDataMapper->save($seoDataModel);
+        } else {
+            $seoTopData = $seoData[0]->getSeoTop();
+            $seoHeadData = $seoData[0]->getSeoHead();
+            $seoBottomData = $seoData[0]->getSeoBottom();
+            $id = $seoData[0]->getId();
+            if (!preg_match('~\{\$form\:downloadfile\}~', $seoTopData)) {
+                $seoDataModel->setId($id);
+                $seoDataModel->setSeoTop($seoTopData . ' {$form:downloadfile}');
                 $seoDataModel->setSeoHead($seoHeadData);
                 $seoDataModel->setSeoBottom($seoBottomData);
                 $seoDataMapper->save($seoDataModel);
