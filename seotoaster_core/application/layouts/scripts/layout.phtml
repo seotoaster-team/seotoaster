@@ -158,6 +158,17 @@ $grecaptchaPublicKey = $websiteConfig[Tools_System_Tools::GRECAPTCHA_PUBLIC_KEY]
 
             }
         };
+
+        function resetAllRecaptchas() {
+            var captchas = document.getElementsByClassName("g-recaptcha");
+            for (var i = 0; i < captchas.length; i++) {
+                try {
+                    grecaptcha.reset(i);
+                } catch(e) {
+
+                }
+            }
+        }
     </script>
 <?php endif; ?>
 <script>
