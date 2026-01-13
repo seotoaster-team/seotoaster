@@ -941,6 +941,23 @@ INDEX `idx_last_action` (`last_action_id`)
 ALTER TABLE `form` ADD `apply_conversion_code_global` ENUM('0', '1') DEFAULT '0';
 ALTER TABLE `form` ADD `conversion_code` text COLLATE utf8_unicode_ci;
 
+-- 18.12.2025
+-- Add form file download
+-- version: 3.11.2
+CREATE TABLE `form_download_file` (
+`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`page_id` int(10) unsigned NOT NULL,
+`form_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+`file_folder` varchar(255) COLLATE utf8_unicode_ci,
+`file_name` varchar(255) COLLATE utf8_unicode_ci,
+PRIMARY KEY (`id`),
+UNIQUE KEY `uniq_form_download` (`page_id`,`form_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `form` ADD `apply_download_file_global` ENUM('0', '1') DEFAULT '0';
+ALTER TABLE `form` ADD `download_file_folder` varchar(255) COLLATE utf8_unicode_ci;
+ALTER TABLE `form` ADD `download_file_name` varchar(255) COLLATE utf8_unicode_ci;
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.11.2' WHERE `name`='version';
+UPDATE `config` SET `value`='3.11.3' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

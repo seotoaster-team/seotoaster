@@ -114,8 +114,25 @@
                                 seotoasterFormSuccessCallback();
                             }
                             <?php if($this->trackingConversionUrl):?>
-                            location.href = '<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>';
-                            return false;
+                                location.href = '<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>';
+                                return false;
+                            <?php else:?>
+                                if (typeof response.responseText !== 'undefined' && typeof response.responseText.forceFileDownload !== 'undefined') {
+                                    var iframe = document.createElement('iframe');
+
+                                    iframe.setAttribute('frameborder', '0');
+                                    iframe.setAttribute('marginheight', '0');
+                                    iframe.setAttribute('marginwidth', '0');
+                                    iframe.style.border = 'none';
+                                    iframe.style.width = '1px';
+                                    iframe.style.height = '1px';
+                                    iframe.src = '<?php echo $this->websiteUrl . Widgets_Form_Form::DOWNLOAD_FILE_ACTION;?>?';
+
+                                    iframe.style.position = 'absolute';
+                                    iframe.style.left = '-9999px';
+
+                                    document.body.appendChild(iframe);
+                                }
                             <?php endif;?>
                             $(form).find(':input').each(function () {
                                 switch (this.type) {
@@ -147,8 +164,13 @@
                         <?php endif;?>
                         <?php if($this->useGoogleRecaptcha):?>
                             grecaptcha.reset();
+                            resetAllRecaptchas();
                         <?php endif;?>
-                        showMessage(response.responseText, response.error, 5000);
+                        if (typeof response.responseText !== 'undefined' && typeof response.responseText.forceFileDownload !== 'undefined') {
+                            showMessage(response.responseText.message, response.error, 5000);
+                        } else {
+                            showMessage(response.responseText, response.error, 5000);
+                        }
                     }
                 })
             }
