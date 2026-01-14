@@ -1,15 +1,26 @@
-<div class="seotoaster container">
+<div class="seotoaster f-container">
     <?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Form properties' .' '. $this->translate('for'). ' '.$this->formForm->getElement('name')->getValue(), 'helpSection' => $this->helpSection)); ?>
-    <form id="formWidget" class="_fajax _reload condensed" data-norefresh="1" action="<?php echo $this->websiteUrl?>backend/backend_form/manageform/" method="post">
-        <fieldset class="content-auto">
-            <p id="form-code" class="grid_6 mt0px">
+    <form id="formWidget" class="_fajax _reload condensed f-wrapper" data-norefresh="1" action="<?php echo $this->websiteUrl?>backend/backend_form/manageform/" method="post">
+        <fieldset class="f-content">
+            <p id="form-code" class="grid_6">
                 <a class="screen-size ticon-expand warning inverse fl-right" data-type="form" data-size="form-code"></a>
                 <?php echo $this->formForm->getElement('code')->renderLabel(); ?>
                 <?php echo $this->formForm->getElement('code')->renderViewHelper(); ?>
             </p>
-            <p class="grid_6 mt0px">
+            <p class="grid_6">
+                <label class="fl-right" for="apply-conversion-code-global"><b><?php echo $this->translate('Use a conversion code for all forms with this name');?></b>
+                    <input id="apply-conversion-code-global" class="apply-conversion-code-global switcher" <?php echo (!empty($this->globalConversionCode) ? 'checked' :'');?> name="applyConversionCodeGlobal" type="checkbox" value="<?php echo $this->globalConversionCode;?>"/>
+                </label>
+            </p>
+            <p id="tracking-code-block" class="grid_6 <?php echo (!empty($this->globalConversionCode) ? 'hidden' :'');?>">
+                <a class="screen-size ticon-expand warning inverse fl-right" data-type="form" data-size="tracking-code-block"></a>
                 <?php echo $this->formForm->getElement('trackingCode')->renderLabel(); ?>
                 <?php echo $this->formForm->getElement('trackingCode')->renderViewHelper(); ?>
+            </p>
+            <p id="conversion-code-block" class="grid_6 <?php echo (empty($this->globalConversionCode) ? 'hidden' :'');?>">
+                <a class="screen-size ticon-expand warning inverse fl-right" data-type="form" data-size="conversion-code-block"></a>
+                <?php echo $this->formForm->getElement('conversionCode')->renderLabel(); ?>
+                <?php echo $this->formForm->getElement('conversionCode')->renderViewHelper(); ?>
             </p>
             <?php if(isset($this->trackingPageUrl)):?>
             <p class="grid_12 mt15px mb15px text-center">
@@ -155,16 +166,91 @@
                     </p>
                 </div>
             </fieldset>
+            <fieldset class="grid_12 background mt10px download-file-settings">
+                <legend class="h2 background m0px p5px">
+                    <?php echo $this->translate('Form file download settings');?>
+                    <a href="javascript:;" target="_blank" title="<?php echo $this->translate('These settings allow users to download a file after submitting the form. You can either use the same file for all forms with the same form name or assign a specific file to each form individually.');?>" class="tooltip info ticon-info-sign icon16"></a>
+                </legend>
+                <p class="grid_12">
+                    <label for="apply-download-file-global"><b><?php echo $this->translate('Use a file download for all forms with the same name');?></b>
+                        <input id="apply-download-file-global" class="apply-download-file-global switcher" <?php echo (!empty($this->globalDownloadFile) ? 'checked' :'');?> name="applyDownloadFileGlobal" type="checkbox" value="<?php echo $this->globalDownloadFile;?>"/>
+                    </label>
+                </p>
+
+                <?php if (!empty($this->globalDownloadFile)):?>
+                    <?php $globalBlockDownloadFileClass = '';?>
+                    <?php $localBlockDownloadFileClass = 'hidden';?>
+                <?php else:?>
+                    <?php $globalBlockDownloadFileClass = 'hidden';?>
+                    <?php $localBlockDownloadFileClass = '';?>
+                <?php endif;?>
+                <div style="min-height: 40px">
+                <p id="global-block-download-file" class="grid_12 mt15px mb15px text-center alpha omega <?php echo $globalBlockDownloadFileClass;?>">
+                    <span class="grid_6 alpha">
+                        <?php echo $this->formForm->getElement('downloadFileFolder')->renderLabel(); ?>
+                        <?php echo $this->formForm->getElement('downloadFileFolder')->renderViewHelper(); ?>
+                    </span>
+                    <?php $folderBlockClass = 'hidden';?>
+                    <?php if (!empty($this->formForm->getElement('downloadFileName')->getValue())):?>
+                        <?php $folderBlockClass = '';?>
+                    <?php endif;?>
+                    <?php if(empty($this->globalFilesList)):?>
+                        <?php $folderBlockClass = 'hidden';?>
+                    <?php endif;?>
+                    <span id="download-files-list-block" class="grid_6 <?php echo $folderBlockClass;?> omega">
+                        <select name="downloadFileName" id="download-file-name">
+                            <?php if (!empty($this->globalFilesList)):?>
+                                <?php foreach ($this->globalFilesList as $fileName):?>
+                                    <option <?php echo !empty($this->formForm->getElement('downloadFileName')->getValue()) && $this->formForm->getElement('downloadFileName')->getValue() === $fileName ? 'selected':''; ?> value="<?php echo $fileName;?>"><?php echo $fileName;?></option>
+                                <?php endforeach;?>
+                            <?php endif;?>
+                        </select>
+                    </span>
+                </p>
+                <p id="local-block-download-file" class="grid_12 mt15px mb15px text-center alpha omega <?php echo $localBlockDownloadFileClass;?>">
+                    <span class="grid_6 alpha">
+                        <?php echo $this->formForm->getElement('downloadFileFolderLocal')->renderLabel(); ?>
+                        <?php echo $this->formForm->getElement('downloadFileFolderLocal')->renderViewHelper(); ?>
+                    </span>
+                    <?php $folderBlockClass = 'hidden';?>
+                    <?php if (!empty($this->formForm->getElement('downloadFileNameLocal')->getValue())):?>
+                        <?php $folderBlockClass = '';?>
+                    <?php endif;?>
+                    <?php if(empty($this->localFilesList)):?>
+                        <?php $folderBlockClass = 'hidden';?>
+                    <?php endif;?>
+                    <span id="download-files-list-block-local" class="grid_6 <?php echo $folderBlockClass;?> omega">
+                        <select name="downloadFileNameLocal" id="download-file-name-local">
+                             <?php if (!empty($this->localFilesList)):?>
+                                 <?php foreach ($this->localFilesList as $fileName):?>
+                                     <option <?php echo !empty($this->formForm->getElement('downloadFileNameLocal')->getValue()) && $this->formForm->getElement('downloadFileNameLocal')->getValue() === $fileName ? 'selected':''; ?> value="<?php echo $fileName;?>"><?php echo $fileName;?></option>
+                                 <?php endforeach;?>
+                             <?php endif;?>
+                        </select>
+                    </span>
+                </p>
+                </div>
+            </fieldset>
+            <p class="clear-both"></p>
         </fieldset>
         <input type="hidden" name="secureToken" value="<?php echo $this->secureToken;?>" />
         <input type="hidden" name="pageId" value="<?php echo $this->pageId;?>" />
-		<?php echo $this->formForm->getElement('name')->renderViewHelper(); ?>
-		<?php echo $this->formForm->getElement('id')->renderViewHelper(); ?>
-        <?php echo $this->formForm->getElement('submit')->renderViewHelper();?>
+		<div class="f-footer">
+            <?php echo $this->formForm->getElement('name')->renderViewHelper(); ?>
+            <?php echo $this->formForm->getElement('id')->renderViewHelper(); ?>
+            <?php echo $this->formForm->getElement('submit')->renderViewHelper();?>
+        </div>
     </form>
 </div>
 
 <script type="application/javascript">
+
+setTimeout(() => $('.ticon-info-sign').tooltip({
+    content: function () {
+        return $(this).attr("title");
+    }
+}),  100);
+
 
 $(document).on('change', '#admin-mail-template', function(e){
     changeEmailTemplatePreview($(e.currentTarget).val(), '#admin-template-page-preview-link', '#admin-template-page-preview-link-block', '#admin-template-page-preview-selector-block');
@@ -177,6 +263,94 @@ $(document).on('change', '#reply-mail-template', function(e){
 $(document).on('change', '#auto-reply-pdf-template', function(e){
     changeEmailTemplatePreview($(e.currentTarget).val(), '#auto-reply-pdf-template-page-preview-link', '#auto-reply-pdf-template-page-preview-link-block', '#auto-reply-pdf-template-page-preview-selector-block');
 });
+
+$(document).on('change', '#apply-conversion-code-global', function(e){
+    if ($(e.currentTarget).is(':checked')) {
+        $('#conversion-code-block').removeClass('hidden');
+        $('#tracking-code-block').addClass('hidden');
+        $('#apply-conversion-code-global').val('1');
+    } else {
+        $('#tracking-code-block').removeClass('hidden');
+        $('#conversion-code-block').addClass('hidden');
+        $('#apply-conversion-code-global').val('0');
+    }
+});
+
+$(document).on('change', '#apply-download-file-global', function(e){
+    if ($(e.currentTarget).is(':checked')) {
+        $('#apply-download-file-global').val('1');
+        $('#local-block-download-file').addClass('hidden');
+        $('#global-block-download-file').removeClass('hidden');
+
+    } else {
+        $('#apply-download-file-global').val('0');
+        $('#global-block-download-file').addClass('hidden');
+        $('#local-block-download-file').removeClass('hidden');
+    }
+});
+
+var previousFolderValue;
+
+$(document).on('mousedown', '.download-file-folder', function () {
+    previousFolderValue = this.value;
+});
+
+$(document).on('change', '.download-file-folder', function(e){
+
+    var self = this;
+
+    if (parseInt($(this).val()) === 0) {
+        if ($(self).attr('id') === 'download-file-folder') {
+            $('#download-files-list-block').addClass('hidden');
+        }
+
+        if ($(self).attr('id') === 'download-file-folder-local') {
+            $('#download-files-list-block-local').addClass('hidden');
+        }
+
+        return false;
+    }
+
+    $.ajax({
+        url: '<?php echo $this->websiteUrl;?>/backend/backend_form/getfilesfolder/',
+        type: 'POST',
+        data: {
+            'folder': $(this).val()
+        },
+        dataType: 'json',
+        success: function(response){
+            if (parseInt(response.error) === 1) {
+                showMessage(response.responseText, true, 3000);
+                $(self).val(previousFolderValue);
+                return false
+            } else {
+                var elemName = '';
+
+                if ($(self).attr('id') === 'download-file-folder') {
+                    $('#download-files-list-block').removeClass('hidden');
+                    $('#download-file-name').empty();
+                    elemName = '#download-file-name';
+                }
+
+                if ($(self).attr('id') === 'download-file-folder-local') {
+                    $('#download-files-list-block-local').removeClass('hidden');
+                    $('#download-file-name-local').empty();
+                    elemName = '#download-file-name-local';
+                }
+
+                response.responseText.files.forEach(file => {
+                    $(elemName).append(
+                        $('<option>', {
+                            value: file,
+                            text: file
+                        })
+                    );
+                });
+            }
+        }
+    });
+});
+
 
 function changeEmailTemplatePreview(templateId, previewLinkId, previewLinkBlockId, selectorBlockId)
 {

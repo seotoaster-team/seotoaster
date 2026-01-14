@@ -38,6 +38,11 @@ class Application_Model_Mappers_FormMapper extends Application_Model_Mappers_Abs
             'admin_mail_template' => $form->getAdminMailTemplate(),
             'reply_email' => $form->getReplyEmail(),
             'auto_reply_pdf_template' => $form->getAutoReplyPdfTemplate(),
+            'apply_conversion_code_global' => $form->getApplyConversionCodeGlobal(),
+            'conversion_code' => $form->getConversionCode(),
+            'apply_download_file_global' => $form->getApplyDownloadFileGlobal(),
+            'download_file_folder' => $form->getDownloadFileFolder(),
+            'download_file_name' => $form->getDownloadFileName(),
         );
 
         if (!($id = $form->getId())) {

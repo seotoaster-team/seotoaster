@@ -41,7 +41,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('wraplinks', '0'),
 ('takeATour', '1'),
 ('useSqlMode', '1'),
-('version',	'3.11.0');
+('version',	'3.12.0');
 
 
 DROP TABLE IF EXISTS `container`;
@@ -169,6 +169,11 @@ CREATE TABLE `form` (
   `admin_text` TEXT DEFAULT NULL,
   `reply_email` enum('0','1') COLLATE utf8_unicode_ci DEFAULT '0',
   `auto_reply_pdf_template` VARCHAR(255) DEFAULT NULL,
+  `apply_conversion_code_global` ENUM('0', '1') DEFAULT '0',
+  `conversion_code` text COLLATE utf8_unicode_ci,
+  `apply_download_file_global` ENUM('0', '1') DEFAULT '0',
+  `download_file_folder` varchar(255) COLLATE utf8_unicode_ci,
+  `download_file_name` varchar(255) COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -181,6 +186,16 @@ CREATE TABLE `form_page_conversion` (
   PRIMARY KEY (`page_id`,`form_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+DROP TABLE IF EXISTS `form_download_file`;
+CREATE TABLE `form_download_file` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `page_id` int(10) unsigned NOT NULL,
+  `form_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `file_folder` varchar(255) COLLATE utf8_unicode_ci,
+  `file_name` varchar(255) COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_form_download` (`page_id`,`form_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 DROP TABLE IF EXISTS `link_container`;
 CREATE TABLE `link_container` (
@@ -1012,3 +1027,31 @@ CREATE TABLE IF NOT EXISTS `draggable_config` (
     `page_id` int(10) unsigned DEFAULT NULL,
     PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `website_action_log` (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique log entry ID',
+    `created_at` DATETIME NOT NULL COMMENT 'When the action occurred',
+    `ip_address` VARCHAR(45) COMMENT 'IP address of the user performing the action',
+    `email` VARCHAR(255) COLLATE utf8_unicode_ci COMMENT 'Email or username submitted (if applicable)',
+    `action_type` VARCHAR(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'General type of action: registration, form, plugin_, etc.',
+    `name` VARCHAR(100) COLLATE utf8_unicode_ci COMMENT 'Specific form or registration name (e.g., Newsletter Signup)',
+    `browser_fingerprint` VARCHAR(255) COLLATE utf8_unicode_ci COMMENT 'Optional: fingerprint or user agent for identifying the browser/device',
+    `raw_data` TEXT COLLATE utf8_unicode_ci COMMENT 'Full JSON of the submitted data for verification and analysis',
+    INDEX `idx_ip_timestamp` (`ip_address`, `created_at`),
+    INDEX `idx_email_timestamp` (`email`, `created_at`),
+    INDEX `idx_action_name_timestamp` (`action_type`, `name`, `created_at`),
+    INDEX `idx_timestamp` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `website_visitors_backlog` (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique backlog entry ID',
+    `created_at` DATETIME NOT NULL COMMENT 'When the intervention was applied or logged',
+    `ip_address` VARCHAR(45) COMMENT 'IP address of the suspicious visitor',
+    `last_action_id` BIGINT NULL COMMENT 'Last action ID from website_action_log that triggered this intervention',
+    `action_type` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Type of intervention: cooldown, block',
+    `reason` TEXT COLLATE utf8_unicode_ci COMMENT 'Reason for the intervention (e.g., exceeded threshold, repeated content)',
+    `valid_until` DATETIME COMMENT 'Until when this intervention is active',
+    INDEX `idx_ip` (`ip_address`),
+    INDEX `idx_timestamp` (`created_at`),
+    INDEX `idx_last_action` (`last_action_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

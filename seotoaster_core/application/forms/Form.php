@@ -39,6 +39,21 @@ class Application_Form_Form extends Application_Form_Secure
 
     protected $_autoReplyPdfTemplate = '';
 
+    protected $_applyConversionCodeGlobal = '';
+
+    protected $_conversionCode = '';
+
+    protected $_applyDownloadFileGlobal = '';
+
+    protected $_downloadFileFolder = '';
+
+    protected $_downloadFileName = '';
+
+    protected $_downloadFileFolderLocal = '';
+
+    protected $_downloadFileNameLocal = '';
+
+
     public function init()
     {
         parent::init();
@@ -54,6 +69,7 @@ class Application_Form_Form extends Application_Form_Secure
                 'cols' => '45',
                 'rows' => '4',
                 'required' => true,
+                'style' => 'min-height:100px',
                 'filters' => array('StringTrim')
             ))
         );
@@ -197,6 +213,7 @@ class Application_Form_Form extends Application_Form_Secure
         $this->addElement(
             new Zend_Form_Element_Textarea(array(
                 'id' => 'tracking-code',
+                'class' => 'code-area',
                 'name' => 'trackingCode',
                 'label' => 'Conversion tracking code',
                 'value' => $this->_trackingCode,
@@ -284,6 +301,77 @@ class Application_Form_Form extends Application_Form_Secure
                 'class' => 'btn ticon-save grid_3',
                 'escape' => false
             )
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Textarea(array(
+                'id' => 'conversion-code',
+                'class' => 'code-area',
+                'name' => 'conversionCode',
+                'label' => 'Conversion tracking code',
+                'value' => $this->_conversionCode,
+                'cols' => '45',
+                'rows' => '4',
+                'filters' => array('StringTrim')
+            ))
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Checkbox(array(
+                'id' => 'apply-conversion-code-global',
+                'name' => 'applyConversionCodeGlobal',
+                'label' => 'Apply conversion code global',
+                'value' => $this->_applyConversionCodeGlobal,
+            ))
+        );
+
+        $this->addElement(
+            new Zend_Form_Element_Checkbox(array(
+                'id' => 'apply-download-file-global',
+                'name' => 'applyDownloadFileGlobal',
+                'label' => 'Apply download file global',
+                'value' => $this->_applyDownloadFileGlobal,
+            ))
+        );
+
+        $this->addElement(new Zend_Form_Element_Select(array(
+            'name'         => 'downloadFileFolder',
+            'id'           => 'download-file-folder',
+            'multiOptions' => ['0' => 'Select a download folder'] + Tools_Filesystem_Tools::getFoldersList(),
+            'registerInArrayValidator' => false,
+            'value' => $this->_downloadFileFolder,
+            'class' => 'download-file-folder'
+        )));
+
+        $this->addElement(
+            new Zend_Form_Element_Text(array(
+                'id' => 'download-file-name',
+                'name' => 'downloadFileName',
+                'label' => 'Download file name',
+                'value' => $this->_downloadFileName,
+                'required' => false,
+                'filters' => array('StringTrim', new Zend_Filter_StripTags())
+            ))
+        );
+
+        $this->addElement(new Zend_Form_Element_Select(array(
+            'name'         => 'downloadFileFolderLocal',
+            'id'           => 'download-file-folder-local',
+            'multiOptions' => ['0' => 'Select a download folder'] + Tools_Filesystem_Tools::getFoldersList(),
+            'registerInArrayValidator' => false,
+            'value' => $this->_downloadFileFolderLocal,
+            'class' => 'download-file-folder'
+        )));
+
+        $this->addElement(
+            new Zend_Form_Element_Text(array(
+                'id' => 'download-file-name-local',
+                'name' => 'downloadFileNameLocal',
+                'label' => 'Download file name',
+                'value' => $this->_downloadFileNameLocal,
+                'required' => false,
+                'filters' => array('StringTrim', new Zend_Filter_StripTags())
+            ))
         );
 
         $this->setElementDecorators(array('ViewHelper', 'Label'));

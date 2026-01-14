@@ -67,7 +67,9 @@ class IndexController extends Zend_Controller_Action {
 			
 		//check for PHP version
         $phpRequirements['php'] = false;
-        if (version_compare(PHP_VERSION, '7.2.0') >= 0) {
+        if (PHP_MAJOR_VERSION === 7 && PHP_MINOR_VERSION === 4) {
+            $phpRequirements['php'] = true;
+        } else if (PHP_MAJOR_VERSION === 8 && PHP_MINOR_VERSION === 2) {
             $phpRequirements['php'] = true;
         }
 

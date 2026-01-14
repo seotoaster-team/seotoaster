@@ -10,6 +10,8 @@ class Widgets_Form_Form extends Widgets_Abstract {
 
 	public $_cacheable = false;
 
+	const DOWNLOAD_FILE_ACTION = 'backend/backend_form/downloadformfile?';
+
 	protected function _init() {
 		parent::_init();
 		$this->_view = new Zend_View(array(
@@ -32,6 +34,9 @@ class Widgets_Form_Form extends Widgets_Abstract {
         
         if(strtolower($this->_options[0]) == 'conversioncode'){
             return $this->_conversionCode($this->_options);
+        }
+        if (strtolower($this->_options[0]) === 'downloadfile') {
+            return $this->_downloadFileCode($this->_options);
         }
         $recaptchaStyle = 'custom';
         $buttonLabel = "Send";
@@ -126,16 +131,66 @@ class Widgets_Form_Form extends Widgets_Abstract {
         if(isset($sessionHelper->formName) && isset($sessionHelper->formPageId)){
             $formName   = $sessionHelper->formName;
             $formPageId = $sessionHelper->formPageId;
-            $conversionCode = Application_Model_Mappers_FormPageConversionMapper::getInstance()->getConversionCode($formName, $formPageId);
-            if(!empty($conversionCode)){
-                $trackingCode = $conversionCode[0]->getConversionCode();
+            $formModel       = Application_Model_Mappers_FormMapper::getInstance()->findByName($formName);
+            $applyConversionCodeGlobalFlag = false;
+            if ($formModel instanceof Application_Model_Models_Form) {
+                $applyConversionCodeGlobal = $formModel->getApplyConversionCodeGlobal();
+                if (!empty($applyConversionCodeGlobal)) {
+                    $applyConversionCodeGlobalFlag = true;
+                    $trackingCode = $formModel->getConversionCode();
+                }
             }
+
+            if ($applyConversionCodeGlobalFlag === false) {
+                $conversionCode = Application_Model_Mappers_FormPageConversionMapper::getInstance()->getConversionCode($formName, $formPageId);
+                if(!empty($conversionCode)){
+                    $trackingCode = $conversionCode[0]->getConversionCode();
+                }
+            }
+
             unset($sessionHelper->formName);
             unset($sessionHelper->formPageId);
             
         }
         return $trackingCode;
         
+    }
+
+    private function _downloadFileCode($options)
+    {
+        $sessionHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('Session');
+        $downloadFileCode = '';
+        $downloadFileFolder = '';
+        $downloadFileName = '';
+        if (isset($sessionHelper->downloadFileSystemFormName) && isset($sessionHelper->downloadFileSystemFormPageId)) {
+            $formName = $sessionHelper->downloadFileSystemFormName;
+            $formPageId = $sessionHelper->downloadFileSystemFormPageId;
+            $formModel = Application_Model_Mappers_FormMapper::getInstance()->findByName($formName);
+            $applyDownloadFileGlobalFlag = false;
+            if ($formModel instanceof Application_Model_Models_Form) {
+                $applyDownloadFileGlobal = $formModel->getApplyDownloadFileGlobal();
+                if (!empty($applyDownloadFileGlobal)) {
+                    $applyDownloadFileGlobalFlag = true;
+                    $downloadFileFolder = $formModel->getDownloadFileFolder();
+                    $downloadFileName = $formModel->getDownloadFileName();
+                }
+            }
+
+            if ($applyDownloadFileGlobalFlag === false) {
+                $downloadFileModel = Application_Model_Mappers_FormDownloadFileMapper::getInstance()->findRecord($formName, $formPageId);
+                if ($downloadFileModel instanceof Application_Model_Models_FormDownloadFile) {
+                    $downloadFileFolder = $downloadFileModel->getFileFolder();
+                    $downloadFileName = $downloadFileModel->getFileName();
+                }
+            }
+
+            if (!empty($downloadFileFolder) && !empty($downloadFileName)) {
+                $downloadFileCode = '<iframe frameborder="0" src="' . $this->_websiteHelper->getUrl() . self::DOWNLOAD_FILE_ACTION . '" style="border:none;width:1px;height:1px;" marginheight="0" marginwidth="0"></iframe>';
+            }
+
+        }
+        return $downloadFileCode;
+
     }
     
 	public static function getWidgetMakerContent() {
