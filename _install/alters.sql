@@ -958,6 +958,10 @@ ALTER TABLE `form` ADD `apply_download_file_global` ENUM('0', '1') DEFAULT '0';
 ALTER TABLE `form` ADD `download_file_folder` varchar(255) COLLATE utf8_unicode_ci;
 ALTER TABLE `form` ADD `download_file_name` varchar(255) COLLATE utf8_unicode_ci;
 
+-- 14/01/2026
+-- version: 3.11.3
+-- Pre package version
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.11.3' WHERE `name`='version';
+UPDATE `config` SET `value`='3.12.0' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
