@@ -325,7 +325,7 @@ class Backend_UploadController extends Zend_Controller_Action
                 Tools_Image_Tools::optimizeOriginalImage($fileInfo['tmp_name'], $savePath, $this->_helper->session->imageQuality);
             }
 
-            return array('error' => ($status !== true), 'result' => $status);
+            return array('error' => ($status !== true), 'result' => $status, 'source' => $fileInfo['tmp_name']);
         }
 
         return array('error' => true, 'result' => $this->_uploadHandler->getMessages());
@@ -544,9 +544,24 @@ class Backend_UploadController extends Zend_Controller_Action
         $this->_uploadHandler->addFilter('Rename',
             array('target' => $newImageFile,
                 'overwrite' => true));
+
+        $convertToWebp = false;
+        $convertPreviewToWebp = $this->_helper->config->getConfig('convertPreviewToWebp');
+        if (!empty($convertPreviewToWebp)) {
+            $this->_helper->session->convertToWebp = 1;
+            $convertToWebp = true;
+        }
+
         $result = $this->_uploadImages($savePath, false);
 
         if ($result['error'] == false) {
+            if (!empty($result['source']) && $convertToWebp === true) {
+                $newImageFile = $result['source'];
+                if (substr($newName, -5) !== '.webp') {
+                    $newName = preg_replace('/\.[^.]+$/', '.webp', $newName);
+                }
+            }
+
             if (!Tools_Image_Tools::isAnimatedGif($newImageFile, $fileMime)) {
                 Tools_Image_Tools::resize($newImageFile, (($configTeaserSize) ? $configTeaserSize : $miscConfig['pageTeaserSize']), true);
             }
