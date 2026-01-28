@@ -101,6 +101,11 @@ if (!empty($this->filters)) {
                <?php echo $jsValName; ?>.settings.multipart_params.quality = 75;
             }
         }
+        if($('.convert-to-webp').length>0 && newfolder !== $('#things-new-folder').attr('data-defaultlabel') && newfolder != '' || $('.convert-to-webp').length>0 && $('#things-select-folder').val() != '0'){
+            if($('.convert-to-webp').is(":checked")){
+                <?php echo $jsValName; ?>.settings.multipart_params.convertToWebp = 1;
+            }
+        }
 
 		<?php echo $jsValName; ?>.start();
 	});

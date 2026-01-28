@@ -112,7 +112,12 @@
             );
             echo $thingsUploader;
             ?>
-            <label class="fl-right mt15px pointer"><input type="checkbox" name="change-image-quality"
+            <label class="grid_6 mt15px pointer alpha omega"><input type="checkbox" name="convert-to-webp"
+                                                          class="convert-to-webp"
+                                                          value="0"/> <?php echo $this->translate(
+                    'Convert images to webp.'
+                ); ?></label>
+            <label class="grid_6 mt15px pointer alpha omega"><input type="checkbox" name="change-image-quality"
                                                           class="change-image-quality"
                                                           value="0"/> <?php echo $this->translate(
                     'Optimize image size.'

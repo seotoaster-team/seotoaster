@@ -396,6 +396,11 @@ class Backend_UploadController extends Zend_Controller_Action
             $this->_helper->session->imageQuality = $imageQuality;
         }
 
+        $convertToWebp = $this->getRequest()->getParam('convertToWebp');
+        if (isset($convertToWebp)) {
+            $this->_helper->session->convertToWebp = $convertToWebp;
+        }
+
         $savePath = $this->_getSavePath();
 
         switch ($this->_getMimeType()) {
