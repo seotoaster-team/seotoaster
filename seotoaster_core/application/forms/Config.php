@@ -37,6 +37,7 @@ class Application_Form_Config extends Application_Form_Secure
     protected $_googleApiKey;
 
     protected $_validateFormEmails;
+    protected $_convertPreviewToWebp;
 
 	/**
 	 * Wether or not to include protected pages into the menus
@@ -412,6 +413,27 @@ class Application_Form_Config extends Application_Form_Secure
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getConvertPreviewToWebp()
+    {
+        return $this->_convertPreviewToWebp;
+    }
+
+
+    /**
+     * @return mixed
+     * string $convertPreviewToWebp mixed
+     */
+    public function setConvertPreviewToWebp($convertPreviewToWebp)
+    {
+        $this->_convertPreviewToWebp = $convertPreviewToWebp;
+        $this->getElement('convertPreviewToWebp')->setValue($this->_convertPreviewToWebp);
+
+        return $this;
+    }
+
 	public function init()
     {
         parent::init();
@@ -631,6 +653,11 @@ class Application_Form_Config extends Application_Form_Secure
         $this->addElement('checkbox', 'validateFormEmails', array(
             'value' => $this->_validateFormEmails,
             'label' => 'Enable form emails validation?'
+        ));
+
+        $this->addElement('checkbox', 'convertPreviewToWebp', array(
+            'value' => $this->_convertPreviewToWebp,
+            'label' => 'Enable WebP conversion for page preview images?'
         ));
 
         $this->setElementDecorators(array('ViewHelper', 'Label'));
