@@ -483,6 +483,7 @@
     'After that, proceed with Step 3: Create your super admin account.' => 'Setelah itu, lanjutkan ke Langkah 3: Buat akun super admin Anda.',
     'You will use these credentials to log into your toaster' => 'Anda akan menggunakan kredensial ini untuk masuk ke Toaster Anda',
     'Note from SEO&nbsp;Samba' => 'Catatan dari SEO&nbsp;Samba',
+    '<strong>Please ensure that your PHP version is either 7.4.x or 8.2.x.</strong>' => '<strong>Pastikan versi PHP Anda adalah 7.4.x atau 8.2.x.</strong>',
 
 
 ); ?>

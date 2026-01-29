@@ -1132,6 +1132,7 @@
     'Web server' => 'Serveur Web',
     'Apache2, Nginx. Any web server that can do re-writes and support php should work too (not tested).' => 'Apache 2, Nginx. N\'importe quel serveur web qui support le PHP (non testé).',
     '<strong>PHP 7.2.0</strong>' => '<strong>PHP 7.2.0</strong>',
+    '<strong>Please ensure that your PHP version is either 7.4.x or 8.2.x.</strong>' => '<strong>Veuillez vous assurer que votre version de PHP est soit 7.4.x, soit 8.2.x.</strong>',
     '<strong>PDO</strong> extension for PHP' => 'Extension <strong>PDO</strong> pour PHP',
     '<strong>MBString:</strong> Works with any language' => '<strong>Mbstring:</strong> Fonctionne avec Fonctionne avec toutes les langues',
     '<strong>GD Library 2.0</strong> or newer: Works with images' => 'Libaries <strong>GD 2.0</strong> ou plus récent: Fonctionne avec images',
@@ -1331,6 +1332,11 @@
     'After that, proceed with Step 3: Create your super admin account.' => 'Ensuite, poursuivez avec l’Étape 3 : Créez votre compte super administrateur.',
     'You will use these credentials to log into your toaster' => 'Vous utiliserez ces identifiants pour vous connecter à votre Toaster',
     'Note from SEO&nbsp;Samba' => 'Note de SEO&nbsp;Samba',
+    'Please specify file to download' => 'Veuillez spécifier le fichier à télécharger',
+    'No files found in folder' => 'No files found in folder',
+    'These settings allow users to download a file after submitting the form. You can either use the same file for all forms with the same form name or assign a specific file to each form individually.' => 'Ces paramètres permettent aux utilisateurs de télécharger un fichier après avoir soumis le formulaire. Vous pouvez soit utiliser le même fichier pour tous les formulaires portant le même nom, soit attribuer un fichier spécifique à chaque formulaire individuellement.',
+    'Form file download settings' => 'Paramètres de téléchargement de fichiers du formulaire',
+    'Use a file download for all forms with the same name' => 'Utiliser le même fichier à télécharger pour tous les formulaires portant le même nom'
 
 
 
