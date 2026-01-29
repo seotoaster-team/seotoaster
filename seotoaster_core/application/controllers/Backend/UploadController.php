@@ -397,8 +397,16 @@ class Backend_UploadController extends Zend_Controller_Action
         }
 
         $convertToWebp = $this->getRequest()->getParam('convertToWebp');
-        if (isset($convertToWebp)) {
+        if (!empty($convertToWebp)) {
             $this->_helper->session->convertToWebp = $convertToWebp;
+        }
+
+        $convertToWebpPreviewFlag = $this->getRequest()->getParam('convertToWebpPreviewFlag');
+        if (!empty($convertToWebpPreviewFlag)) {
+            $convertPreviewToWebp = $this->_helper->config->getConfig('convertPreviewToWebp');
+            if (!empty($convertPreviewToWebp)) {
+                $this->_helper->session->convertToWebp = 1;
+            }
         }
 
         $savePath = $this->_getSavePath();

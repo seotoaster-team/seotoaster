@@ -107,6 +107,10 @@ if (!empty($this->filters)) {
             }
         }
 
+        if ($('.convert-preview-to-webp').length>0 && $('.convert-preview-to-webp').is(":checked")) {
+            <?php echo $jsValName; ?>.settings.multipart_params.convertToWebpPreviewFlag = 1;
+        }
+
 		<?php echo $jsValName; ?>.start();
 	});
 
