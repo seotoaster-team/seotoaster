@@ -11,7 +11,7 @@ class Backend_UpdateController extends Zend_Controller_Action
     const MASTER_STORE_LINK = 'http://seotoaster.com/store.txt';
     const WHATISNEW_CMS_LINK = 'http://seotoaster.com/cms-changelog.md';
     const WHATISNEW_STORE_LINK = 'http://seotoaster.com/store-changelog.md';
-    const MASTER_CRM_LINK = 'http://seotoaster.com/crm.txt';
+    const MASTER_CRM_LINK = 'http://seotoaster.com/crm-cloudron.txt';
     const WHATISNEW_CRM_LINK = 'http://seotoaster.com/crm-changelog.md';
 
     const BACKUP_NAME = 'backup.zip';
