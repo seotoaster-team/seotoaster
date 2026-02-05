@@ -660,10 +660,14 @@ class IndexController extends Zend_Controller_Action {
             Zend_Db_Table_Abstract::setDefaultAdapter($db);
             $configTable = new Zend_Db_Table('config');
 
-            $configTable->insert(array(
-                'name'  => 'useSqlMode',
-                'value' => '1'
-            ));
+            $row = $configTable->fetchRow($configTable->select()->where('name = ?', 'useSqlMode'));
+
+            if (!$row) {
+                $configTable->insert(array(
+                    'name'  => 'useSqlMode',
+                    'value' => '1'
+                ));
+            }
         }
 
         if($action == 'renameInstall'){
