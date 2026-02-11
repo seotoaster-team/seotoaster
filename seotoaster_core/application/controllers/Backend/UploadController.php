@@ -300,20 +300,32 @@ class Backend_UploadController extends Zend_Controller_Action
                 $animatedGif = Tools_Image_Tools::isAnimatedGif($fileInfo['tmp_name'], $fileInfo['type']);
             }
 
+            $skipOriginalOptimization = false;
+
+            if (isset($this->_helper->session->convertToWebp) && !$animatedGif) {
+                $result = Tools_Image_Tools::convertToWebp($fileInfo['tmp_name'], $receivePath, $this->_helper->session->imageQuality);
+                if (empty($result['error']) && !empty($result['source'])) {
+                    $fileInfo['tmp_name'] = $result['source'];
+                    $skipOriginalOptimization = true;
+                }
+
+                unset($this->_helper->session->convertToWebp);
+            }
+
             if ($resize) {
                 $status = Tools_Image_Tools::batchResize($fileInfo['tmp_name'], $savePath);
             } else {
                 $status = true;
             }
-            if (isset($this->_helper->session->imageQualityPreview) && !$animatedGif) {
+            if (isset($this->_helper->session->imageQualityPreview) && !$animatedGif && $skipOriginalOptimization === false) {
                 unset($this->_helper->session->imageQualityPreview);
                 Tools_Image_Tools::optimizeImage($fileInfo['tmp_name'], self::PREVIEW_IMAGE_OPTIMIZE);
             }
-            if (isset($this->_helper->session->imageQuality) && !$animatedGif) {
+            if (isset($this->_helper->session->imageQuality) && !$animatedGif && $skipOriginalOptimization === false) {
                 Tools_Image_Tools::optimizeOriginalImage($fileInfo['tmp_name'], $savePath, $this->_helper->session->imageQuality);
             }
 
-            return array('error' => ($status !== true), 'result' => $status);
+            return array('error' => ($status !== true), 'result' => $status, 'source' => $fileInfo['tmp_name']);
         }
 
         return array('error' => true, 'result' => $this->_uploadHandler->getMessages());
@@ -382,6 +394,19 @@ class Backend_UploadController extends Zend_Controller_Action
         $imageQuality = $this->getRequest()->getParam('quality');
         if (isset($imageQuality)) {
             $this->_helper->session->imageQuality = $imageQuality;
+        }
+
+        $convertToWebp = $this->getRequest()->getParam('convertToWebp');
+        if (!empty($convertToWebp)) {
+            $this->_helper->session->convertToWebp = $convertToWebp;
+        }
+
+        $convertToWebpPreviewFlag = $this->getRequest()->getParam('convertToWebpPreviewFlag');
+        if (!empty($convertToWebpPreviewFlag)) {
+            $convertPreviewToWebp = $this->_helper->config->getConfig('convertPreviewToWebp');
+            if (!empty($convertPreviewToWebp)) {
+                $this->_helper->session->convertToWebp = 1;
+            }
         }
 
         $savePath = $this->_getSavePath();
@@ -527,9 +552,24 @@ class Backend_UploadController extends Zend_Controller_Action
         $this->_uploadHandler->addFilter('Rename',
             array('target' => $newImageFile,
                 'overwrite' => true));
+
+        $convertToWebp = false;
+        $convertPreviewToWebp = $this->_helper->config->getConfig('convertPreviewToWebp');
+        if (!empty($convertPreviewToWebp)) {
+            $this->_helper->session->convertToWebp = 1;
+            $convertToWebp = true;
+        }
+
         $result = $this->_uploadImages($savePath, false);
 
         if ($result['error'] == false) {
+            if (!empty($result['source']) && $convertToWebp === true) {
+                $newImageFile = $result['source'];
+                if (substr($newName, -5) !== '.webp') {
+                    $newName = preg_replace('/\.[^.]+$/', '.webp', $newName);
+                }
+            }
+
             if (!Tools_Image_Tools::isAnimatedGif($newImageFile, $fileMime)) {
                 Tools_Image_Tools::resize($newImageFile, (($configTeaserSize) ? $configTeaserSize : $miscConfig['pageTeaserSize']), true);
             }
