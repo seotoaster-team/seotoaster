@@ -32,6 +32,7 @@ class Tools_Security_Acl {
 	const RESOURCE_CACHE_PAGE     = 'cachepage';
 	const RESOURCE_THEMES         = 'themes';
     const RESOURCE_PLUGINS_MENU   = 'pluginsmenu';
+    const RESOURCE_PANEL_LOGO     = 'panellogo';
 
 	private static $_allowedActions = array(
 		'Page' => array(
