@@ -143,6 +143,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $acl->addResource(new Zend_Acl_Resource(Tools_Security_Acl::RESOURCE_PLUGINS));
         $acl->addResource(new Zend_Acl_Resource(Tools_Security_Acl::RESOURCE_PLUGINS_MENU));
         $acl->addResource(new Zend_Acl_Resource(Tools_Security_Acl::RESOURCE_PANEL_LOGO));
+        $acl->addResource(new Zend_Acl_Resource(Tools_Security_Acl::RESOURCE_PANEL_MEDIA));
 
         //permissions
         $acl->allow(Tools_Security_Acl::ROLE_GUEST, Tools_Security_Acl::RESOURCE_PAGE_PUBLIC);
@@ -161,6 +162,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $acl->allow(Tools_Security_Acl::ROLE_USER, Tools_Security_Acl::RESOURCE_PAGES);
         $acl->allow(Tools_Security_Acl::ROLE_USER, Tools_Security_Acl::RESOURCE_THEMES);
         $acl->allow(Tools_Security_Acl::ROLE_USER, Tools_Security_Acl::RESOURCE_PANEL_LOGO);
+        $acl->allow(Tools_Security_Acl::ROLE_USER, Tools_Security_Acl::RESOURCE_PANEL_MEDIA);
 
         $acl->allow(Tools_Security_Acl::ROLE_ADMIN);
         $acl->deny(Tools_Security_Acl::ROLE_ADMIN, Tools_Security_Acl::RESOURCE_CODE);
