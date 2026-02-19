@@ -262,6 +262,13 @@ class Backend_ConfigController extends Zend_Controller_Action {
     }
 
     public function actionmailsAction() {
+        $requestParams = $this->getRequest()->getParams();
+        $this->view->screenVersion = 'old';
+        if (!empty($requestParams['version']) && $requestParams['version'] === 'new') {
+            $this->view->screenVersion = 'new';
+            return '';
+        }
+
         if($this->getRequest()->isPost()) {
             $loadSingleAction = $this->getRequest()->getParam('loadSingleAction', false);
 
