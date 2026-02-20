@@ -1091,4 +1091,16 @@ class Tools_System_Tools {
         }
     }
 
+    /**
+     * @return mixed
+     * @throws Zend_Exception
+     */
+    public static function getVueJsTranslationLanguage()
+    {
+        $translator = Zend_Registry::get('Zend_Translate');
+        $locale = $translator->getLocale();
+        return $locale;
+
+    }
+
 }

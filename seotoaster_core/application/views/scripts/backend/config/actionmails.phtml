@@ -1,10 +1,15 @@
 <?php if ($this->screenVersion === 'new'):?>
-    <div class="seotoaster f-container">
-        <?php echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array(
-            'headerText' => 'Manage action e-mails & SMS',
-            'helpSection' => 'actionemails'
-        )); ?>
-    </div>
+    <input type="hidden" id="dashboard-system-language" name="dashboard-system-language"
+           value="<?php echo Tools_System_Tools::getVueJsTranslationLanguage(); ?>"/>
+    <input type="hidden" id="action-emails-config-screen-token" name="secureToken"
+           value="<?php echo Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_ACTIONEMAILS); ?>"/>
+    <div id="leads-screen-config-block" class="seotoaster f-container"></div>
+    <script>
+        $(function () {
+            $.getScript('<?php echo $this->websiteUrl . Tools_System_Tools::getBuildScriptFullPath("system/js/adminpaneltabs/actionemailconfigmodules/build/", 'actionemailconfig')?>', function (result) {
+            });
+        });
+    </script>
 <?php else:?>
 <?php $this->jQuery()->addJavascriptFile($this->websiteUrl.'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js');?>
 <div class="seotoaster f-container">
