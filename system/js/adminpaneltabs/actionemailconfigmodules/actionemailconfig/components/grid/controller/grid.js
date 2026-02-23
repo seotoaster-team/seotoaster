@@ -10,7 +10,7 @@ export default {
             loadedScreen: false,
             websiteUrl: $('#website_url').val(),
             localeMapping: localeMapping,
-            locale: $('#dashboard-system-language').val(),
+            locale: $('#config-system-language').val(),
             searchData:[],
             componentKey: 0,
 
@@ -29,8 +29,6 @@ export default {
             sortByColumn: 'sortByColumn',
             filterData:'getFilterData',
             unescapeValue:'unescapeValue',
-            defaultPresetEnabled:'getDefaultPresetEnabled',
-            activeFilterPreset:'getActiveFilterPreset',
         }),
     },
     watch: {
@@ -44,15 +42,19 @@ export default {
 
             this.$store.commit('setCheckedItems', {});
         },
-        async resetSearchBar()
-        {
-            this.searchTerm = '';
-            this.applyFilter();
-        },
         async resetFilter()
         {
             this.searchData = [];
             this.applyFilter();
+        },
+        formatAction(key) {
+            return key.toLowerCase().replace(/ /g, '-')
+        },
+        closePopup(event)
+        {
+            if (window.parent && window.parent.$) {
+                window.parent.$('.__tpopup').dialog('close');
+            }
         },
         getParams(pathParams) {
             let result = {},
@@ -74,19 +76,10 @@ export default {
             this.$i18n.locale = this.localeMapping[this.locale];
         }
 
-        const result = await this.$store.dispatch('getGeneralLeadsScreenData', {'router':this.$router});
+        const result = await this.$store.dispatch('getGeneralScreenData', {'router':this.$router});
         if(result.status === 'error') {
             showMessage('Please re-login', true, 3000);
         } else {
-            let urlParamsString = window.location.search;
-
-            if (urlParamsString !== '' && urlParamsString.indexOf('?') > -1) {
-                this.urlPredefinedFilterParams = this.getParams(urlParamsString.replace('?', ''));
-                this.processUrlPredefinedParams();
-            } else {
-                this.urlPredefinedFilterParams = [];
-            }
-
             this.loadedScreen = true;
             this.mainScreenLoaded = true;
         }

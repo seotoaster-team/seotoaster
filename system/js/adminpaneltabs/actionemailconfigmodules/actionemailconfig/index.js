@@ -35,7 +35,7 @@ userWebApp.use(store);
 userWebApp.use(Autocomplete);
 
 
-userWebApp.mount('#leads-screen-config-block');
+userWebApp.mount('#action-emails-config-block');
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
@@ -53,16 +53,16 @@ router.beforeEach((to, from, next) => {
 
         if (to.hash !== '' && from.hash === '') {
             let pathParams = decodeURI(to.hash);
-            let leadRouteInfo = pathParams.match('(#lead\\/\\d*)');
+            let leadRouteInfo = pathParams.match('(#actionemail\\/\\d*)');
 
             if (!leadRouteInfo) {
                 next({ name: 'grid'});
             }
 
-            let leadId = leadRouteInfo[0].replace('#lead/', '');
+            let configId = leadRouteInfo[0].replace('#actionemail/', '');
             let additionalParams= [];
 
-            pathParams = pathParams.replace(new RegExp('#lead\/\\d*'), '');
+            pathParams = pathParams.replace(new RegExp('#actionemail\/\\d*'), '');
 
             if (pathParams !== '' && pathParams.indexOf('?') > -1) {
                 additionalParams = getParams(pathParams.replace('?', ''));
@@ -73,7 +73,7 @@ router.beforeEach((to, from, next) => {
                 next({ name: 'grid'});
             } else {
                 skip = true;
-                next({ name: 'lead', params: {'id': leadId}, query:additionalParams});
+                next({ name: 'actionemail', params: {'id': configId}, query:additionalParams});
             }
         }
 

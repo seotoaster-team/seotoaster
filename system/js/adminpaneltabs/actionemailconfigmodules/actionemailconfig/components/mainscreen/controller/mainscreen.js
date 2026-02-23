@@ -9,7 +9,7 @@ export default {
             loadedScreen: false,
             websiteUrl: $('#website_url').val(),
             localeMapping: localeMapping,
-            locale: $('#dashboard-system-language').val(),
+            locale: $('#config-system-language').val(),
             componentKey: 0
 
         }

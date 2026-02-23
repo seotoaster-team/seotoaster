@@ -1,9 +1,9 @@
 <?php if ($this->screenVersion === 'new'):?>
-    <input type="hidden" id="dashboard-system-language" name="dashboard-system-language"
+    <input type="hidden" id="config-system-language" name="config-system-language"
            value="<?php echo Tools_System_Tools::getVueJsTranslationLanguage(); ?>"/>
     <input type="hidden" id="action-emails-config-screen-token" name="secureToken"
            value="<?php echo Tools_System_Tools::initSecureToken(Tools_System_Tools::ACTION_PREFIX_ACTIONEMAILS); ?>"/>
-    <div id="leads-screen-config-block" class="seotoaster f-container"></div>
+    <div id="action-emails-config-block" class="seotoaster f-container"></div>
     <script>
         $(function () {
             $.getScript('<?php echo $this->websiteUrl . Tools_System_Tools::getBuildScriptFullPath("system/js/adminpaneltabs/actionemailconfigmodules/build/", 'actionemailconfig')?>', function (result) {

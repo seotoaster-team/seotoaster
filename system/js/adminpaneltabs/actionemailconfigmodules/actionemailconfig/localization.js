@@ -16,6 +16,11 @@ const messages = {
             'or' :'or',
             'cancel' :'cancel',
             'backLink':'Back',
+            'tabHeaderMessageText':'Manage action e-mails & SMS',
+            'selectEventArea':'Select event area',
+            'actionEmailInfoTextInfoBox':'Please, select an event area above to view & edit currently configured related action emails & SMS or create new ones.',
+            'saveChanges':'Save changes',
+
         }
     },
     es: {
@@ -35,6 +40,11 @@ const messages = {
             'or' :'or',
             'cancel' :'cancel',
             'backLink':'Back',
+            'tabHeaderMessageText':'Manage action e-mails & SMS',
+            'selectEventArea':'Select event area',
+            'actionEmailInfoTextInfoBox':'Please, select an event area above to view & edit currently configured related action emails & SMS or create new ones.',
+            'saveChanges':'Save changes'
+
         }
     },
     fr: {
@@ -54,6 +64,11 @@ const messages = {
             'or' :'ou',
             'cancel' :'cancel',
             'backLink':'Retour',
+            'tabHeaderMessageText':'Manage action e-mails & SMS',
+            'selectEventArea':'Select event area',
+            'actionEmailInfoTextInfoBox':'Please, select an event area above to view & edit currently configured related action emails & SMS or create new ones.',
+            'saveChanges':'Save changes'
+
         }
     }
 
