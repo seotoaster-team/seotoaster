@@ -13,6 +13,7 @@ export default {
             locale: $('#config-system-language').val(),
             searchData:[],
             componentKey: 0,
+            eventAreaId:0
 
         }
     },
@@ -34,6 +35,16 @@ export default {
     watch: {
     },
     methods: {
+        async goToDetailsScreen(id, tabName)
+        {
+            let openTabName = tabName || '';
+
+            if (openTabName !== '') {
+                this.$router.push({ name: 'actionemail', params: {'id': id}, query:{'tabName': openTabName}});
+            } else {
+                this.$router.push({name: 'actionemail', params: {'id': id}});
+            }
+        },
         async applyFilter()
         {
              this.$store.commit('setChangeFilter', {
@@ -54,6 +65,14 @@ export default {
         {
             if (window.parent && window.parent.$) {
                 window.parent.$('.__tpopup').dialog('close');
+            }
+        },
+        changeEventArea(event)
+        {
+            if (parseInt(this.configId) === 0) {
+                this.$router.push({ name: 'grid'});
+            } else {
+                this.$router.push({ name: 'actionemail', params: {'id': this.eventAreaId }});
             }
         },
         getParams(pathParams) {

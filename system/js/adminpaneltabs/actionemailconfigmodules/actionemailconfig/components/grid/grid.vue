@@ -6,7 +6,7 @@
             <a @click="closePopup" class="close ticon-close" href="javascript:;" title="Close"></a>
           </div>
           {{$t('message.tabHeaderMessageText')}}
-          <select name="actions" id="actions" class="fl-none grid_4">
+          <select @change="changeEventArea" v-model="eventAreaId" name="actions" id="actions" class="fl-none grid_4">
             <option value="0">{{$t('message.selectEventArea')}}</option>
             <option v-for="selectionOptions in additionalInfo.presortedActionOptions" :value="selectionOptions.key">{{selectionOptions.label}}</option>
           </select>
@@ -18,7 +18,7 @@
               {{$t('message.actionEmailInfoTextInfoBox')}}
             </p>
             <ul class="actions-list list-unstyled column_4 full-width">
-              <li v-for="selectionOptions in additionalInfo.presortedActionOptions">
+              <li @click="goToDetailsScreen(selectionOptions.key)" v-for="selectionOptions in additionalInfo.presortedActionOptions">
                 <span class="action-preview ticon-action-emails" :data-action="formatAction(selectionOptions.key)"></span>
                 <span class="action-name">{{selectionOptions.label}}</span>
               </li>

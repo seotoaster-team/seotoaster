@@ -11,19 +11,9 @@ export default {
             websiteUrl: $('#website_url').val(),
             localeMapping: localeMapping,
             locale: $('#config-language').val(),
-            leadId: 0,
-            activeTab:'',
-            activeSubTab:'',
-            customSubTabsList:[],
-            customTabsObject:{},
-            activeCustomTabId:'',
-            defaultActiveTabName:'timeline',
-            defaultActiveSubTabName:'notes',
-            additionalNavigationData:[],
-            searchable:true,
-            allowedTabNames:['timeline', 'profile', 'opportunities', 'emailSmsSequence', 'additionalInfo'],
-            allowedSubTabNames:['notes', 'task', 'meeting', 'email', 'sms', 'call', 'opportunity', 'documents'],
+            configId: 0,
             componentKey:0,
+            activeTab:''
         }
     },
     components: {
@@ -39,83 +29,37 @@ export default {
             changeFilter: 'getChangeFilter',
             unescapeValue:'unescapeValue',
             toCurrency:'toCurrency',
+            detailedScreenConfigData: 'getDetailedScreenConfigData'
         }),
     },
     watch: {
-        changeMainTabRemote(newData, originalData) {
-            if (typeof newData.tabName !== 'undefined' && newData.tabName !== '') {
-                if (typeof newData.visitPageNumber !== 'undefined') {
-                    this.changeVisitsTab(newData.tabName, newData.visitPageNumber);
-                } else {
-                    this.changeTab(newData.tabName);
-                }
-            }
-        },
         changeSubTabRemote(newData, originalData) {
             if (typeof newData.tabName !== 'undefined' && newData.tabName !== '') {
                 this.changeSubTab(newData.tabName, true);
             }
         },
-        showSentimentChart(newVal) {
-            if (newVal && !this.sentimentChart) {
-                this.$nextTick(() => {
-                    this.createGauge();
-                });
-            }
-        }
     },
     methods: {
         backToGrid() {
-            this.$store.commit('setNotesSubTabData', []);
             this.$router.push({ name: 'grid'});
         },
         changeTab(activeTabName){
             this.activeTab = activeTabName;
-            this.$router.push({ name: 'lead', params: {'id': this.leadId },  query: {tabName: activeTabName, subTabName:this.activeSubTab}});
+            this.$router.push({ name: 'actionemail', params: {'id': this.configId },  query: {tabName: activeTabName}});
         },
-        changeSubTab(activeSubTabName, forceOpen){
-            let forceOpenFlag = forceOpen || false;
-
-            if (this.activeSubTab === activeSubTabName && forceOpenFlag !== true) {
-                this.activeSubTab = '';
-            } else {
-                if (forceOpenFlag === true) {
-                    if (activeSubTabName === 'opportunity') {
-                        this.oppportunitySubTabKey += 1;
-                    }
-
-                    this.activeSubTab = activeSubTabName;
-                } else {
-                    this.activeSubTab = activeSubTabName;
-                }
-            }
-
-            this.activeCustomTabId = '';
-
-            if (this.activeSubTab === '') {
-                this.$router.push({ name: 'lead', params: {'id': this.leadId },  query: {tabName: this.activeTab}});
-            } else {
-                this.$router.push({ name: 'lead', params: {'id': this.leadId },  query: {tabName: this.activeTab, subTabName:activeSubTabName}});
+        closePopup(event)
+        {
+            if (window.parent && window.parent.$) {
+                window.parent.$('.__tpopup').dialog('close');
             }
         },
-        changeCustomSubTab(activeSubTabName, customTabId){
-
-            if (this.activeSubTab === activeSubTabName) {
-                this.activeSubTab = '';
-                this.activeCustomTabId = '';
-            } else {
-                this.activeSubTab = activeSubTabName;
-                this.activeCustomTabId = customTabId;
-            }
-
-            if (this.activeSubTab === '') {
-                this.$router.push({ name: 'lead', params: {'id': this.leadId },  query: {tabName: this.activeTab}});
-            } else {
-                this.$router.push({ name: 'lead', params: {'id': this.leadId },  query: {tabName: this.activeTab, subTabName:activeSubTabName}});
-            }
-        },
-        setAllTabs(){
-            this.$router.push({ name: 'lead', params: {'id': this.leadId },  query: {tabName: this.activeTab, subTabName:this.activeSubTab}});
+        changeEventArea(event)
+        {
+          if (parseInt(this.configId) === 0) {
+              this.$router.push({ name: 'grid'});
+          } else {
+              this.$router.push({ name: 'actionemail', params: {'id': this.configId }});
+          }
         },
         getParams(pathParams) {
             let result = {},
@@ -141,11 +85,11 @@ export default {
             this.$i18n.locale = this.localeMapping[this.locale];
         }
 
-        this.leadId = this.$route.params.id;
+        this.configId = this.$route.params.id;
 
-        const result = await this.$store.dispatch('getLeadDataInfo', {
+        const result = await this.$store.dispatch('getDetailedScreenInfo', {
             'router': this.$router,
-            'id': this.leadId
+            'id': this.configId
         });
 
         if (typeof result.id === 'undefined') {
@@ -154,34 +98,11 @@ export default {
             this.loadedScreen = true;
 
             let self = this;
-            let leadTagIds = [];
 
             console.log(result);
 
-            if (typeof result.customConfigsTabs !== 'undefined') {
-                this.customSubTabsList = result.customConfigsTabs
-            }
-
-            if (Object.keys(this.customSubTabsList).length > 0) {
-                this.customSubTabsList.forEach(function(customTab){
-                    self.allowedSubTabNames.push(customTab.tab_name);
-                    self.customTabsObject[customTab.tab_name] = customTab.id;
-                });
-            }
-
-            if (typeof this.$route.query.tabName !== 'undefined' && this.allowedTabNames.includes(this.$route.query.tabName)) {
+            if (typeof this.$route.query.tabName !== 'undefined') {
                 this.activeTab = this.$route.query.tabName;
-            } else {
-                this.activeTab = this.defaultActiveTabName;
-            }
-
-            if (typeof this.$route.query.subTabName !== 'undefined' && this.allowedSubTabNames.includes(this.$route.query.subTabName)) {
-                this.activeSubTab = this.$route.query.subTabName;
-                if (typeof this.customTabsObject[this.activeSubTab] !== 'undefined') {
-                    this.activeCustomTabId = this.customTabsObject[this.activeSubTab];
-                }
-            } else {
-                this.activeSubTab = this.defaultActiveSubTabName;
             }
         }
 
@@ -205,20 +126,8 @@ export default {
                 const regex = /(\btabName=[\w]*)/i;
                 if (pathParams.indexOf('?') > -1 && pathParams.match(regex) && pathParams.match(regex).length >= 1) {
                     additionalParams = vm.getParams(pathParams.match(regex)[0].trim());
-                    if (typeof additionalParams.tabName !== 'undefined' && vm.allowedTabNames.includes(additionalParams.tabName)) {
+                    if (typeof additionalParams.tabName !== 'undefined') {
                         vm.activeTab = additionalParams.tabName;
-                        updateNavigation = true;
-                    }
-                }
-
-                const regexSubTab = /(\bsubTabName=[\w]*)/i;
-                if (pathParams.indexOf('?') > -1 && pathParams.match(regexSubTab) && pathParams.match(regexSubTab).length >= 1) {
-                    additionalParams = vm.getParams(pathParams.match(regexSubTab)[0].trim());
-                    if (typeof additionalParams.subTabName !== 'undefined' && vm.allowedSubTabNames.includes(additionalParams.subTabName)) {
-                        vm.activeSubTab = additionalParams.subTabName;
-                        if (typeof vm.customTabsObject[vm.activeSubTab] !== 'undefined') {
-                            vm.activeCustomTabId = vm.customTabsObject[vm.activeSubTab];
-                        }
                         updateNavigation = true;
                     }
                 }

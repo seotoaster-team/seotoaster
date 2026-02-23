@@ -21,4 +21,29 @@ export const getGeneralScreenData = ({commit, state, dispatch}, payload) => {
     });
 };
 
+export const getDetailedScreenInfo = ({commit, state, dispatch}, payload) => {
+    return new Promise((resolve, reject) => {
+        showSpinner('#action-emails-config-block', 'action-emails-config-block-spinner system-spinner');
+        $.ajax({
+            'url': $('#website_url').val()+'api/toaster/actionemailgridinfo/',
+            'type': 'GET',
+            'dataType': 'json',
+            'data': {
+                'id': payload.id,
+                'isGrid': 1
+            }
+        }).done(async  function(response){
+            hideSpinner('.action-emails-config-block-spinner');
+            if (response.status !== 'error') {
+                commit('setAdditionalInfoDetailedScreen', response.additionalInfo);
+                commit('setDetailedScreenConfigData', response.data);
+                resolve(response);
+            } else {
+                resolve({ error: 1});
+            }
+        }).fail(async function(response){
+            resolve({ error: 1});
+        });
+    });
+};
 

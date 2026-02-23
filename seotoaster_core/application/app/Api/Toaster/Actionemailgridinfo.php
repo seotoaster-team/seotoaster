@@ -48,7 +48,7 @@ class Api_Toaster_Actionemailgridinfo extends Api_Service_Abstract
      */
     public function getAction()
     {
-        $id = filter_var($this->_request->getParam('id'), FILTER_SANITIZE_NUMBER_INT);
+        $id = $this->_request->getParam('id');
 
         $where = null;
 
@@ -57,12 +57,17 @@ class Api_Toaster_Actionemailgridinfo extends Api_Service_Abstract
         $triggersLabels = Tools_Plugins_Tools::fetchFromConfigIniData('actionEmailLabel');
         $triggers = is_array($pluginsTriggers) ? array_merge($systemTriggers, $pluginsTriggers) : $systemTriggers;
 
+        $data = array();
+        $data['data'] = array();
+        $data['additionalInfo'] = array();
+
         if (!empty($id)) {
             $services = array('email' => 'e-mail', 'sms' => 'sms');
             $recipients = Application_Model_Mappers_EmailTriggersMapper::getInstance()->getReceivers(true);
             $recipients = array_combine($recipients, $recipients);
             $mailTemplates = Tools_Mail_Tools::getMailTemplatesHash();
             $actions = Application_Model_Mappers_EmailTriggersMapper::getInstance()->fetchArray();
+            $data['id'] = $id;
         }
 
         $actionsOptions = array_combine(array_keys($triggers), array_map(function ($trigger) {
@@ -86,13 +91,8 @@ class Api_Toaster_Actionemailgridinfo extends Api_Service_Abstract
             );
         }
 
-        $data = array();
-        $data['data'] = array();
-
-        $data['additionalInfo'] = array(
-            'actionsOptions' => $actionsOptions,
-            'presortedActionOptions' => $presortedActionOptions
-        );
+        $data['additionalInfo']['actionsOptions'] = $actionsOptions;
+        $data['additionalInfo']['presortedActionOptions'] = $presortedActionOptions;
 
         return $data;
     }

@@ -9,8 +9,8 @@ let defaultState = {
     additionalInfo: [],
     selectedUserId: '',
     currencyInfo :[],
-    leadGridInfo :[],
-    leadGridAdditionalInfo :[],
+    additionalInfoDetailedScreen :[],
+    detailedScreenConfigData :[],
 };
 
 let state = {};
@@ -30,11 +30,11 @@ const mutations = {
     setCurrencyInfo: (state, payload) => {
         state.currencyInfo = payload
     },
-    setLeadGridInfo:(state, payload) => {
-        state.leadGridInfo = payload;
+    setAdditionalInfoDetailedScreen:(state, payload) => {
+        state.additionalInfoDetailedScreen = payload;
     },
-    setLeadGridAdditionalInfo:(state, payload) => {
-        state.leadGridAdditionalInfo = payload;
+    setDetailedScreenConfigData:(state, payload) => {
+        state.detailedScreenConfigData = payload;
     },
 
 };
@@ -52,8 +52,11 @@ const getters = {
     getChangeFilter : (state) => {
         return state.filterInfo
     },
-    getLeadGridAdditionalInfo : (state) => {
-        return state.LeadGridAdditionalInfo
+    getAdditionalInfoDetailedScreen : (state) => {
+        return state.additionalInfoDetailedScreen
+    },
+    getDetailedScreenConfigData : (state) => {
+        return state.detailedScreenConfigData
     },
     formatDate : (state) => {
         return (date) => {
