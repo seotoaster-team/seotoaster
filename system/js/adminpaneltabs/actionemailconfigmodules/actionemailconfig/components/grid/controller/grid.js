@@ -37,43 +37,10 @@ export default {
     methods: {
         async goToDetailsScreen(id, tabName)
         {
-            let openTabName = tabName || '';
-
-            if (openTabName !== '') {
-                this.$router.push({ name: 'actionemail', params: {'id': id}, query:{'tabName': openTabName}});
-            } else {
-                this.$router.push({name: 'actionemail', params: {'id': id}});
-            }
-        },
-        async applyFilter()
-        {
-             this.$store.commit('setChangeFilter', {
-                 'searchData':this.searchData,
-             });
-
-            this.$store.commit('setCheckedItems', {});
-        },
-        async resetFilter()
-        {
-            this.searchData = [];
-            this.applyFilter();
+            this.$store.commit('setChangeEventAreaRemote', {'eventAreaId':id});
         },
         formatAction(key) {
             return key.toLowerCase().replace(/ /g, '-')
-        },
-        closePopup(event)
-        {
-            if (window.parent && window.parent.$) {
-                window.parent.$('.__tpopup').dialog('close');
-            }
-        },
-        changeEventArea(event)
-        {
-            if (parseInt(this.configId) === 0) {
-                this.$router.push({ name: 'grid'});
-            } else {
-                this.$router.push({ name: 'actionemail', params: {'id': this.eventAreaId }});
-            }
         },
         getParams(pathParams) {
             let result = {},
@@ -95,14 +62,7 @@ export default {
             this.$i18n.locale = this.localeMapping[this.locale];
         }
 
-        const result = await this.$store.dispatch('getGeneralScreenData', {'router':this.$router});
-        if(result.status === 'error') {
-            showMessage('Please re-login', true, 3000);
-        } else {
-            this.loadedScreen = true;
-            this.mainScreenLoaded = true;
-        }
-
+        this.loadedScreen = true;
     },
     async updated() {
         this.$nextTick(function () {

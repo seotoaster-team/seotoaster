@@ -47,20 +47,6 @@ export default {
             this.activeTab = activeTabName;
             this.$router.push({ name: 'actionemail', params: {'id': this.configId },  query: {tabName: activeTabName}});
         },
-        closePopup(event)
-        {
-            if (window.parent && window.parent.$) {
-                window.parent.$('.__tpopup').dialog('close');
-            }
-        },
-        changeEventArea(event)
-        {
-          if (parseInt(this.configId) === 0) {
-              this.$router.push({ name: 'grid'});
-          } else {
-              this.$router.push({ name: 'actionemail', params: {'id': this.configId }});
-          }
-        },
         getParams(pathParams) {
             let result = {},
                 tmpData = [];
@@ -109,7 +95,6 @@ export default {
     },
     async updated() {
         this.$nextTick(function () {
-            this.processPhoneMobileCountryCodesSelectors();
             if (typeof checkboxRadioStyle !== 'undefined' && typeof checkboxRadioStyle() === "function") {
                 checkboxRadioStyle();
             }

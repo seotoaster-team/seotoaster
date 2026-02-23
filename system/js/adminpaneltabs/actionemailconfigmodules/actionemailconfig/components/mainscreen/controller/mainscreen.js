@@ -10,7 +10,8 @@ export default {
             websiteUrl: $('#website_url').val(),
             localeMapping: localeMapping,
             locale: $('#config-system-language').val(),
-            componentKey: 0
+            componentKey: 0,
+            eventAreaId:0
 
         }
     },
@@ -25,19 +26,44 @@ export default {
             configDataInfo:'getConfigDataInfo',
             additionalInfo:'getAdditionalInfo',
             truncateText: 'truncateText',
-            sortByColumn: 'sortByColumn'
+            sortByColumn: 'sortByColumn',
+            changeEventAreaRemote:'getChangeEventAreaRemote',
         }),
     },
+    watch: {
+        changeEventAreaRemote(newData, originalData) {
+            if (typeof newData.eventAreaId !== 'undefined' && newData.eventAreaId !== '') {
+                this.eventAreaId = newData.eventAreaId;
+                this.changeEventArea();
+            }
+        },
+    },
     methods: {
-
+        changeEventArea(event)
+        {
+            if (parseInt(this.eventAreaId) === 0) {
+                this.$router.push({ name: 'grid'});
+            } else {
+                this.$router.push({ name: 'actionemail', params: {'id': this.eventAreaId }});
+            }
+        },
+        closePopup(event)
+        {
+            if (window.parent && window.parent.$) {
+                window.parent.$('.__tpopup').dialog('close');
+            }
+        },
     },
     async created(){
         if (typeof this.localeMapping[this.locale] !== 'undefined') {
             this.$i18n.locale = this.localeMapping[this.locale];
         }
-
-        this.loadedScreen = true;
-
+        const result = await this.$store.dispatch('getGeneralScreenData', {'router':this.$router});
+        if (result.status === 'error') {
+            showMessage('Please re-login', true, 3000);
+        } else {
+            this.loadedScreen = true;
+        }
     },
     async updated() {
         this.$nextTick(function () {

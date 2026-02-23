@@ -1,6 +1,6 @@
 export const getGeneralScreenData = ({commit, state, dispatch}, payload) => {
     return new Promise((resolve, reject) => {
-        showSpinner('#action-emails-config-block', 'action-emails-config-block-spinner system-spinner');
+        showSpinner('#ations-triggers-frm', 'action-emails-config-block-spinner system-spinner');
         $.ajax({
             'url': $('#website_url').val()+'api/toaster/actionemailgridinfo/',
             'type': 'GET',
@@ -23,7 +23,7 @@ export const getGeneralScreenData = ({commit, state, dispatch}, payload) => {
 
 export const getDetailedScreenInfo = ({commit, state, dispatch}, payload) => {
     return new Promise((resolve, reject) => {
-        showSpinner('#action-emails-config-block', 'action-emails-config-block-spinner system-spinner');
+        showSpinner('#config-detailed-view', 'config-detailed-view-spinner system-spinner');
         $.ajax({
             'url': $('#website_url').val()+'api/toaster/actionemailgridinfo/',
             'type': 'GET',
@@ -33,7 +33,7 @@ export const getDetailedScreenInfo = ({commit, state, dispatch}, payload) => {
                 'isGrid': 1
             }
         }).done(async  function(response){
-            hideSpinner('.action-emails-config-block-spinner');
+            hideSpinner('.config-detailed-view-spinner');
             if (response.status !== 'error') {
                 commit('setAdditionalInfoDetailedScreen', response.additionalInfo);
                 commit('setDetailedScreenConfigData', response.data);
