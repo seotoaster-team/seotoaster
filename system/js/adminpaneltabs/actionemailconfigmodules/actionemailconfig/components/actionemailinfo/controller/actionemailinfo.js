@@ -13,7 +13,13 @@ export default {
             locale: $('#config-language').val(),
             configId: 0,
             componentKey:0,
-            activeTab:''
+            activeTab:null,
+            triggers: {},
+            actions: [],
+            services: [],
+            recipients: [],
+            mailTemplates: [],
+            currentTrigger: "0",
         }
     },
     components: {
@@ -61,10 +67,36 @@ export default {
                 });
             return result;
         },
-        updateKey() {
+        updateKey()
+        {
             this.componentKey += 1;
         },
-
+        remove(index)
+        {
+            this.actions.splice(index, 1);
+        },
+        filteredActions(triggerName)
+        {
+            return this.actions.filter(a => a.trigger === triggerName);
+        },
+        showServiceSelector(name, data)
+        {
+            return name === 'store_neworder'
+                || name === 'store_trackingnumber'
+                || data.withsms !== undefined;
+        },
+        filteredRecipients(action)
+        {
+            if (action.service === 'sms') {
+                return this.recipients.filter(r =>
+                    r.value === 'customer' || r.value === 'admin'
+                )
+            }
+            return this.recipients;
+        },
+        saveAction()
+        {
+        }
     },
     async created(){
         if (typeof this.localeMapping[this.locale] !== 'undefined') {
