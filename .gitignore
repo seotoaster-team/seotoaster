@@ -24,7 +24,8 @@ tmp/*
 feeds/*
 system/js/external/tinymce/*.gz
 .history
-manifest.json
+/manifest.json
+!/**/manifest.json
 favicon.ico
 node_modules/
 vendor/
