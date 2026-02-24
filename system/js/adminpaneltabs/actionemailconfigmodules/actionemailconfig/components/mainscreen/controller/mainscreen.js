@@ -27,16 +27,23 @@ export default {
             additionalInfo:'getAdditionalInfo',
             truncateText: 'truncateText',
             sortByColumn: 'sortByColumn',
-            changeEventAreaRemote:'getChangeEventAreaRemote',
+            changeEventAreaRemoteFromStore:'getChangeEventAreaRemote',
+            eventAreaIdFromStore: 'getEventAreaId',
         }),
     },
     watch: {
-        changeEventAreaRemote(newData, originalData) {
-            if (typeof newData.eventAreaId !== 'undefined' && newData.eventAreaId !== '') {
+        changeEventAreaRemoteFromStore(newData) {
+            if (newData && newData.eventAreaId !== undefined && newData.eventAreaId !== '') {
                 this.eventAreaId = newData.eventAreaId;
                 this.changeEventArea();
             }
         },
+
+        eventAreaIdFromStore(newData) {
+            if (newData && newData.eventAreaId !== undefined && newData.eventAreaId !== '') {
+                this.eventAreaId = newData.eventAreaId;
+            }
+        }
     },
     methods: {
         changeEventArea(event)

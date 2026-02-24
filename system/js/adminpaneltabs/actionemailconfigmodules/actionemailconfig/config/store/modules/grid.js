@@ -11,7 +11,8 @@ let defaultState = {
     currencyInfo :[],
     additionalInfoDetailedScreen :[],
     detailedScreenConfigData :[],
-    changeEventAreaRemote:0
+    changeEventAreaRemote:0,
+    eventAreaId:0
 };
 
 let state = {};
@@ -40,6 +41,9 @@ const mutations = {
     setChangeEventAreaRemote:(state, payload) => {
         state.changeEventAreaRemote = payload;
     },
+    setEventAreaId:(state, payload) => {
+        state.eventAreaId = payload;
+    },
 
 };
 
@@ -64,6 +68,9 @@ const getters = {
     },
     getChangeEventAreaRemote : (state) => {
         return state.changeEventAreaRemote
+    },
+    getEventAreaId : (state) => {
+        return state.eventAreaId
     },
     formatDate : (state) => {
         return (date) => {

@@ -32,7 +32,8 @@ export default {
             changeFilter: 'getChangeFilter',
             unescapeValue:'unescapeValue',
             toCurrency:'toCurrency',
-            detailedScreenConfigData: 'getDetailedScreenConfigData'
+            detailedScreenConfigData: 'getDetailedScreenConfigData',
+            eventId: 'getEventAreaId',
         }),
         processedMailTemplates() {
             if (!this.additionalInfo.mailTemplates) return [];
@@ -171,6 +172,10 @@ export default {
         }
 
         this.configId = this.$route.params.id;
+
+        if (this.eventId === 0) {
+            this.$store.commit('setEventAreaId', {'eventAreaId':this.configId});
+        }
 
         const result = await this.$store.dispatch('getDetailedScreenInfo', {
             'router': this.$router,
