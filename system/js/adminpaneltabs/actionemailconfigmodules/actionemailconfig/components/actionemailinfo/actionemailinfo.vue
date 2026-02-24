@@ -2,68 +2,51 @@
   <div id="config-detailed-view">
     <template v-if="loadedScreen === true">
       {{ configId }}
-      <div id="action-triggers">
-
+      <div id="ations-triggers-frm">
         <!-- TABS -->
-        <div v-if="currentTrigger && triggers[currentTrigger]">
-
+        <div v-if="configId !== '0' && typeof additionalInfo.triggers[configId] !== 'undefined' && typeof additionalInfo.triggers[configId]['trigger'] !== 'undefined'">
           <div class="tabs-nav-wrap">
-            <ul class="header">
-              <li v-for="(data, name) in triggers[currentTrigger]"
-                  :key="name">
-                <a href="#"
-                   @click.prevent="activeTab = name">
-                  {{ data.title }}
-                </a>
-              </li>
-            </ul>
+            <span class="arrow left ticon-arrow-left3" @click="scrollTabs('left')"></span>
+            <div class="tabs-scroll" ref="tabsScroll">
+              <ul class="tabs-header" id="triggers-tabs-holder">
+                <li v-for="(data, name) in additionalInfo.triggers[configId]['trigger']" :key="name" :class="[activeTab === name? 'active': '']">
+                  <button type="button" @click="changeTab(name)">
+                    {{ data.title }}
+                  </button>
+                </li>
+              </ul>
+            </div>
+            <span class="arrow right ticon-arrow-right3" @click="scrollTabs('right')"></span>
           </div>
-
           <!-- TAB CONTENTS -->
-          <div v-for="(data, name) in triggers[currentTrigger]"
-               :key="name"
-               v-show="activeTab === name"
-               class="tabs-contents">
-
+          <div v-for="(data, name) in additionalInfo.triggers[configId]['trigger']" :key="name" v-show="activeTab === name" class="tabs-contents">
             <!-- ADD NEW ACTION -->
-            <span class="new-trigger-action"
-                  @click="addAction(name)">
-          +
-        </span>
+            <span class="new-trigger-action" @click="addAction(name)">+</span>
 
             <!-- ACTION FIELDSETS -->
-            <fieldset v-for="(action, index) in filteredActions(name)"
-                      :key="action.localId"
-                      class="background">
-
-          <span class="ticon-close"
-                @click="remove(index)">
-            ✕
-          </span>
-
+            <fieldset v-for="(action, index) in filteredActions(name)" :key="action.localId"  class="background">
+              <span class="ticon-close" @click="remove(action.localId)"></span>
               <div class="trigger-title">
-                When <strong>{{ data.title }}</strong>
+                {{$t('message.when')}} <strong>{{ data.title }}</strong>
               </div>
-
               <!-- SERVICE SELECT -->
               <div v-if="showServiceSelector(name, data)">
-                <label>Send</label>
-                <select v-model="action.service">
-                  <option v-for="service in services"
-                          :key="service.value"
-                          :value="service.value">
+                <label>{{$t('message.send')}}</label>
+                <select v-model="action.service" @change="onServiceChange(action)">
+                  <option v-for="service in processedServices" :key="service.value" :value="service.value">
                     {{ service.label }}
                   </option>
                 </select>
               </div>
+              <div v-else>
+                <input type="hidden" v-model="action.service" value="email">
+              </div>
 
               <!-- RECIPIENT -->
               <div>
-                <label>Send to</label>
+                <label>{{$t('message.sendTo')}}</label>
                 <select v-model="action.recipient">
-                  <option v-for="recipient in filteredRecipients(action)"
-                          :key="recipient.value"
-                          :value="recipient.value">
+                  <option v-for="recipient in filteredRecipients(action)" :key="recipient.value" :value="recipient.value">
                     {{ recipient.label }}
                   </option>
                 </select>
@@ -71,11 +54,9 @@
 
               <!-- TEMPLATE -->
               <div v-if="action.service !== 'sms'">
-                <label>Use template</label>
+                <label>{{$t('message.useTemplate')}}</label>
                 <select v-model="action.template">
-                  <option v-for="tpl in mailTemplates"
-                          :key="tpl.value"
-                          :value="tpl.value">
+                  <option v-for="tpl in processedMailTemplates" :key="tpl.value" :value="tpl.value">
                     {{ tpl.label }}
                   </option>
                 </select>
@@ -83,53 +64,38 @@
 
               <!-- MESSAGE (EMAIL) -->
               <div v-if="action.service !== 'sms'">
-                <label>With message</label>
-                <textarea v-model="action.message"
-                          rows="4"></textarea>
+                <label>{{$t('message.withMessage')}}</label>
+                <textarea v-model="action.message" rows="4"></textarea>
               </div>
 
               <!-- FROM -->
               <div v-if="action.service !== 'sms'">
-                <label>From</label>
-                <input type="text"
-                       v-model="action.from">
+                <label>{{$t('message.from')}}</label>
+                <input type="text" v-model="action.from">
               </div>
 
               <!-- SUBJECT -->
               <div v-if="action.service !== 'sms'">
-                <label>With subject</label>
-                <input type="text"
-                       v-model="action.subject">
+                <label>{{$t('message.withSubject')}}</label>
+                <input type="text" v-model="action.subject">
               </div>
 
               <!-- PREHEADER -->
               <div v-if="action.service !== 'sms' && data.preheader !== undefined">
-                <label>Preheader</label>
-                <input type="text"
-                       v-model="action.preheader">
+                <label>{{$t('message.preheader')}}</label>
+                <input type="text" v-model="action.preheader">
               </div>
 
               <!-- SMS TEXT -->
-              <div v-if="action.service === 'sms'">
-                <label>Insert plain text message only</label>
-                <textarea v-model="action.message"
-                          rows="5"
-                          placeholder="SMS are text only">
-            </textarea>
+              <div v-if="name === 'store_neworder' || name === 'store_trackingnumber' || data.withsms !== undefined" :class="{ 'hide': action.service !== 'sms' }">
+                <label>{{$t('message.insertPlainText')}}</label>
+                <textarea v-model="action.message" rows="5" class="grid_12" :placeholder="$t('message.smsTextOnly')" style="height:172px;"></textarea>
               </div>
-
             </fieldset>
-
           </div>
         </div>
-        <button v-if="currentTrigger !== '0'"
-                @click="saveAction"
-                id="save-actions">
-          Save
-        </button>
-
+        <button v-if="configId !== '0'" @click="saveAction" id="save-actions">{{$t('message.save')}}</button>
       </div>
-
     </template>
     <router-view :key="$route.path"></router-view>
   </div>

@@ -16,10 +16,7 @@ export default {
             activeTab:null,
             triggers: {},
             actions: [],
-            services: [],
-            recipients: [],
-            mailTemplates: [],
-            currentTrigger: "0",
+            localId: Date.now() + Math.random(),
         }
     },
     components: {
@@ -37,6 +34,20 @@ export default {
             toCurrency:'toCurrency',
             detailedScreenConfigData: 'getDetailedScreenConfigData'
         }),
+        processedMailTemplates() {
+            if (!this.additionalInfo.mailTemplates) return [];
+            return Object.keys(this.additionalInfo.mailTemplates).map(key => ({
+                value: key,
+                label: this.additionalInfo.mailTemplates[key]
+            }));
+        },
+        processedServices() {
+            if (!this.additionalInfo.services) return [];
+            return Object.keys(this.additionalInfo.services).map(key => ({
+                value: key,
+                label: this.additionalInfo.services[key]
+            }));
+        },
     },
     watch: {
         changeSubTabRemote(newData, originalData) {
@@ -71,12 +82,32 @@ export default {
         {
             this.componentKey += 1;
         },
-        remove(index)
-        {
-            this.actions.splice(index, 1);
+        remove(localId) {
+            const index = this.actions.findIndex(a => a.localId === localId);
+            if (index !== -1) this.actions.splice(index, 1);
         },
-        filteredActions(triggerName)
-        {
+        scrollTabs(direction) {
+            const container = this.$refs.tabsScroll;
+            const tabs = Object.keys(this.additionalInfo.triggers[this.configId]['trigger']);
+            const currentIndex = tabs.indexOf(this.activeTab);
+
+            let newIndex = currentIndex;
+            if (direction === 'left' && currentIndex > 0) {
+                newIndex = currentIndex - 1;
+            } else if (direction === 'right' && currentIndex < tabs.length - 1) {
+                newIndex = currentIndex + 1;
+            }
+
+            // Change active tab
+            this.changeTab(tabs[newIndex]);
+
+            // Scroll visually
+            const tabEl = container.querySelectorAll('li')[newIndex];
+            if (tabEl) {
+                tabEl.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+            }
+        },
+        filteredActions(triggerName) {
             return this.actions.filter(a => a.trigger === triggerName);
         },
         showServiceSelector(name, data)
@@ -85,17 +116,53 @@ export default {
                 || name === 'store_trackingnumber'
                 || data.withsms !== undefined;
         },
-        filteredRecipients(action)
+        async saveAction()
         {
-            if (action.service === 'sms') {
-                return this.recipients.filter(r =>
-                    r.value === 'customer' || r.value === 'admin'
-                )
-            }
-            return this.recipients;
+            const grouped = this.actions.reduce((acc, action) => {
+                if (!acc[action.trigger]) acc[action.trigger] = [];
+                acc[action.trigger].push({
+                    ...action,
+                    localId: undefined
+                });
+                return acc;
+            }, {});
+
+            const result = await this.$store.dispatch('saveTriggerActions', {
+                'router': this.$router,
+                'id': this.configId,
+                'actionsByTrigger': grouped
+            });
         },
-        saveAction()
-        {
+        addAction(triggerName) {
+            this.actions.push({
+                localId: Date.now() + Math.random(),
+                trigger: triggerName,
+                service: 'email',
+                recipient: 'customer',
+                template: '',
+                message: '',
+                from: '',
+                subject: '',
+                preheader: ''
+            });
+        },
+        onServiceChange(action) {
+            if(action.service === 'sms') {
+                action.recipient = 'customer'; // force SMS recipient to customer
+            }
+        },
+        filteredRecipients(action) {
+            const recipientsArray = Object.keys(this.additionalInfo.recipients || {}).map(key => ({
+                value: key,
+                label: this.additionalInfo.recipients[key]
+            }));
+
+            // SMS always only customer
+            if (action.service === 'sms') {
+                return recipientsArray.filter(r => r.value === 'customer');
+            }
+
+            return recipientsArray; // email: all recipients
         }
     },
     async created(){
@@ -119,8 +186,23 @@ export default {
 
             console.log(result);
 
+            if (this.additionalInfo.triggerActions && Array.isArray(this.additionalInfo.triggerActions)) {
+                this.actions = this.additionalInfo.triggerActions.map(a => ({
+                    ...a,
+                    localId: Date.now() + Math.random(), // for Vue reactivity
+                }));
+            }
+
             if (typeof this.$route.query.tabName !== 'undefined') {
                 this.activeTab = this.$route.query.tabName;
+            } else {
+                if (typeof this.additionalInfo.triggers[this.configId] !== 'undefined' && typeof this.additionalInfo.triggers[this.configId]['trigger'] !== 'undefined')  {
+                    const triggers = this.additionalInfo.triggers[this.configId]['trigger'];
+                    const firstTrigger = Object.keys(triggers)[0];
+                    if (firstTrigger) {
+                        this.changeTab(firstTrigger);
+                    }
+                }
             }
         }
 

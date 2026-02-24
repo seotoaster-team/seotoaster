@@ -68,6 +68,11 @@ class Api_Toaster_Actionemailgridinfo extends Api_Service_Abstract
             $mailTemplates = Tools_Mail_Tools::getMailTemplatesHash();
             $actions = Application_Model_Mappers_EmailTriggersMapper::getInstance()->fetchArray();
             $data['id'] = $id;
+            $data['additionalInfo']['triggers'] = $triggers;
+            $data['additionalInfo']['triggerActions'] = $actions;
+            $data['additionalInfo']['mailTemplates'] = $mailTemplates;
+            $data['additionalInfo']['recipients'] = $recipients;
+            $data['additionalInfo']['services'] = $services;
         }
 
         $actionsOptions = array_combine(array_keys($triggers), array_map(function ($trigger) {

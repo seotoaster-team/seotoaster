@@ -20,6 +20,17 @@ const messages = {
             'selectEventArea':'Select event area',
             'actionEmailInfoTextInfoBox':'Please, select an event area above to view & edit currently configured related action emails & SMS or create new ones.',
             'saveChanges':'Save changes',
+            'when':'When',
+            'send':'Send',
+            'sendTo':'Send to',
+            'useTemplate':'Use template',
+            'withMessage':'With message',
+            'from':'From',
+            'withSubject':'With subject',
+            'preheader':'Preheader',
+            'insertPlainText':'Insert plain text message only',
+            'smsTextOnly':'SMS are text only',
+            'save':'Save',
 
         }
     },
@@ -43,7 +54,18 @@ const messages = {
             'tabHeaderMessageText':'Manage action e-mails & SMS',
             'selectEventArea':'Select event area',
             'actionEmailInfoTextInfoBox':'Please, select an event area above to view & edit currently configured related action emails & SMS or create new ones.',
-            'saveChanges':'Save changes'
+            'saveChanges':'Save changes',
+            'when':'When',
+            'send':'Send',
+            'sendTo':'Send to',
+            'useTemplate':'Use template',
+            'withMessage':'With message',
+            'from':'From',
+            'withSubject':'With subject',
+            'preheader':'Preheader',
+            'insertPlainText':'Insert plain text message only',
+            'smsTextOnly':'SMS are text only',
+            'save':'Save',
 
         }
     },
@@ -67,7 +89,18 @@ const messages = {
             'tabHeaderMessageText':'Manage action e-mails & SMS',
             'selectEventArea':'Select event area',
             'actionEmailInfoTextInfoBox':'Please, select an event area above to view & edit currently configured related action emails & SMS or create new ones.',
-            'saveChanges':'Save changes'
+            'saveChanges':'Save changes',
+            'when':'When',
+            'send':'Send',
+            'sendTo':'Send to',
+            'useTemplate':'Use template',
+            'withMessage':'With message',
+            'from':'From',
+            'withSubject':'With subject',
+            'preheader':'Preheader',
+            'insertPlainText':'Insert plain text message only',
+            'smsTextOnly':'SMS are text only',
+            'save':'Enregistrer les modifications',
 
         }
     }

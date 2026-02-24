@@ -53,17 +53,17 @@ router.beforeEach((to, from, next) => {
 
         if (to.hash !== '' && from.hash === '') {
             let pathParams = decodeURI(to.hash);
-            let leadRouteInfo = pathParams.match(/(#actionemail\/[^\/]*)/);
+            let configRouteInfo = pathParams.match('(#actionemail\\/[\\w-]+)');
 
-            if (!leadRouteInfo) {
+            if (!configRouteInfo) {
                 next({ name: 'grid' });
                 return;
             }
 
-            let configId = leadRouteInfo[0].replace('#actionemail/', '');
+            let configId = configRouteInfo[0].replace('#actionemail/', '');
             let additionalParams= [];
 
-            pathParams = pathParams.replace(new RegExp('#actionemail\\/[^\\/]*'), '');
+            pathParams = pathParams.replace(new RegExp('#actionemail\\/[\\w-]+'), '');
 
             if (pathParams !== '' && pathParams.indexOf('?') > -1) {
                 additionalParams = getParams(pathParams.replace('?', ''));
