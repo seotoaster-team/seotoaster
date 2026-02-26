@@ -123,16 +123,21 @@ export default {
         {
             return name === 'store_neworder'
                 || name === 'store_trackingnumber'
-                || data.withsms !== undefined;
+                || typeof data.withsms !== 'undefined';
         },
-        async saveAction()
-        {
+        async saveAction() {
             const actionsPayload = {};
 
             this.actions
                 .filter(action => action.trigger in this.additionalInfo.triggers[this.configId].trigger)
                 .forEach(action => {
-                    const key = action.id || `new_${action.localId}`; // id for backend or local new id
+
+                    // Ensure template exists for SMS BEFORE building payload
+                    if (action.service === 'sms' && !action.template) {
+                        action.template = this.processedMailTemplates[0]?.value || '';
+                    }
+
+                    const key = action.id || `new_${action.localId}`;
 
                     const payload = {
                         trigger: action.trigger,
@@ -144,7 +149,7 @@ export default {
                         preheader: action.preheader || '',
                         smsText: action.smsText || (action.service === 'sms' ? (action.message || '') : ''),
                         delete: action.delete === true || action.delete === "true" ? "true" : undefined,
-                        id: action.id || undefined, // preserve id for backend
+                        id: action.id || undefined
                     };
 
                     // add template only if not empty
@@ -184,12 +189,24 @@ export default {
             });
         },
         onServiceChange(action) {
-            if(action.service === 'sms') {
+            if (action.service === 'sms') {
+                action._previousRecipient = action.recipient;
                 action.recipient = 'customer';
-                // prepopulate template from default email template if empty
-                if(!action.template) {
-                    action.template = this.processedMailTemplates[0]?.value || '';
+
+                // Ensure template always exists for backend
+                if (!action.template) {
+                    const defaultTemplate = this.processedMailTemplates[0]?.value;
+
+                    if (defaultTemplate) {
+                        action.template = defaultTemplate;
+                    }
                 }
+            } else {
+                if (action._previousRecipient) {
+                    action.recipient = action._previousRecipient;
+                }
+
+                action.smsText = '';
             }
         },
         filteredRecipients(action) {
@@ -198,9 +215,10 @@ export default {
                 label: this.additionalInfo.recipients[key]
             }));
 
-            // SMS always only customer
             if (action.service === 'sms') {
-                return recipientsArray.filter(r => r.value === 'customer');
+                return recipientsArray.filter(r =>
+                    r.value === 'customer' || r.value === 'admin'
+                );
             }
 
             return recipientsArray; // email: all recipients

@@ -84,7 +84,7 @@
               </div>
 
               <!-- PREHEADER -->
-              <div v-if="action.service !== 'sms' && typeof data.preheader !== 'undefined'">
+              <div v-if="action.service !== 'sms' && typeof data.preheader !== 'undefined' && typeof data.withsms === 'undefined'">
                 <label>
                   {{$t('message.preheader')}}
                   <span class="ticon-info tooltip icon18" :title="$t('message.preheaderTooltip')"></span>
