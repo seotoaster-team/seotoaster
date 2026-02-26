@@ -47,3 +47,28 @@ export const getDetailedScreenInfo = ({commit, state, dispatch}, payload) => {
     });
 };
 
+export const saveTriggerActions = ({commit, state, dispatch}, payload) => {
+    showSpinner('#actions-triggers-frm', 'actions-triggers-frm-spinner dashboard-spinner');
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            'url': $('#website_url').val()+'backend/backend_config/actionmails/',
+            'type': 'POST',
+            'dataType': 'json',
+            'data': {
+                'secureToken':$('#action-emails-config-screen-token').val(),
+                'actions':payload.actionsPayload,
+            }
+        }).done(async  function(response){
+            hideSpinner('.actions-triggers-frm-spinner');
+            if (response.status !== 'error') {
+                resolve(response);
+            } else {
+                resolve({ error: 1, message:response});
+            }
+        }).fail(async function(response){
+            hideSpinner('.actions-triggers-frm-spinner');
+            resolve({ error: 1, message:response.responseJSON});
+        });
+    });
+};
+

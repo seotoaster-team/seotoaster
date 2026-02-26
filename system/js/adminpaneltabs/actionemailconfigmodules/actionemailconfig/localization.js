@@ -31,6 +31,7 @@ const messages = {
             'insertPlainText':'Insert plain text message only',
             'smsTextOnly':'SMS are text only',
             'save':'Save',
+            'preheaderTooltip':''
 
         }
     },
@@ -66,6 +67,7 @@ const messages = {
             'insertPlainText':'Insert plain text message only',
             'smsTextOnly':'SMS are text only',
             'save':'Save',
+            'preheaderTooltip':''
 
         }
     },
@@ -101,6 +103,7 @@ const messages = {
             'insertPlainText':'Insert plain text message only',
             'smsTextOnly':'SMS are text only',
             'save':'Enregistrer les modifications',
+            'preheaderTooltip':''
 
         }
     }

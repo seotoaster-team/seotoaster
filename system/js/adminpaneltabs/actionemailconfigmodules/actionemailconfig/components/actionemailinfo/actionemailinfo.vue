@@ -2,7 +2,8 @@
   <div id="config-detailed-view">
     <template v-if="loadedScreen === true">
       {{ configId }}
-      <div id="ations-triggers-frm">
+      {{ activeTab }}
+      <div id="actions-triggers-frm">
         <!-- TABS -->
         <div v-if="configId !== '0' && typeof additionalInfo.triggers[configId] !== 'undefined' && typeof additionalInfo.triggers[configId]['trigger'] !== 'undefined'">
           <div class="tabs-nav-wrap">
@@ -24,7 +25,9 @@
             <span class="new-trigger-action" @click="addAction(name)">+</span>
 
             <!-- ACTION FIELDSETS -->
-            <fieldset v-for="(action, index) in filteredActions(name)" :key="action.localId"  class="background">
+            <fieldset v-for="(action, index) in filteredActions(name)" :key="action.localId" v-show="action.delete !== true && action.delete !== 'true'"
+                  class="background"
+              >
               <span class="ticon-close" @click="remove(action.localId)"></span>
               <div class="trigger-title">
                 {{$t('message.when')}} <strong>{{ data.title }}</strong>
@@ -82,7 +85,10 @@
 
               <!-- PREHEADER -->
               <div v-if="action.service !== 'sms' && typeof data.preheader !== 'undefined'">
-                <label>{{$t('message.preheader')}}</label>
+                <label>
+                  {{$t('message.preheader')}}
+                  <span class="ticon-info tooltip icon18" :title="$t('message.preheaderTooltip')"></span>
+                </label>
                 <input type="text" v-model="action.preheader">
               </div>
 

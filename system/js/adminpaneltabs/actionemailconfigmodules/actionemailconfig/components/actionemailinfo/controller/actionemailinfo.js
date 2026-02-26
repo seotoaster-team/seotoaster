@@ -85,7 +85,15 @@ export default {
         },
         remove(localId) {
             const index = this.actions.findIndex(a => a.localId === localId);
-            if (index !== -1) this.actions.splice(index, 1);
+            if (index === -1) return;
+
+            const action = this.actions[index];
+
+            if (action?.id) {
+                action.delete = "true";
+            } else {
+                this.actions.splice(index, 1);
+            }
         },
         scrollTabs(direction) {
             const container = this.$refs.tabsScroll;
@@ -119,28 +127,43 @@ export default {
         },
         async saveAction()
         {
-            const grouped = this.actions.reduce((acc, action) => {
-                if (!acc[action.trigger]) acc[action.trigger] = [];
-                acc[action.trigger].push({
-                    ...action,
-                    localId: undefined
+            const actionsPayload = {};
+
+            this.actions
+                .filter(action => action.trigger in this.additionalInfo.triggers[this.configId].trigger)
+                .forEach(action => {
+                    const key = action.id || `new_${action.localId}`; // id for backend or local new id
+                    actionsPayload[key] = {
+                        trigger: action.trigger,
+                        service: action.service,
+                        recipient: action.recipient,
+                        template: action.template || '',
+                        message: action.message || '',
+                        from: action.from || '',
+                        subject: action.subject || '',
+                        preheader: action.preheader || '',
+                        smsText: action.smsText || (action.service === 'sms' ? (action.message || '') : ''),
+                        delete: action.delete === true || action.delete === "true" ? "true" : undefined,
+                        id: action.id || undefined, // preserve id for backend
+                    };
                 });
-                return acc;
-            }, {});
 
             const result = await this.$store.dispatch('saveTriggerActions', {
                 'router': this.$router,
                 'id': this.configId,
-                'actionsByTrigger': grouped
+                'actionsPayload': actionsPayload
             });
         },
         addAction(triggerName) {
+            // pick a default template (you can use first available template)
+            const defaultTemplate = this.processedMailTemplates[0]?.value || '';
+
             this.actions.push({
                 localId: Date.now() + Math.random(),
                 trigger: triggerName,
-                service: 'email',
+                service: 'email',           // default service
                 recipient: 'customer',
-                template: '',
+                template: defaultTemplate,
                 message: '',
                 from: '',
                 subject: '',
@@ -149,7 +172,11 @@ export default {
         },
         onServiceChange(action) {
             if(action.service === 'sms') {
-                action.recipient = 'customer'; // force SMS recipient to customer
+                action.recipient = 'customer';
+                // prepopulate template from default email template if empty
+                if(!action.template) {
+                    action.template = this.processedMailTemplates[0]?.value || '';
+                }
             }
         },
         filteredRecipients(action) {
@@ -191,12 +218,28 @@ export default {
 
             console.log(result);
 
-            if (this.additionalInfo.triggerActions && Array.isArray(this.additionalInfo.triggerActions)) {
-                this.actions = this.additionalInfo.triggerActions.map(a => ({
-                    ...a,
-                    localId: Date.now() + Math.random(), // for Vue reactivity
-                }));
-            }
+            this.actions = this.additionalInfo.triggerActions.map(a => {
+                // Determine default template
+                let template = a.template;
+
+                // If service is SMS and template is empty, use first available template
+                if(a.service === 'sms' && (!template || template === '')) {
+                    template = this.processedMailTemplates[0]?.value || '';
+                }
+
+                return {
+                    id: a.id,
+                    trigger: a.trigger,
+                    service: a.service,
+                    recipient: a.recipient,
+                    template: template,
+                    message: a.message,
+                    from: a.from,
+                    subject: a.subject,
+                    preheader: a.preheader,
+                    localId: Date.now() + Math.random()
+                };
+            });
 
             if (typeof this.$route.query.tabName !== 'undefined') {
                 this.activeTab = this.$route.query.tabName;
