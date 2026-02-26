@@ -31,7 +31,7 @@ const messages = {
             'insertPlainText':'Insert plain text message only',
             'smsTextOnly':'SMS are text only',
             'save':'Save',
-            'preheaderTooltip':''
+            'preheaderTooltip':'A preheader is the short summary text that follows the subject line when an email is viewed in the inbox. Many mobile, desktop, and web email clients provide them to tip you off on what the email contains before you open it.'
 
         }
     },
@@ -67,7 +67,7 @@ const messages = {
             'insertPlainText':'Insert plain text message only',
             'smsTextOnly':'SMS are text only',
             'save':'Save',
-            'preheaderTooltip':''
+            'preheaderTooltip':'A preheader is the short summary text that follows the subject line when an email is viewed in the inbox. Many mobile, desktop, and web email clients provide them to tip you off on what the email contains before you open it.'
 
         }
     },
@@ -103,7 +103,7 @@ const messages = {
             'insertPlainText':'Insert plain text message only',
             'smsTextOnly':'SMS are text only',
             'save':'Enregistrer les modifications',
-            'preheaderTooltip':''
+            'preheaderTooltip':'A preheader is the short summary text that follows the subject line when an email is viewed in the inbox. Many mobile, desktop, and web email clients provide them to tip you off on what the email contains before you open it.'
 
         }
     }

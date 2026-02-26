@@ -133,11 +133,11 @@ export default {
                 .filter(action => action.trigger in this.additionalInfo.triggers[this.configId].trigger)
                 .forEach(action => {
                     const key = action.id || `new_${action.localId}`; // id for backend or local new id
-                    actionsPayload[key] = {
+
+                    const payload = {
                         trigger: action.trigger,
                         service: action.service,
                         recipient: action.recipient,
-                        template: action.template || '',
                         message: action.message || '',
                         from: action.from || '',
                         subject: action.subject || '',
@@ -146,6 +146,13 @@ export default {
                         delete: action.delete === true || action.delete === "true" ? "true" : undefined,
                         id: action.id || undefined, // preserve id for backend
                     };
+
+                    // add template only if not empty
+                    if (action.template && action.template !== '') {
+                        payload.template = action.template;
+                    }
+
+                    actionsPayload[key] = payload;
                 });
 
             const result = await this.$store.dispatch('saveTriggerActions', {
@@ -153,6 +160,12 @@ export default {
                 'id': this.configId,
                 'actionsPayload': actionsPayload
             });
+
+            if (parseInt(result.error) === 0) {
+                showMessage(result.responseText, false, 3000);
+            } else {
+                showMessage(result.responseText, true, 5000);
+            }
         },
         addAction(triggerName) {
             // pick a default template (you can use first available template)
