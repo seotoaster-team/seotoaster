@@ -96,8 +96,19 @@ class Api_Toaster_Actionemailgridinfo extends Api_Service_Abstract
             );
         }
 
+        $view = new Zend_View();
+        $view->addHelperPath(
+            dirname(APPLICATION_PATH) . '/application/views/helpers/',
+            'Zend_View_Helper'
+        );
+        $helper = $view->getHelper('ToasterHelp');
+        $helpLink = $helper->toasterHelp(
+            Zend_View_Helper_ToasterHelp::SECTION_ACTIONEMAILS, null, true
+        );
+
         $data['additionalInfo']['actionsOptions'] = $actionsOptions;
         $data['additionalInfo']['presortedActionOptions'] = $presortedActionOptions;
+        $data['additionalInfo']['helpLink'] = $helpLink;
 
         return $data;
     }
