@@ -64,6 +64,7 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
          * @var $dbAdapter Zend_Db_Adapter_Abstract
          */
         $dbAdapter = $this->getDbTable()->getAdapter();
+        $tableName = 'template';
 
         try {
             $dbAdapter->beginTransaction();
@@ -71,9 +72,9 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
             // Disable foreign key checks
             $dbAdapter->query('SET foreign_key_checks = 0;');
 
-            // Delete templates
+            // Delete templates except default ones
             $dbAdapter->delete(
-                $this->getDbTable(),
+                $tableName,
                 array('name NOT IN (?)' => $this->_defaultTemplates)
             );
 
