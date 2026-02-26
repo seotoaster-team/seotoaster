@@ -81,20 +81,20 @@
               </div>
 
               <!-- PREHEADER -->
-              <div v-if="action.service !== 'sms' && data.preheader !== undefined">
+              <div v-if="action.service !== 'sms' && typeof data.preheader !== 'undefined'">
                 <label>{{$t('message.preheader')}}</label>
                 <input type="text" v-model="action.preheader">
               </div>
 
               <!-- SMS TEXT -->
-              <div v-if="name === 'store_neworder' || name === 'store_trackingnumber' || data.withsms !== undefined" :class="{ 'hide': action.service !== 'sms' }">
+              <div v-if="name === 'store_neworder' || name === 'store_trackingnumber' || typeof data.withsms !== 'undefined'" :class="{ 'hide': action.service !== 'sms' }">
                 <label>{{$t('message.insertPlainText')}}</label>
                 <textarea v-model="action.message" rows="5" class="grid_12" :placeholder="$t('message.smsTextOnly')" style="height:172px;"></textarea>
               </div>
             </fieldset>
           </div>
         </div>
-        <button v-if="configId !== '0'" @click="saveAction" id="save-actions">{{$t('message.save')}}</button>
+        <button v-if="parseInt(configId) !== 0" @click="saveAction" id="save-actions">{{$t('message.save')}}</button>
       </div>
     </template>
     <router-view :key="$route.path"></router-view>
