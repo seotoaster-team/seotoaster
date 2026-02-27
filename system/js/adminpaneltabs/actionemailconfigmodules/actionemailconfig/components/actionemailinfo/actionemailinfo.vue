@@ -1,8 +1,6 @@
 <template>
   <div id="config-detailed-view">
     <template v-if="loadedScreen === true">
-      {{ configId }}
-      {{ activeTab }}
       <div id="actions-triggers-frm">
         <!-- TABS -->
         <div v-if="configId !== '0' && typeof additionalInfo.triggers[configId] !== 'undefined' && typeof additionalInfo.triggers[configId]['trigger'] !== 'undefined'">
@@ -10,11 +8,12 @@
             <span class="arrow left ticon-arrow-left3" @click="scrollTabs('left')"></span>
             <div class="tabs-scroll" ref="tabsScroll">
               <ul class="tabs-header" id="triggers-tabs-holder">
-                <li v-for="(data, name) in additionalInfo.triggers[configId]['trigger']" :key="name" :class="[activeTab === name? 'active': '']">
+                <li v-for="name in tabNames" :key="name" :class="[activeTab === name ? 'active' : '']">
                   <button type="button" @click="changeTab(name)">
-                    {{ data.title }}
+                    {{ additionalInfo.triggers[configId]['trigger'][name].title }}
                   </button>
                 </li>
+                <li class="tabs-end-spacer"></li>
               </ul>
             </div>
             <span class="arrow right ticon-arrow-right3" @click="scrollTabs('right')"></span>
@@ -109,6 +108,47 @@
 
 <script src="./controller/actionemailinfo.js"/>
 
+<style>
+.tabs-scroll {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-right: 100px; /* space so last tab is visible */
+  box-sizing: content-box;
+}
 
+.tabs-header {
+  display: flex;
+}
+
+.tabs-header li {
+  background: #e9e9e9;
+  border: 1px solid #d0d0d0;
+  border-bottom: none;
+}
+
+.tabs-header li.active {
+  background: #ffffff;
+  font-weight: bold;
+}
+
+.tabs-end-spacer {
+  width: 30px; /* slightly more than arrow width + buffer */
+  flex-shrink: 0;
+}
+
+/* optional small spacing so last tab doesn’t touch edge */
+.tabs-header li:last-child {
+  margin-right: 10px;
+}
+/*.tabs-scroll::-webkit-scrollbar {*/
+/*  display: none;*/
+/*}*/
+
+/*!* Hide scrollbar for Firefox *!*/
+/*.tabs-scroll {*/
+/*  scrollbar-width: none; !* Firefox *!*/
+/*  -ms-overflow-style: none; !* IE 10+ *!*/
+/*}*/
+</style>
 
 

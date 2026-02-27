@@ -49,6 +49,13 @@ export default {
                 label: this.additionalInfo.services[key]
             }));
         },
+        tabNames() {
+            const triggers = this.additionalInfo?.triggers?.[this.configId]?.trigger;
+            if (triggers && typeof triggers === 'object') {
+                return Object.keys(triggers);
+            }
+            return [];
+        }
     },
     watch: {
         changeSubTabRemote(newData, originalData) {
@@ -56,6 +63,14 @@ export default {
                 this.changeSubTab(newData.tabName, true);
             }
         },
+        activeTab() {
+            this.scrollToActiveTab();
+        },
+        tabNames(newVal) {
+            if (newVal.length && this.activeTab) {
+                this.scrollToActiveTab();
+            }
+        }
     },
     methods: {
         backToGrid() {
@@ -97,24 +112,65 @@ export default {
         },
         scrollTabs(direction) {
             const container = this.$refs.tabsScroll;
-            const tabs = Object.keys(this.additionalInfo.triggers[this.configId]['trigger']);
+            const tabs = this.tabNames;
             const currentIndex = tabs.indexOf(this.activeTab);
 
             let newIndex = currentIndex;
+
             if (direction === 'left' && currentIndex > 0) {
-                newIndex = currentIndex - 1;
+                newIndex--;
             } else if (direction === 'right' && currentIndex < tabs.length - 1) {
-                newIndex = currentIndex + 1;
+                newIndex++;
             }
 
-            // Change active tab
-            this.changeTab(tabs[newIndex]);
+            const newTab = tabs[newIndex];
+            this.changeTab(newTab);
 
-            // Scroll visually
-            const tabEl = container.querySelectorAll('li')[newIndex];
-            if (tabEl) {
-                tabEl.scrollIntoView({ behavior: 'smooth', inline: 'center' });
-            }
+            this.$nextTick(() => {
+                const tabEl = container.querySelectorAll('li')[newIndex];
+
+                if (tabEl) {
+                    const offsetLeft = tabEl.offsetLeft;
+                    const width = tabEl.offsetWidth;
+                    const containerWidth = container.offsetWidth;
+
+                    container.scrollTo({
+                        left: offsetLeft - containerWidth / 2 + width / 2,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        },
+        scrollToActiveTab() {
+            this.$nextTick(() => {
+                requestAnimationFrame(() => {
+                    const container = this.$refs.tabsScroll;
+                    if (!container) return;
+
+                    const tabs = this.tabNames;
+                    const index = tabs.indexOf(this.activeTab);
+                    if (index === -1) return;
+
+                    const tabEl = container.querySelectorAll('li')[index];
+                    if (!tabEl) return;
+
+                    const offsetLeft = tabEl.offsetLeft;
+                    const width = tabEl.offsetWidth;
+                    const containerWidth = container.offsetWidth;
+                    const maxScrollLeft = container.scrollWidth - containerWidth;
+
+                    let scrollLeft = offsetLeft - containerWidth / 2 + width / 2;
+
+                    // prevent scrolling beyond max
+                    if (scrollLeft > maxScrollLeft) scrollLeft = maxScrollLeft;
+                    if (scrollLeft < 0) scrollLeft = 0;
+
+                    container.scrollTo({
+                        left: scrollLeft,
+                        behavior: 'smooth'
+                    });
+                });
+            });
         },
         filteredActions(triggerName) {
             return this.actions.filter(a => a.trigger === triggerName);
