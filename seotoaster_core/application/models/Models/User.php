@@ -72,6 +72,8 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
     protected $_excludeWeekends = '0';
 
+    protected $_profileImage = '';
+
     public function setGplusProfile($gplusProfile) {
         $this->_gplusProfile = $gplusProfile;
         return $this;
@@ -650,6 +652,24 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
     {
         $this->_mfaCodeExpirationTime = $mfaCodeExpirationTime;
     }
+
+    /**
+     * @return string
+     */
+    public function getProfileImage()
+    {
+        return $this->_profileImage;
+    }
+
+    /**
+     * @param string $profileImage
+     */
+    public function setProfileImage($profileImage)
+    {
+        $this->_profileImage = $profileImage;
+    }
+
+
 
 }
 
