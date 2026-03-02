@@ -40,7 +40,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('optimizedNotifications', ''),
 ('wraplinks', '0'),
 ('takeATour', '1'),
-('version',	'3.12.0');
+('version',	'3.12.1');
 
 
 DROP TABLE IF EXISTS `container`;
@@ -482,6 +482,7 @@ CREATE TABLE `user` (
   `mfa_code` CHAR(6) DEFAULT NULL,
   `mfa_code_expiration_time` TIMESTAMP NULL,
   `exclude_weekends` ENUM('0', '1') DEFAULT '0',
+  `profile_image` CHAR(40) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `indEmail` (`email`),
   KEY `indPassword` (`password`)
