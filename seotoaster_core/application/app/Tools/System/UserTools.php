@@ -11,6 +11,8 @@ class Tools_System_UserTools
 
     const PROFILE_IMAGE_PATH = 'system'.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR;
 
+    const PLACEHOLDER_IMAGE = 'system'.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'profile-placeholder.png';
+
 
     /**
      * Get full profile image link
@@ -88,6 +90,19 @@ class Tools_System_UserTools
         $userMapper->save($userModel);
 
         return array('error' => 0);
+    }
+
+    /**
+     * Get profile placeholder image
+     *
+     * @return string
+     */
+    public static function getProfilePlaceholderImage()
+    {
+        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+        $profilePlaceholderImageUrl = $websiteHelper->getUrl() . self::PLACEHOLDER_IMAGE;
+
+        return $profilePlaceholderImageUrl;
     }
 
 }
