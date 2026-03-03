@@ -54,4 +54,38 @@ class Tools_System_UserTools
         return $websiteHelper->getPath().self::PROFILE_IMAGE_PATH.self::PROFILE_IMAGE_FOLDER.DIRECTORY_SEPARATOR;
     }
 
+    /**
+     * Delete profile picture
+     *
+     * @param int $userId user id
+     * @return array
+     * @throws Exceptions_SeotoasterException
+     * @throws Zend_Exception
+     */
+    public static function deleteProfilePicture($userId)
+    {
+        $translator = Zend_Registry::get('Zend_Translate');
+
+        $userMapper = Application_Model_Mappers_UserMapper::getInstance();
+        $userModel = $userMapper->find($userId);
+        if (!$userModel instanceof Application_Model_Models_User) {
+            return array('error' => 1, 'message' => $translator->translate('User not found'));
+        }
+
+        $profileImage = $userModel->getProfileImage();
+
+        if (empty($profileImage)) {
+            return array('error' => 1, 'message' => $translator->translate('Profile image not found'));
+        }
+
+        $fullImagePath = self::getProfileFolderPath().$profileImage;
+        if (!file_exists($fullImagePath)) {
+            return array('error' => 1, 'message' => $translator->translate('Profile picture not found'));
+        }
+
+        Tools_Filesystem_Tools::deleteFile($fullImagePath);
+
+        return array('error' => 0);
+    }
+
 }
