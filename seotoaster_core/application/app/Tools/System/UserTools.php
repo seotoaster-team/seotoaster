@@ -84,6 +84,8 @@ class Tools_System_UserTools
         }
 
         Tools_Filesystem_Tools::deleteFile($fullImagePath);
+        $userModel->setProfileImage(null);
+        $userMapper->save($userModel);
 
         return array('error' => 0);
     }
