@@ -482,7 +482,7 @@ CREATE TABLE `user` (
   `mfa_code` CHAR(6) DEFAULT NULL,
   `mfa_code_expiration_time` TIMESTAMP NULL,
   `exclude_weekends` ENUM('0', '1') DEFAULT '0',
-  `profile_image` CHAR(40) DEFAULT NULL,
+  `profile_image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `indEmail` (`email`),
   KEY `indPassword` (`password`)

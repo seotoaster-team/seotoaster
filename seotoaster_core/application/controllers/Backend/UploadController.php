@@ -538,7 +538,8 @@ class Backend_UploadController extends Zend_Controller_Action
                 $newName = '.webp';
                 break;
             default:
-                return false;
+                return array('error' => true,
+                    "result" => array("fileExtensionFalse" => "File has a false extension"));
                 break;
         }
 

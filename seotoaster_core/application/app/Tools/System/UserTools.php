@@ -13,6 +13,8 @@ class Tools_System_UserTools
 
     const PLACEHOLDER_IMAGE = 'system'.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'profile-placeholder.png';
 
+    const DEFAULT_PROFILE_IMAGE_SIZE = 250;
+
 
     /**
      * Get full profile image link
