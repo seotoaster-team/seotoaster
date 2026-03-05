@@ -92,6 +92,7 @@ class Backend_UserController extends Zend_Controller_Action {
                         $data['mfaCode'] = $existedUser->getMfaCode();
                         $data['mfaCodeExpirationTime'] = $existedUser->getMfaCodeExpirationTime();
                         $data['excludeWeekends'] = $existedUser->getExcludeWeekends();
+                        $data['profileImage'] = $existedUser->getProfileImage();
                     }
                 } else {
                     $notifyNewUser = true;
