@@ -21,8 +21,8 @@
           <div class="f-content">
             <div v-for="(data, name) in additionalInfo.triggers[configId]['trigger']" :key="name" v-show="activeTab === name" class="tabs-contents">
               <!-- ACTION FIELDSETS -->
-              <fieldset v-for="(action, index) in filteredActions(name)" :key="action.localId" v-show="action.delete !== true && action.delete !== 'true'" class="background">
-                <span class="ticon-close" @click="remove(action.localId)"></span>
+              <fieldset v-for="(action, index) in filteredActions(name)" :key="action.localId" v-show="action.delete !== true && action.delete !== 'true'" class="background form">
+                <span class="ticon-close btn icon link error" @click="remove(action.localId)"></span>
                 <div class="trigger-title">
                   {{$t('message.when')}} <strong>{{ data.title }}</strong>
                 </div>
