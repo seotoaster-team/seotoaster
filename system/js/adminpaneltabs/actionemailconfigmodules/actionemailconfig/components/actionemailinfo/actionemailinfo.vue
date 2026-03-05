@@ -28,8 +28,8 @@
                 </div>
                 <!-- SERVICE SELECT -->
                 <div v-if="showServiceSelector(name, data)">
-                  <label>{{$t('message.send')}}</label>
-                  <select v-model="action.service" @change="onServiceChange(action)">
+                  <label class="grid_4 mt5px">{{$t('message.send')}}</label>
+                  <select class="grid_8" name="services-list" v-model="action.service" @change="onServiceChange(action)">
                     <option v-for="service in processedServices" :key="service.value" :value="service.value">
                       {{ service.label }}
                     </option>
@@ -41,8 +41,8 @@
 
                 <!-- RECIPIENT -->
                 <div>
-                  <label>{{$t('message.sendTo')}}</label>
-                  <select v-model="action.recipient">
+                  <label class="grid_4 mt5px">{{$t('message.sendTo')}}</label>
+                  <select class="grid_8" v-model="action.recipient">
                     <option v-for="recipient in filteredRecipients(action)" :key="recipient.value" :value="recipient.value">
                       {{ recipient.label }}
                     </option>
@@ -51,8 +51,8 @@
 
                 <!-- TEMPLATE -->
                 <div v-if="action.service !== 'sms'">
-                  <label>{{$t('message.useTemplate')}}</label>
-                  <select v-model="action.template">
+                  <label class="grid_4 mt5px">{{$t('message.useTemplate')}}</label>
+                  <select class="grid_8" v-model="action.template">
                     <option v-for="tpl in processedMailTemplates" :key="tpl.value" :value="tpl.value">
                       {{ tpl.label }}
                     </option>
@@ -61,35 +61,35 @@
 
                 <!-- MESSAGE (EMAIL) -->
                 <div v-if="action.service !== 'sms'">
-                  <label>{{$t('message.withMessage')}}</label>
-                  <textarea v-model="action.message" rows="4"></textarea>
+                  <label class="grid_4 mt5px">{{$t('message.withMessage')}}</label>
+                  <textarea class="grid_8" v-model="action.message" rows="4"></textarea>
                 </div>
 
                 <!-- FROM -->
                 <div v-if="action.service !== 'sms'">
-                  <label>{{$t('message.from')}}</label>
-                  <input type="text" v-model="action.from">
+                  <label class="grid_4 mt5px">{{$t('message.from')}}</label>
+                  <input class="grid_8" type="text" v-model="action.from">
                 </div>
 
                 <!-- SUBJECT -->
                 <div v-if="action.service !== 'sms'">
-                  <label>{{$t('message.withSubject')}}</label>
-                  <input type="text" v-model="action.subject">
+                  <label class="grid_4 mt5px">{{$t('message.withSubject')}}</label>
+                  <input class="grid_8" type="text" v-model="action.subject">
                 </div>
 
                 <!-- PREHEADER -->
                 <div v-if="action.service !== 'sms' && typeof data.preheader !== 'undefined' && typeof data.withsms === 'undefined'">
-                  <label>
+                  <label class="grid_4 mt5px">
                     {{$t('message.preheader')}}
                     <span class="ticon-info tooltip icon18" :title="$t('message.preheaderTooltip')"></span>
                   </label>
-                  <input type="text" v-model="action.preheader">
+                  <input class="grid_8" type="text" v-model="action.preheader">
                 </div>
 
                 <!-- SMS TEXT -->
                 <div v-if="name === 'store_neworder' || name === 'store_trackingnumber' || typeof data.withsms !== 'undefined'" :class="{ 'hide': action.service !== 'sms' }">
-                  <label>{{$t('message.insertPlainText')}}</label>
-                  <textarea v-model="action.message" rows="5" class="grid_12" :placeholder="$t('message.smsTextOnly')" style="height:172px;"></textarea>
+                  <label class="grid_4 mt5px">{{$t('message.insertPlainText')}}</label>
+                  <textarea v-model="action.message" rows="5" class="grid_8" :placeholder="$t('message.smsTextOnly')" style="height:172px;"></textarea>
                 </div>
               </fieldset>
               <!-- ADD NEW ACTION -->
