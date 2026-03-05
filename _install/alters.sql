@@ -962,11 +962,15 @@ ALTER TABLE `form` ADD `download_file_name` varchar(255) COLLATE utf8_unicode_ci
 -- version: 3.11.3
 -- Pre package version
 
+-- 14/01/2026
+-- version: 3.12.0
+-- Pre package version
+
 -- 02.03.2026
 -- Add user profile picture
 -- version: 3.12.1
 ALTER TABLE `user` ADD COLUMN `profile_image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.12.1' WHERE `name`='version';
+UPDATE `config` SET `value`='3.12.2' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
