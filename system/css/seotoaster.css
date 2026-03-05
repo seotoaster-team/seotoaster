@@ -5788,6 +5788,20 @@ label[for*="chr-"] {
 }
 #actions-triggers-frm .tabs-nav-wrap {
   overflow: visible;
+  margin-top: 0.5em;
+  border-top: 1px solid #dadada;
+}
+#actions-triggers-frm .tabs-nav-wrap .arrow {
+  box-shadow: none;
+}
+#actions-triggers-frm .tabs-nav-wrap .arrow.left {
+  border-right: 2px solid #dadada;
+}
+#actions-triggers-frm .tabs-nav-wrap .arrow.right {
+  border-left: 2px solid #dadada;
+}
+#actions-triggers-frm .tabs-header button {
+  line-height: initial;
 }
 #actions-triggers-frm .tabs-contents {
   display: flex;
@@ -5800,8 +5814,11 @@ label[for*="chr-"] {
   flex: 0 0 48%;
   margin: 0 1% 1rem;
 }
+#actions-triggers-frm .trigger-title {
+  margin-top: 0;
+}
 #actions-triggers-frm fieldset div {
-  margin-top: 0.6em;
+  margin-top: 0.65em;
 }
 #actions-triggers-frm .new-trigger-action {
   cursor: pointer;
@@ -5829,8 +5846,6 @@ label[for*="chr-"] {
 .tabs-scroll {
   overflow-x: auto;
   white-space: nowrap;
-  padding-right: 100px;
-  /* space so last tab is visible */
   box-sizing: content-box;
 }
 .tabs-header {
@@ -5838,7 +5853,6 @@ label[for*="chr-"] {
 }
 .tabs-header li {
   background: #e9e9e9;
-  border: 1px solid #d0d0d0;
   border-bottom: none;
 }
 .tabs-header li.active {
