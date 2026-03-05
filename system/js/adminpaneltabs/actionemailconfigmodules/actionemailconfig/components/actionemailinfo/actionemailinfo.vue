@@ -110,37 +110,37 @@
 <script src="./controller/actionemailinfo.js"/>
 
 <style>
-.tabs-scroll {
-  overflow-x: auto;
-  white-space: nowrap;
-  padding-right: 100px; /* space so last tab is visible */
-  box-sizing: content-box;
-}
+/*.tabs-scroll {*/
+/*  overflow-x: auto;*/
+/*  white-space: nowrap;*/
+/*  padding-right: 100px; !* space so last tab is visible *!*/
+/*  box-sizing: content-box;*/
+/*}*/
 
-.tabs-header {
-  display: flex;
-}
+/*.tabs-header {*/
+/*  display: flex;*/
+/*}*/
 
-.tabs-header li {
-  background: #e9e9e9;
-  border: 1px solid #d0d0d0;
-  border-bottom: none;
-}
+/*.tabs-header li {*/
+/*  background: #e9e9e9;*/
+/*  border: 1px solid #d0d0d0;*/
+/*  border-bottom: none;*/
+/*}*/
 
-.tabs-header li.active {
-  background: #ffffff;
-  font-weight: bold;
-}
+/*.tabs-header li.active {*/
+/*  background: #ffffff;*/
+/*  font-weight: bold;*/
+/*}*/
 
-.tabs-end-spacer {
-  width: 30px; /* slightly more than arrow width + buffer */
-  flex-shrink: 0;
-}
+/*.tabs-end-spacer {*/
+/*  width: 30px; !* slightly more than arrow width + buffer *!*/
+/*  flex-shrink: 0;*/
+/*}*/
 
-/* optional small spacing so last tab doesn’t touch edge */
-.tabs-header li:last-child {
-  margin-right: 10px;
-}
+/*!* optional small spacing so last tab doesn’t touch edge *!*/
+/*.tabs-header li:last-child {*/
+/*  margin-right: 10px;*/
+/*}*/
 /*.tabs-scroll::-webkit-scrollbar {*/
 /*  display: none;*/
 /*}*/
