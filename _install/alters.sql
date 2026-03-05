@@ -962,6 +962,10 @@ ALTER TABLE `form` ADD `download_file_name` varchar(255) COLLATE utf8_unicode_ci
 -- version: 3.11.3
 -- Pre package version
 
+-- 14/01/2026
+-- version: 3.12.0
+-- Pre package version
+
 -- 02.03.2026
 -- Add user profile picture
 -- version: 3.12.1
