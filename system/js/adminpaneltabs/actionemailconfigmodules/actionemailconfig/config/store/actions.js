@@ -48,7 +48,7 @@ export const getDetailedScreenInfo = ({commit, state, dispatch}, payload) => {
 };
 
 export const saveTriggerActions = ({commit, state, dispatch}, payload) => {
-    showSpinner('#actions-triggers-frm', 'actions-triggers-frm-spinner dashboard-spinner');
+    showSpinner('#actions-triggers-frm', 'actions-triggers-frm-spinner system-spinner');
     return new Promise((resolve, reject) => {
         $.ajax({
             'url': $('#website_url').val()+'backend/backend_config/actionmails/',
