@@ -59,13 +59,36 @@ class Application_Model_Mappers_TemplateMapper extends Application_Model_Mappers
 		return $this->getDbTable()->delete( array('name = ?' => $template->getName()) );
 	}
 
-	/**
-	 * Flush all templates except requires
-	 * @return mixed
-	 */
-	public function clearTemplates(){
-        return $this->getDbTable()->delete( array('name NOT IN (?)' => $this->_defaultTemplates));
-	}
+    public function clearTemplates() {
+        /**
+         * @var $dbAdapter Zend_Db_Adapter_Abstract
+         */
+        $dbAdapter = $this->getDbTable()->getAdapter();
+        $tableName = 'template';
+
+        try {
+            $dbAdapter->beginTransaction();
+
+            // Disable foreign key checks
+            $dbAdapter->query('SET foreign_key_checks = 0;');
+
+            // Delete templates except default ones
+            $dbAdapter->delete(
+                $tableName,
+                array('name NOT IN (?)' => $this->_defaultTemplates)
+            );
+
+            // Re-enable foreign key checks
+            $dbAdapter->query('SET foreign_key_checks = 1;');
+
+            $dbAdapter->commit();
+            return true;
+        } catch (Exception $e) {
+            $dbAdapter->rollBack();
+            Tools_System_Tools::debugMode() && error_log($e->getMessage());
+            return false;
+        }
+    }
 
     public function fetchAllTypes() {
         $dbTable = new Application_Model_DbTable_TemplateType();

@@ -47,6 +47,7 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
             'mfa_code'                   => $user->getMfaCode(),
             'mfa_code_expiration_time'   => $user->getMfaCodeExpirationTime(),
             'exclude_weekends'           => $user->getExcludeWeekends(),
+            'profile_image'              => $user->getProfileImage(),
 		);
 		if(!$user->getPassword()) {
 			unset($data['password']);
@@ -148,6 +149,7 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
             'u.mfa_code',
             'u.mfa_code_expiration_time',
             'u.exclude_weekends',
+            'u.profile_image'
         );
 
         $select = $this->getDbTable()->getAdapter()->select()
@@ -325,7 +327,8 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
             'signature',
             'subscribed',
             'personal_calendar_url',
-            'avatar_link'
+            'avatar_link',
+            'profile_image'
         ))
             ->where('role_id <> "' . Tools_Security_Acl::ROLE_SUPERADMIN . '"');
 
