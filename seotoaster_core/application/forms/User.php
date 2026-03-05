@@ -57,6 +57,8 @@ class Application_Form_User extends Application_Form_Secure {
 
     protected $_mfaCodeExpirationTime = '';
 
+    protected $_profileImage = '';
+
 	public function init() {
         parent::init();
 
@@ -607,6 +609,24 @@ class Application_Form_User extends Application_Form_Secure {
     {
         $this->_mfaCodeExpirationTime = $mfaCodeExpirationTime;
         $this->getElement('mfaCodeExpirationTime')->setValue($mfaCodeExpirationTime);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProfileImage()
+    {
+        return $this->_profileImage;
+    }
+
+    /**
+     * @param string $profileImage
+     */
+    public function setProfileImage($profileImage)
+    {
+        $this->_profileImage = $profileImage;
+        $this->getElement('profileImage')->setValue($profileImage);
         return $this;
     }
 

@@ -518,6 +518,62 @@ class Backend_UploadController extends Zend_Controller_Action
         return $result;
     }
 
+    private function _uploadProfileimage()
+    {
+        $savePath = $this->_websiteConfig['path'] . $this->_websiteConfig['tmp'];
+
+        $fileMime = $this->_getMimeType();
+        switch ($fileMime) {
+            case 'image/png':
+                $newName = '.png';
+                break;
+            case 'image/jpg':
+            case 'image/jpeg':
+                $newName = '.jpg';
+                break;
+            case 'image/gif':
+                $newName = '.gif';
+                break;
+            case 'image/webp':
+                $newName = '.webp';
+                break;
+            default:
+                return array('error' => true,
+                    "result" => array("fileExtensionFalse" => "File has a false extension"));
+                break;
+        }
+
+        $newName = sha1(uniqid(microtime())) . $newName;
+        $newImageFile = $savePath . $newName;
+
+        $this->_uploadHandler->addFilter('Rename',
+            array('target' => $newImageFile,
+                'overwrite' => true));
+
+        $convertToWebp = false;
+        $convertPreviewToWebp = $this->_helper->config->getConfig('convertPreviewToWebp');
+        if (!empty($convertPreviewToWebp)) {
+            $this->_helper->session->convertToWebp = 1;
+            $convertToWebp = true;
+        }
+
+        $result = $this->_uploadImages($savePath, false);
+
+        if ($result['error'] == false) {
+            if (!empty($result['source']) && $convertToWebp === true) {
+                $newImageFile = $result['source'];
+                if (substr($newName, -5) !== '.webp') {
+                    $newName = preg_replace('/\.[^.]+$/', '.webp', $newName);
+                }
+            }
+
+            $result['src'] = $this->_helper->website->getUrl() . $this->_websiteConfig['tmp'] . $newName;
+            $result['fileName'] = $newName;
+        }
+
+        return $result;
+    }
+
     private function _uploadPagepreview()
     {
         $miscConfig = Zend_Registry::get('misc');
