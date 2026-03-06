@@ -5814,6 +5814,10 @@ label[for*="chr-"] {
   flex: 0 0 48%;
   margin: 0 1% 1rem;
 }
+#actions-triggers-frm .tabs-contents fieldset {
+  border: none;
+  border-top: 1px solid #eee;
+}
 #actions-triggers-frm .trigger-title {
   margin-top: 0;
 }
