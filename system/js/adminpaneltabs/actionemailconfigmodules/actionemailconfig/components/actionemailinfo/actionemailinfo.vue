@@ -88,8 +88,8 @@
 
                 <!-- SMS TEXT -->
                 <div v-if="name === 'store_neworder' || name === 'store_trackingnumber' || typeof data.withsms !== 'undefined'" :class="{ 'hide': action.service !== 'sms' }">
-                  <label class="grid_4 mt5px">{{$t('message.insertPlainText')}}</label>
-                  <textarea v-model="action.message" rows="5" class="grid_8" :placeholder="$t('message.smsTextOnly')" style="height:172px;"></textarea>
+                  <label class="grid_12 mt5px">{{$t('message.insertPlainText')}}</label>
+                  <textarea v-model="action.message" rows="5" class="grid_12" :placeholder="$t('message.smsTextOnly')" style="height:172px;"></textarea>
                 </div>
               </fieldset>
               <!-- ADD NEW ACTION -->
