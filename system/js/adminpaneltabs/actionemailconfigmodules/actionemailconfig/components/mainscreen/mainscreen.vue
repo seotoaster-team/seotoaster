@@ -10,7 +10,9 @@
         <option v-for="selectionOptions in additionalInfo.presortedActionOptions" :value="selectionOptions.key">{{selectionOptions.label}}</option>
       </select>
     </div>
-     <router-view :key="$route.path"></router-view>
+    <div id="actions-triggers-frm" class="f-wrapper" style="position: relative;">
+       <router-view :key="$route.path"></router-view>
+    </div>
 </template>
 
 <script src="./controller/mainscreen.js"/>

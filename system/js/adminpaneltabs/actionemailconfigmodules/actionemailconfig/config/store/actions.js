@@ -1,6 +1,6 @@
 export const getGeneralScreenData = ({commit, state, dispatch}, payload) => {
     return new Promise((resolve, reject) => {
-        showSpinner('#ations-triggers-frm', 'action-emails-config-block-spinner system-spinner');
+        showSpinner('#action-emails-config-block', 'action-emails-config-block-spinner system-spinner');
         $.ajax({
             'url': $('#website_url').val()+'api/toaster/actionemailgridinfo/',
             'type': 'GET',
@@ -23,7 +23,7 @@ export const getGeneralScreenData = ({commit, state, dispatch}, payload) => {
 
 export const getDetailedScreenInfo = ({commit, state, dispatch}, payload) => {
     return new Promise((resolve, reject) => {
-        showSpinner('#config-detailed-view', 'config-detailed-view-spinner system-spinner');
+        showSpinner('#actions-triggers-frm', 'config-detailed-view-spinner system-spinner');
         $.ajax({
             'url': $('#website_url').val()+'api/toaster/actionemailgridinfo/',
             'type': 'GET',
@@ -48,7 +48,7 @@ export const getDetailedScreenInfo = ({commit, state, dispatch}, payload) => {
 };
 
 export const saveTriggerActions = ({commit, state, dispatch}, payload) => {
-    showSpinner('#actions-triggers-frm', 'actions-triggers-frm-spinner system-spinner');
+    showSpinner('#tabs-content-block', 'actions-triggers-frm-spinner system-spinner');
     return new Promise((resolve, reject) => {
         $.ajax({
             'url': $('#website_url').val()+'backend/backend_config/actionmails/',

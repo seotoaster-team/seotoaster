@@ -1,5 +1,5 @@
 <template>
-  <div id="actions-triggers-frm" class="f-wrapper">
+<!--  <div id="actions-triggers-frm" class="f-wrapper">-->
     <template v-if="loadedScreen === true">
         <!-- TABS -->
         <template v-if="configId !== '0' && typeof additionalInfo.triggers[configId] !== 'undefined' && typeof additionalInfo.triggers[configId]['trigger'] !== 'undefined'">
@@ -18,7 +18,7 @@
             <span class="arrow right ticon-arrow-right3" @click="scrollTabs('right')"></span>
           </div>
           <!-- TAB CONTENTS -->
-          <div class="f-content">
+          <div id="tabs-content-block" class="f-content" style="position: relative;">
             <div v-for="(data, name) in additionalInfo.triggers[configId]['trigger']" :key="name" v-show="activeTab === name" class="tabs-contents">
               <!-- ACTION FIELDSETS -->
               <fieldset v-for="(action, index) in filteredActions(name)" :key="action.localId" v-show="action.delete !== true && action.delete !== 'true'" class="background form">
@@ -99,12 +99,12 @@
         </template>
         <div class="f-footer">
           <div class="grid_12">
-            <button v-if="parseInt(configId) !== 0" @click="saveAction" id="save-actions" class="btn ticon-save save-and-close">{{$t('message.save')}}</button>
+            <button v-if="parseInt(configId) !== 0" @click="saveAction" id="save-actions" class="btn success save-and-close">{{$t('message.saveChanges')}}</button>
           </div>
         </div>
     </template>
     <router-view :key="$route.path"></router-view>
-  </div>
+<!--  </div>-->
 </template>
 
 <script src="./controller/actionemailinfo.js"/>
