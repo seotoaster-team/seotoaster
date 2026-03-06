@@ -7,8 +7,8 @@
             <span class="arrow left ticon-arrow-left3" @click="scrollTabs('left')"></span>
             <div class="tabs-scroll" ref="tabsScroll">
               <ul class="tabs-header" id="triggers-tabs-holder">
-                <li v-for="name in tabNames" :key="name" :class="[activeTab === name ? 'active' : '']">
-                  <button type="button" @click="changeTab(name)">
+                <li @click="changeTab(name)" v-for="name in tabNames" :key="name" :class="[activeTab === name ? 'active' : '']">
+                  <button type="button">
                     {{ additionalInfo.triggers[configId]['trigger'][name].title }}
                   </button>
                 </li>
