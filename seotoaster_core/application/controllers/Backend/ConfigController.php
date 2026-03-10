@@ -262,10 +262,14 @@ class Backend_ConfigController extends Zend_Controller_Action {
     }
 
     public function actionmailsAction() {
-        $requestParams = $this->getRequest()->getParams();
-        $this->view->screenVersion = 'old';
-        if (!empty($requestParams['version']) && $requestParams['version'] === 'new') {
-            $this->view->screenVersion = 'new';
+        $this->view->screenVersion = 'new';
+        $configHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('config');
+        $actionEmailsOldVersion = $configHelper->getConfig('actionEmailsOldVersion');
+        if (!empty($actionEmailsOldVersion)) {
+            $this->view->screenVersion = 'old';
+        }
+
+        if ($this->view->screenVersion === 'new') {
             return '';
         }
 
