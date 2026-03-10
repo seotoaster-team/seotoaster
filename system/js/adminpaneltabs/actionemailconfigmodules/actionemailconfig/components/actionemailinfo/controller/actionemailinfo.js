@@ -232,16 +232,33 @@ export default {
             // pick a default template (you can use first available template)
             const defaultTemplate = this.processedMailTemplates[0]?.value || '';
 
+            var message = '';
+            var from = '';
+            var subject = '';
+            var preheader = '';
+            var recipient = 'admin';
+
+            if (typeof this.additionalInfo.triggers[this.configId] !== 'undefined' && typeof this.additionalInfo.triggers[this.configId]['trigger'] !== 'undefined'
+                && typeof this.additionalInfo.triggers[this.configId]['trigger'][triggerName] !== 'undefined') {
+
+                from = this.additionalInfo.triggers[this.configId]['trigger'][triggerName]['from'];
+                message = this.additionalInfo.triggers[this.configId]['trigger'][triggerName]['message'];
+                recipient = this.additionalInfo.triggers[this.configId]['trigger'][triggerName]['sendto'];
+                subject = this.additionalInfo.triggers[this.configId]['trigger'][triggerName]['subject'];
+                preheader = this.additionalInfo.triggers[this.configId]['trigger'][triggerName]['preheader'];
+
+            }
+
             this.actions.push({
                 localId: Date.now() + Math.random(),
                 trigger: triggerName,
-                service: 'email',           // default service
-                recipient: 'customer',
+                service: 'email',
+                recipient: 'admin',
                 template: defaultTemplate,
-                message: '',
-                from: '',
-                subject: '',
-                preheader: ''
+                message: message,
+                from: from,
+                subject: subject,
+                preheader: preheader
             });
         },
         onServiceChange(action) {
