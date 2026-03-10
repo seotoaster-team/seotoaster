@@ -223,7 +223,32 @@ export default {
             });
 
             if (parseInt(result.error) === 0) {
-                showMessage(result.responseText, false, 3000);
+                this.additionalInfo.triggerActions = result.responseText.actions;
+
+                this.actions = this.additionalInfo.triggerActions.map(a => {
+                    // Determine default template
+                    let template = a.template;
+
+                    // If service is SMS and template is empty, use first available template
+                    if(a.service === 'sms' && (!template || template === '')) {
+                        template = this.processedMailTemplates[0]?.value || '';
+                    }
+
+                    return {
+                        id: a.id,
+                        trigger: a.trigger,
+                        service: a.service,
+                        recipient: a.recipient,
+                        template: template,
+                        message: a.message,
+                        from: a.from,
+                        subject: a.subject,
+                        preheader: a.preheader,
+                        localId: Date.now() + Math.random()
+                    };
+                });
+
+                showMessage(result.responseText.message, false, 3000);
             } else {
                 showMessage(result.responseText, true, 5000);
             }

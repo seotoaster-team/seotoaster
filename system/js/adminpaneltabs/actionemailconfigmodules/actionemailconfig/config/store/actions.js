@@ -57,6 +57,7 @@ export const saveTriggerActions = ({commit, state, dispatch}, payload) => {
             'data': {
                 'secureToken':$('#action-emails-config-screen-token').val(),
                 'actions':payload.actionsPayload,
+                'returnActionsList':'1'
             }
         }).done(async  function(response){
             hideSpinner('.actions-triggers-frm-spinner');
