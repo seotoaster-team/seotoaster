@@ -147,6 +147,12 @@
             <div class="grid_1">
                 <?php echo $this->configForm->getElement('convertPreviewToWebp')->renderViewHelper(); ?>
             </div>
+            <div class="grid_5 actionEmailsOldVersionEl actionEmailsOldVersion text-right">
+                <?php echo $this->configForm->getElement('actionEmailsOldVersion')->renderLabel(); ?>
+            </div>
+            <div class="grid_1 actionEmailsOldVersionEl">
+                <?php echo $this->configForm->getElement('actionEmailsOldVersion')->renderViewHelper(); ?>
+            </div>
 
             <?php echo $this->configForm->getElement('currentTheme'); ?>
             <?php echo $this->configForm->getElement('adminEmail'); ?>
@@ -275,14 +281,25 @@
             $('.validateFormEmails').addClass('text-right');
         }
 
+        if($('#enableMinifyCss').prop('checked')) {
+            $('.actionEmailsOldVersion').removeClass('text-right');
+            $('.actionEmailsOldVersionEl').addClass('mt0px');
+        } else {
+            $('.actionEmailsOldVersion').addClass('text-right');
+        }
+
         $(document).on('click', '#enableMinifyCss', function(){
             if($('#enableMinifyCss').prop('checked')) {
                 $('.excludeSystemCssEl').show();
 
                 $('.validateFormEmails').removeClass('text-right');
+                $('.actionEmailsOldVersion').removeClass('text-right');
+                $('.actionEmailsOldVersionEl').addClass('mt0px');
             } else {
                 $('.excludeSystemCssEl').hide();
                 $('.validateFormEmails').addClass('text-right');
+                $('.actionEmailsOldVersion').addClass('text-right');
+                $('.actionEmailsOldVersionEl').removeClass('mt0px');
             }
         });
     });
