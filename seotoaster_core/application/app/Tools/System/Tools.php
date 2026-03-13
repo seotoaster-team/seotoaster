@@ -1109,10 +1109,11 @@ class Tools_System_Tools {
      *
      * @param array $data data sort
      * @param string $language
+     * @param string $field sorting filed for multidemntional array
      * @return array
      * @throws Zend_Exception
      */
-    public static function multiLanguageSort(array $data, $language = '')
+    public static function multiLanguageSort(array $data, $language = '', $field = null)
     {
         $locale = Zend_Registry::get('Zend_Locale');
         if (empty($language)) {
@@ -1124,7 +1125,16 @@ class Tools_System_Tools {
         }
 
         if ($language === 'en') {
-            asort($data);
+            if ($field !== null) {
+                uasort($data, function ($a, $b) use ($field) {
+                    return strcmp($a[$field], $b[$field]);
+                });
+
+                $data = array_values($data);
+
+            } else {
+                asort($data);
+            }
             return $data;
         }
 
@@ -1143,17 +1153,46 @@ class Tools_System_Tools {
                 }
 
                 $collator = new Collator($localeCode); // e.g., 'fr_FR'
-                $collator->asort($data);
+
+                // multidimensional
+                if ($field !== null) {
+                    uasort($data, function ($a, $b) use ($collator, $field) {
+                        return $collator->compare($a[$field], $b[$field]);
+                    });
+
+                    $data = array_values($data);
+
+                } else {
+                    $collator->asort($data);
+                }
                 return $data;
             } catch (Exception $e) {
+                if ($field !== null) {
+                    return array_values($data);
+                }
+
                 return $data;
             }
         }
 
         // Fallback: transliterate + strcmp
-        uasort($data, function ($a, $b) {
-            return strcmp(self::transliterateString($a), self::transliterateString($b));
-        });
+        if ($field !== null) {
+            uasort($data, function ($a, $b) use ($field) {
+                return strcmp(
+                    self::transliterateString($a[$field]),
+                    self::transliterateString($b[$field])
+                );
+            });
+
+            $data = array_values($data);
+        } else {
+            uasort($data, function ($a, $b) {
+                return strcmp(
+                    self::transliterateString($a),
+                    self::transliterateString($b)
+                );
+            });
+        }
 
         return $data;
     }
