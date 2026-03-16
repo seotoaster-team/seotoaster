@@ -82,8 +82,8 @@ class Tools_System_Whitelabel
     {
         if (self::isWhiteLabel()) {
             $generalConfigHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('config');
-            $whiteLabelDomain = filter_var($generalConfigHelper->getConfig('whiteLabelDomain'), FILTER_VALIDATE_URL,
-                FILTER_FLAG_HOST_REQUIRED | FILTER_FLAG_SCHEME_REQUIRED);
+            $whiteLabelDomain = filter_var($generalConfigHelper->getConfig('whiteLabelDomain'), FILTER_VALIDATE_URL
+                );
             if (!empty($whiteLabelDomain)) {
                 $whiteLabelDomain = parse_url($whiteLabelDomain, PHP_URL_SCHEME) .'://'. parse_url($whiteLabelDomain,
                         PHP_URL_HOST) . parse_url($whiteLabelDomain,
@@ -111,8 +111,7 @@ class Tools_System_Whitelabel
     {
         if (self::isWhiteLabel()) {
             $generalConfigHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('config');
-            $whiteLabelDomain = filter_var($generalConfigHelper->getConfig('whiteLabelRegisterUrl'), FILTER_VALIDATE_URL,
-                FILTER_FLAG_HOST_REQUIRED | FILTER_FLAG_SCHEME_REQUIRED);
+            $whiteLabelDomain = filter_var($generalConfigHelper->getConfig('whiteLabelRegisterUrl'), FILTER_VALIDATE_URL);
             if (!empty($whiteLabelDomain)) {
                 return $whiteLabelDomain;
             }
