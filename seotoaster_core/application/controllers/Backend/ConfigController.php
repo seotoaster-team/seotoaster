@@ -262,6 +262,17 @@ class Backend_ConfigController extends Zend_Controller_Action {
     }
 
     public function actionmailsAction() {
+        $this->view->screenVersion = 'new';
+        $configHelper = Zend_Controller_Action_HelperBroker::getExistingHelper('config');
+        $actionEmailsOldVersion = $configHelper->getConfig('actionEmailsOldVersion');
+        if (!empty($actionEmailsOldVersion)) {
+            $this->view->screenVersion = 'old';
+        }
+
+        if ($this->view->screenVersion === 'new') {
+            return '';
+        }
+
         if($this->getRequest()->isPost()) {
             $loadSingleAction = $this->getRequest()->getParam('loadSingleAction', false);
 
@@ -281,6 +292,7 @@ class Backend_ConfigController extends Zend_Controller_Action {
             } else {
                 $actions = $this->getRequest()->getParam('actions', false);
                 $secureToken = $this->getRequest()->getParam('secureToken', false);
+                $returnActionsList = $this->getRequest()->getParam('returnActionsList', false);
                 $tokenValid = Tools_System_Tools::validateToken($secureToken, Tools_System_Tools::ACTION_PREFIX_ACTIONEMAILS);
                 if (!$tokenValid) {
                     $this->_helper->response->fail('');
@@ -298,6 +310,12 @@ class Backend_ConfigController extends Zend_Controller_Action {
                     if (!empty($removeActions)) {
                         $emailTriggerMapper->delete($removeActions);
                     }
+
+                    if (!empty($returnActionsList)) {
+                        $latestActionsList = $emailTriggerMapper->fetchArray();
+                        $this->_helper->response->success(array('actions' => $latestActionsList, 'message' => $this->_helper->language->translate('Changes saved')));
+                    }
+
                     $this->_helper->response->success($this->_helper->language->translate('Changes saved'));
                     return true;
                 }
