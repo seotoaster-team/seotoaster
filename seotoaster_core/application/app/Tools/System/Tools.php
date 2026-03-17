@@ -1205,7 +1205,8 @@ class Tools_System_Tools {
      */
     public static function transliterateString($str)
     {
-        return iconv('UTF-8', 'ASCII//TRANSLIT', $str); // é → e
+        $str = mb_convert_encoding($str, 'UTF-8', 'UTF-8');
+        return iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
     }
 
 }
