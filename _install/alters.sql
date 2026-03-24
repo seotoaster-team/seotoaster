@@ -971,6 +971,12 @@ ALTER TABLE `form` ADD `download_file_name` varchar(255) COLLATE utf8_unicode_ci
 -- version: 3.12.1
 ALTER TABLE `user` ADD COLUMN `profile_image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL;
 
+-- 24/03/2026
+-- version: 3.12.2
+-- Adjust Morocco mobile/phone numbers
+UPDATE `masks_list` SET `mask_value` = '99 99 99 99 9?9' WHERE `country_code` = 'MA';
+UPDATE `masks_list` SET `full_mask_value` = '99 99 99 99 9?9' WHERE `country_code` = 'MA';
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.12.2' WHERE `name`='version';
+UPDATE `config` SET `value`='3.12.3' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
