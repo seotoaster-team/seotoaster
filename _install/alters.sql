@@ -983,6 +983,12 @@ UPDATE `masks_list` SET `full_mask_value` = '99 99 99 99 9?9' WHERE `country_cod
 UPDATE `masks_list` SET `mask_value` = '(9999)999-999?9' WHERE `country_code` = 'DE';
 UPDATE `masks_list` SET `full_mask_value` = '(9999)999-999?9' WHERE `country_code` = 'DE';
 
+-- 24/03/2026
+-- version: 3.12.4
+-- Adjust mobile/phone numbers masks
+UPDATE `masks_list` SET `mask_value` = '99999' WHERE `country_code` = 'AC';
+UPDATE `masks_list` SET `full_mask_value` = '99999' WHERE `country_code` = 'AC';
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.12.4' WHERE `name`='version';
+UPDATE `config` SET `value`='3.12.5' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';

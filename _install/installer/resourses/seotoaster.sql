@@ -40,7 +40,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('optimizedNotifications', ''),
 ('wraplinks', '0'),
 ('takeATour', '1'),
-('version',	'3.12.2');
+('version',	'3.12.5');
 
 
 DROP TABLE IF EXISTS `container`;
@@ -536,8 +536,8 @@ CREATE TABLE `masks_list` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `masks_list` (`country_code`, `mask_type`, `mask_value`, `full_mask_value`) VALUES
-('AC',	'mobile',	'9999',	'9999'),
-('AC',	'desktop',	'9999',	'9999'),
+('AC',	'mobile',	'99999',	'99999'),
+('AC',	'desktop',	'99999',	'99999'),
 ('AD',	'mobile',	'999-999',	'999-999'),
 ('AD',	'desktop',	'999-999',	'999-999'),
 ('AE',	'mobile',	'59-999-9999',	'59-999-9999'),
