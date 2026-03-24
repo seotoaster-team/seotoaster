@@ -977,6 +977,12 @@ ALTER TABLE `user` ADD COLUMN `profile_image` varchar(255) COLLATE utf8_unicode_
 UPDATE `masks_list` SET `mask_value` = '99 99 99 99 9?9' WHERE `country_code` = 'MA';
 UPDATE `masks_list` SET `full_mask_value` = '99 99 99 99 9?9' WHERE `country_code` = 'MA';
 
+-- 24/03/2026
+-- version: 3.12.3
+-- Adjust mobile/phone numbers masks
+UPDATE `masks_list` SET `mask_value` = '(9999)999-999?9' WHERE `country_code` = 'DE';
+UPDATE `masks_list` SET `full_mask_value` = '(9999)999-999?9' WHERE `country_code` = 'DE';
+
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.12.3' WHERE `name`='version';
+UPDATE `config` SET `value`='3.12.4' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
