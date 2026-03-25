@@ -1054,8 +1054,8 @@ UPDATE `masks_list` SET `mask_value` = '99-999-999?9' WHERE `country_code` = 'HR
 UPDATE `masks_list` SET `full_mask_value` = '99-999-999?9' WHERE `country_code` = 'HR';
 UPDATE `masks_list` SET `mask_value` = '(999)999-999?9' WHERE `country_code` = 'HU';
 UPDATE `masks_list` SET `full_mask_value` = '(999)999-999?9' WHERE `country_code` = 'HU';
-UPDATE `masks_list` SET `mask_value` = '(899)999-9999?9' WHERE `country_code` = 'ID';
-UPDATE `masks_list` SET `full_mask_value` = '(899)999-9999?9' WHERE `country_code` = 'ID';
+UPDATE `masks_list` SET `mask_value` = '(999)999-9999?9' WHERE `country_code` = 'ID';
+UPDATE `masks_list` SET `full_mask_value` = '(999)999-9999?9' WHERE `country_code` = 'ID';
 UPDATE `masks_list` SET `mask_value` = '(999)999-999?9' WHERE `country_code` = 'IE';
 UPDATE `masks_list` SET `full_mask_value` = '(999)999-999?9' WHERE `country_code` = 'IE';
 UPDATE `masks_list` SET `mask_value` = '99-999-9999?9' WHERE `country_code` = 'IL';
@@ -1218,6 +1218,34 @@ UPDATE `masks_list` SET `mask_value` = '99-999-9999?9' WHERE `country_code` = 'Z
 UPDATE `masks_list` SET `full_mask_value` = '99-999-9999?9' WHERE `country_code` = 'ZM';
 UPDATE `masks_list` SET `mask_value` = '99-999-9999?9' WHERE `country_code` = 'ZW';
 UPDATE `masks_list` SET `full_mask_value` = '99-999-9999?9' WHERE `country_code` = 'ZW';
+UPDATE `masks_list` SET `mask_value` = '(999)999-9999' WHERE `country_code` = 'AG';
+UPDATE `masks_list` SET `full_mask_value` = '(999)999-9999' WHERE `country_code` = 'AG';
+UPDATE `masks_list` SET `mask_value` = '(999)999-9999' WHERE `country_code` = 'AI';
+UPDATE `masks_list` SET `full_mask_value` = '(999)999-9999' WHERE `country_code` = 'AI';
+UPDATE `masks_list` SET `mask_value` = '999-999' WHERE `country_code` = 'AQ';
+UPDATE `masks_list` SET `full_mask_value` = '999-999' WHERE `country_code` = 'AQ';
+UPDATE `masks_list` SET `mask_value` = '(999)999-9999' WHERE `country_code` = 'AS';
+UPDATE `masks_list` SET `full_mask_value` = '(999)999-9999' WHERE `country_code` = 'AS';
+UPDATE `masks_list` SET `mask_value` = '(999)999-9999' WHERE `country_code` = 'BB';
+UPDATE `masks_list` SET `full_mask_value` = '(999)999-9999' WHERE `country_code` = 'BB';
+UPDATE `masks_list` SET `mask_value` = '(999)999-9999' WHERE `country_code` = 'BM';
+UPDATE `masks_list` SET `full_mask_value` = '(999)999-9999' WHERE `country_code` = 'BM';
+UPDATE `masks_list` SET `mask_value` = '(999)999-9999' WHERE `country_code` = 'BS';
+UPDATE `masks_list` SET `full_mask_value` = '(999)999-9999' WHERE `country_code` = 'BS';
+UPDATE `masks_list` SET `mask_value` = '99-999-999' WHERE `country_code` = 'BT';
+UPDATE `masks_list` SET `full_mask_value` = '99-999-999' WHERE `country_code` = 'BT';
+UPDATE `masks_list` SET `mask_value` = '(999)999-9999' WHERE `country_code` = 'DM';
+UPDATE `masks_list` SET `full_mask_value` = '(999)999-9999' WHERE `country_code` = 'DM';
+UPDATE `masks_list` SET `mask_value` = '(999)999-9999' WHERE `country_code` = 'DO';
+UPDATE `masks_list` SET `full_mask_value` = '(999)999-9999' WHERE `country_code` = 'DO';
+UPDATE `masks_list` SET `mask_value` = '(999)999-9999' WHERE `country_code` = 'GD';
+UPDATE `masks_list` SET `full_mask_value` = '(999)999-9999' WHERE `country_code` = 'GD';
+UPDATE `masks_list` SET `mask_value` = '(999)999-9999' WHERE `country_code` = 'GU';
+UPDATE `masks_list` SET `full_mask_value` = '(999)999-9999' WHERE `country_code` = 'GU';
+UPDATE `masks_list` SET `mask_value` = '(999)999-9999' WHERE `country_code` = 'KY';
+UPDATE `masks_list` SET `full_mask_value` = '(999)999-9999' WHERE `country_code` = 'KY';
+UPDATE `masks_list` SET `mask_value` = '(999)999-99-99' WHERE `country_code` = 'KZ';
+UPDATE `masks_list` SET `full_mask_value` = '(999)999-99-99' WHERE `country_code` = 'KZ';
 
 
 -- These alters are always the latest and updated version of the database
