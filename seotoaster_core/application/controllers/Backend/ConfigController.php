@@ -269,7 +269,8 @@ class Backend_ConfigController extends Zend_Controller_Action {
             $this->view->screenVersion = 'old';
         }
 
-        if ($this->view->screenVersion === 'new') {
+
+        if ($this->view->screenVersion === 'new' && !$this->getRequest()->isPost()) {
             return '';
         }
 
