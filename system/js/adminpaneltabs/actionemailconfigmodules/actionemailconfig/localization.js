@@ -1,0 +1,113 @@
+const messages = {
+    en: {
+        message: {
+            'searchBy':'Search by',
+            'areYouSure': 'Are you sure?',
+            'first':'first',
+            'last':'last',
+            'previous':'previous',
+            'next':'next',
+            'total':'total',
+            'records':'records',
+            'found':'found',
+            'noMassActions': 'nothing',
+            'resetFilter':'Reset filter',
+            'applyFilter':'Apply filter',
+            'or' :'or',
+            'cancel' :'cancel',
+            'backLink':'Back',
+            'tabHeaderMessageText':'Manage action e-mails & SMS',
+            'selectEventArea':'Select event area',
+            'actionEmailInfoTextInfoBox':'Please, select an event area above to view & edit currently configured related action emails & SMS or create new ones.',
+            'saveChanges':'Save changes',
+            'when':'When',
+            'send':'Send',
+            'sendTo':'Send to',
+            'useTemplate':'Use template',
+            'withMessage':'With message',
+            'from':'From',
+            'withSubject':'With subject',
+            'preheader':'Preheader',
+            'insertPlainText':'Insert plain text message only',
+            'smsTextOnly':'SMS are text only',
+            'save':'Save',
+            'preheaderTooltip':'A preheader is the short summary text that follows the subject line when an email is viewed in the inbox. Many mobile, desktop, and web email clients provide them to tip you off on what the email contains before you open it.'
+
+        }
+    },
+    es: {
+        message: {
+            'searchBy':'Search by',
+            'areYouSure': 'Are you sure?',
+            'first':'first',
+            'last':'last',
+            'previous':'previous',
+            'next':'next',
+            'total':'total',
+            'records':'records',
+            'found':'found',
+            'noMassActions': 'nothing',
+            'resetFilter':'Reset filter',
+            'applyFilter':'Apply filter',
+            'or' :'or',
+            'cancel' :'cancel',
+            'backLink':'Back',
+            'tabHeaderMessageText':'Manage action e-mails & SMS',
+            'selectEventArea':'Select event area',
+            'actionEmailInfoTextInfoBox':'Please, select an event area above to view & edit currently configured related action emails & SMS or create new ones.',
+            'saveChanges':'Save changes',
+            'when':'When',
+            'send':'Send',
+            'sendTo':'Send to',
+            'useTemplate':'Use template',
+            'withMessage':'With message',
+            'from':'From',
+            'withSubject':'With subject',
+            'preheader':'Preheader',
+            'insertPlainText':'Insert plain text message only',
+            'smsTextOnly':'SMS are text only',
+            'save':'Save',
+            'preheaderTooltip':'A preheader is the short summary text that follows the subject line when an email is viewed in the inbox. Many mobile, desktop, and web email clients provide them to tip you off on what the email contains before you open it.'
+
+        }
+    },
+    fr: {
+        message: {
+            'searchBy':'Search by',
+            'areYouSure': 'Are you sure?',
+            'first':'Premier',
+            'last':'Dernier',
+            'previous':'Précédent',
+            'next':'Suivant',
+            'total':'total',
+            'records':'enregistrements',
+            'found':'trouvés',
+            'noMassActions': 'rien',
+            'resetFilter':'Réinitialiser',
+            'applyFilter':'Apply filter',
+            'or' :'ou',
+            'cancel' :'cancel',
+            'backLink':'Retour',
+            'tabHeaderMessageText':'Manage action e-mails & SMS',
+            'selectEventArea':'Select event area',
+            'actionEmailInfoTextInfoBox':'Please, select an event area above to view & edit currently configured related action emails & SMS or create new ones.',
+            'saveChanges':'Save changes',
+            'when':'When',
+            'send':'Send',
+            'sendTo':'Send to',
+            'useTemplate':'Use template',
+            'withMessage':'With message',
+            'from':'From',
+            'withSubject':'With subject',
+            'preheader':'Preheader',
+            'insertPlainText':'Insert plain text message only',
+            'smsTextOnly':'SMS are text only',
+            'save':'Enregistrer les modifications',
+            'preheaderTooltip':'A preheader is the short summary text that follows the subject line when an email is viewed in the inbox. Many mobile, desktop, and web email clients provide them to tip you off on what the email contains before you open it.'
+
+        }
+    }
+
+};
+
+export default messages;

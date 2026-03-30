@@ -678,7 +678,7 @@ class Tools_System_Tools {
         });
 
         if ($reverseLabels === true) {
-            asort($phoneCodes);
+            $phoneCodes = self::multiLanguageSort($phoneCodes);
         }
 
         return $phoneCodes;
@@ -1089,6 +1089,124 @@ class Tools_System_Tools {
         if (!empty($response['isIpBlacklisted'])) {
             return true;
         }
+    }
+
+    /**
+     * @return mixed
+     * @throws Zend_Exception
+     */
+    public static function getVueJsTranslationLanguage()
+    {
+        $translator = Zend_Registry::get('Zend_Translate');
+        $locale = $translator->getLocale();
+        return $locale;
+
+    }
+
+    /**
+     *
+     * Multi language sorting
+     *
+     * @param array $data data sort
+     * @param string $language
+     * @param string $field sorting filed for multidemntional array
+     * @return array
+     * @throws Zend_Exception
+     */
+    public static function multiLanguageSort(array $data, $language = '', $field = null)
+    {
+        $locale = Zend_Registry::get('Zend_Locale');
+        if (empty($language)) {
+            $language = $locale->getLanguage();
+        }
+
+        if (empty($language) || mb_strlen($language) > 2) {
+            $language = 'en';
+        }
+
+        if ($language === 'en') {
+            if ($field !== null) {
+                uasort($data, function ($a, $b) use ($field) {
+                    return strcmp($a[$field], $b[$field]);
+                });
+
+                $data = array_values($data);
+
+            } else {
+                asort($data);
+            }
+            return $data;
+        }
+
+        if (class_exists('Collator')) {
+            try {
+                $region = $locale->getRegion();
+
+                if (empty($region)) {
+                    $localeCode = $language; // e.g., 'fr_FR'
+                    if (strpos($localeCode, '_') === false) {
+                        // fallback: append uppercase language code as country
+                        $localeCode .= '_' . strtoupper($language);
+                    }
+                } else {
+                    $localeCode = $language. '_' . strtoupper($region);
+                }
+
+                $collator = new Collator($localeCode); // e.g., 'fr_FR'
+
+                // multidimensional
+                if ($field !== null) {
+                    uasort($data, function ($a, $b) use ($collator, $field) {
+                        return $collator->compare($a[$field], $b[$field]);
+                    });
+
+                    $data = array_values($data);
+
+                } else {
+                    $collator->asort($data);
+                }
+                return $data;
+            } catch (Exception $e) {
+                if ($field !== null) {
+                    return array_values($data);
+                }
+
+                return $data;
+            }
+        }
+
+        // Fallback: transliterate + strcmp
+        if ($field !== null) {
+            uasort($data, function ($a, $b) use ($field) {
+                return strcmp(
+                    self::transliterateString($a[$field]),
+                    self::transliterateString($b[$field])
+                );
+            });
+
+            $data = array_values($data);
+        } else {
+            uasort($data, function ($a, $b) {
+                return strcmp(
+                    self::transliterateString($a),
+                    self::transliterateString($b)
+                );
+            });
+        }
+
+        return $data;
+    }
+
+    /**
+     * Transliterate string
+     *
+     * @param string $str
+     * @return false|string
+     */
+    public static function transliterateString($str)
+    {
+        $str = mb_convert_encoding($str, 'UTF-8', 'UTF-8');
+        return iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
     }
 
 }

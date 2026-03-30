@@ -38,6 +38,7 @@ class Application_Form_Config extends Application_Form_Secure
 
     protected $_validateFormEmails;
     protected $_convertPreviewToWebp;
+    protected $_actionEmailsOldVersion;
 
 	/**
 	 * Wether or not to include protected pages into the menus
@@ -421,6 +422,14 @@ class Application_Form_Config extends Application_Form_Secure
         return $this->_convertPreviewToWebp;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getActionEmailsOldVersion()
+    {
+        return $this->_actionEmailsOldVersion;
+    }
+
 
     /**
      * @return mixed
@@ -430,6 +439,18 @@ class Application_Form_Config extends Application_Form_Secure
     {
         $this->_convertPreviewToWebp = $convertPreviewToWebp;
         $this->getElement('convertPreviewToWebp')->setValue($this->_convertPreviewToWebp);
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     * string $actionEmailsOldVersion mixed
+     */
+    public function setActionEmailsOldVersion($actionEmailsOldVersion)
+    {
+        $this->_actionEmailsOldVersion = $actionEmailsOldVersion;
+        $this->getElement('actionEmailsOldVersion')->setValue($this->_actionEmailsOldVersion);
 
         return $this;
     }
@@ -658,6 +679,11 @@ class Application_Form_Config extends Application_Form_Secure
         $this->addElement('checkbox', 'convertPreviewToWebp', array(
             'value' => $this->_convertPreviewToWebp,
             'label' => 'Enable WebP conversion for page preview images?'
+        ));
+
+        $this->addElement('checkbox', 'actionEmailsOldVersion', array(
+            'value' => $this->_actionEmailsOldVersion,
+            'label' => 'Enable action emails config old ui?'
         ));
 
         $this->setElementDecorators(array('ViewHelper', 'Label'));
