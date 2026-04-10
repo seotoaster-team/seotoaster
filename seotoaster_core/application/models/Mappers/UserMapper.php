@@ -150,7 +150,8 @@ class Application_Model_Mappers_UserMapper extends Application_Model_Mappers_Abs
             'u.mfa_code',
             'u.mfa_code_expiration_time',
             'u.exclude_weekends',
-            'u.profile_image'
+            'u.profile_image',
+            'u.time_format'
         );
 
         $select = $this->getDbTable()->getAdapter()->select()
