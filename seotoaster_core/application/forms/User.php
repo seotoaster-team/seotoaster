@@ -59,6 +59,10 @@ class Application_Form_User extends Application_Form_Secure {
 
     protected $_profileImage = '';
 
+    protected $_timeFormat = '12h';
+
+    public static $_timeFormatOptions = array('12h' => '2-hour (AM/PM)', '24h' => '24-hour');
+
 	public function init() {
         parent::init();
 
@@ -627,6 +631,24 @@ class Application_Form_User extends Application_Form_Secure {
     {
         $this->_profileImage = $profileImage;
         $this->getElement('profileImage')->setValue($profileImage);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimeFormat()
+    {
+        return $this->_timeFormat;
+    }
+
+    /**
+     * @param string $timeFormat
+     */
+    public function setTimeFormat($timeFormat)
+    {
+        $this->_timeFormat = $timeFormat;
+        $this->getElement('timeFormat')->setValue($timeFormat);
         return $this;
     }
 
