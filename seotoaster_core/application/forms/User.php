@@ -61,7 +61,7 @@ class Application_Form_User extends Application_Form_Secure {
 
     protected $_timeFormat = '12h';
 
-    public static $_timeFormatOptions = array('12h' => '2-hour (AM/PM)', '24h' => '24-hour');
+    public static $_timeFormatOptions = array('12h' => '12-hour (AM/PM)', '24h' => '24-hour');
 
 	public function init() {
         parent::init();
@@ -283,6 +283,14 @@ class Application_Form_User extends Application_Form_Secure {
 			'name'  => 'id',
 			'value' => $this->_id
 		)));
+
+        $this->addElement(new Zend_Form_Element_Select(array(
+            'name'         => 'timeFormat',
+            'id'           => 'time-format',
+            'label'        => $translator->translate('Time format'),
+            'value'        => $this->_timeFormat,
+            'multiOptions' => self::$_timeFormatOptions
+        )));
 
 		$this->addElement(new Zend_Form_Element_Submit(array(
 			'name'   => 'saveUser',
