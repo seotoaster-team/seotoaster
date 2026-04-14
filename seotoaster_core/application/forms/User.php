@@ -61,7 +61,7 @@ class Application_Form_User extends Application_Form_Secure {
 
     protected $_timeFormat = '12h';
 
-    public static $_timeFormatOptions = array('12h' => '12-hour (AM/PM)', '24h' => '24-hour');
+    public static $_timeFormatOptions = array(Tools_System_UserTools::TIME_FORMAT_12H => '12-hour (AM/PM)', Tools_System_UserTools::TIME_FORMAT_24H => '24-hour');
 
 	public function init() {
         parent::init();
