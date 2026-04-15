@@ -197,4 +197,35 @@ class Tools_System_UserTools
         }
     }
 
+    /**
+     * Get logged user time format
+     *
+     * @param int $userId
+     * @return string
+     */
+    public static function getUserTimeFormat($userId = 0)
+    {
+        if (empty($userId)) {
+            $loggedUserInfo = Zend_Controller_Action_HelperBroker::getStaticHelper('session')->getCurrentUser();
+            $userId = $loggedUserInfo->getId();
+        }
+
+        if (!empty($userId)) {
+            $userMapper = Application_Model_Mappers_UserMapper::getInstance();
+            $userModel = $userMapper->find($userId);
+            if (!$userModel instanceof Application_Model_Models_User) {
+                return self::TIME_FORMAT_12H;
+            }
+
+            $timeFormat = $userModel->getTimeFormat();
+            if ($timeFormat === self::TIME_FORMAT_12H) {
+                return self::TIME_FORMAT_12H;
+            } elseif ($timeFormat === self::TIME_FORMAT_24H) {
+                return self::TIME_FORMAT_24H;
+            } else {
+                return self::TIME_FORMAT_12H;
+            }
+        }
+    }
+
 }
