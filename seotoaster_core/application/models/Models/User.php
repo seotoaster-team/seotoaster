@@ -74,6 +74,8 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
 
     protected $_profileImage = '';
 
+    protected $_timeFormat = '12h';
+
     public function setGplusProfile($gplusProfile) {
         $this->_gplusProfile = $gplusProfile;
         return $this;
@@ -669,6 +671,21 @@ class Application_Model_Models_User extends Application_Model_Models_Abstract im
         $this->_profileImage = $profileImage;
     }
 
+    /**
+     * @return string
+     */
+    public function getTimeFormat()
+    {
+        return $this->_timeFormat;
+    }
+
+    /**
+     * @param string $timeFormat
+     */
+    public function setTimeFormat($timeFormat)
+    {
+        $this->_timeFormat = $timeFormat;
+    }
 
 
 }

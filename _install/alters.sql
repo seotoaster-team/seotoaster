@@ -1247,7 +1247,11 @@ UPDATE `masks_list` SET `full_mask_value` = '(999)999-9999' WHERE `country_code`
 UPDATE `masks_list` SET `mask_value` = '(999)999-99-99' WHERE `country_code` = 'KZ';
 UPDATE `masks_list` SET `full_mask_value` = '(999)999-99-99' WHERE `country_code` = 'KZ';
 
+-- 10.04.2026
+-- Add user time format
+-- version: 3.12.5
+ALTER TABLE `user` ADD COLUMN `time_format` ENUM('12h', '24h')  DEFAULT NULL;
 
 -- These alters are always the latest and updated version of the database
-UPDATE `config` SET `value`='3.12.5' WHERE `name`='version';
+UPDATE `config` SET `value`='3.12.6' WHERE `name`='version';
 SELECT value FROM `config` WHERE name = 'version';
