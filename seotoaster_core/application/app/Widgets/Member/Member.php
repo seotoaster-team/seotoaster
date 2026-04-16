@@ -43,7 +43,8 @@ class Widgets_Member_Member extends Widgets_Abstract {
         'allowRemoteAuthorization',
         'personalCalendarUrl',
         'avatarLink',
-        'profileImage'
+        'profileImage',
+        'timeFormat'
     );
 
     const  OPTION_NOCAPTCHA = 'nocaptcha';

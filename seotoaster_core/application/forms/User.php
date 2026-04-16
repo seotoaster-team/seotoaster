@@ -59,6 +59,10 @@ class Application_Form_User extends Application_Form_Secure {
 
     protected $_profileImage = '';
 
+    protected $_timeFormat = '12h';
+
+    public static $_timeFormatOptions = array(Tools_System_UserTools::TIME_FORMAT_12H => '12-hour (AM/PM)', Tools_System_UserTools::TIME_FORMAT_24H => '24-hour');
+
 	public function init() {
         parent::init();
 
@@ -279,6 +283,14 @@ class Application_Form_User extends Application_Form_Secure {
 			'name'  => 'id',
 			'value' => $this->_id
 		)));
+
+        $this->addElement(new Zend_Form_Element_Select(array(
+            'name'         => 'timeFormat',
+            'id'           => 'time-format',
+            'label'        => $translator->translate('Time format'),
+            'value'        => $this->_timeFormat,
+            'multiOptions' => self::$_timeFormatOptions
+        )));
 
 		$this->addElement(new Zend_Form_Element_Submit(array(
 			'name'   => 'saveUser',
@@ -627,6 +639,24 @@ class Application_Form_User extends Application_Form_Secure {
     {
         $this->_profileImage = $profileImage;
         $this->getElement('profileImage')->setValue($profileImage);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimeFormat()
+    {
+        return $this->_timeFormat;
+    }
+
+    /**
+     * @param string $timeFormat
+     */
+    public function setTimeFormat($timeFormat)
+    {
+        $this->_timeFormat = $timeFormat;
+        $this->getElement('timeFormat')->setValue($timeFormat);
         return $this;
     }
 
