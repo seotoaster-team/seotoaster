@@ -137,18 +137,39 @@ class Backend_PluginController extends Zend_Controller_Action {
                     $sqlFileContent = Tools_Filesystem_Tools::getFile($sqlFilePath);
                     if (strlen($sqlFileContent)) {
                         $queries = Tools_System_SqlSplitter::split($sqlFileContent);
-                        if (is_array($queries) && !empty ($queries)) {
+                        if (is_array($queries) && !empty($queries)) {
                             $dbAdapter = Zend_Registry::get('dbAdapter');
+                            $pdo = $dbAdapter->getConnection();
+
                             try {
-                                array_walk($queries, function($query) use ($dbAdapter) {
-                                    if(strlen(trim($query))) {
-                                        $dbAdapter->query($query);
+                                foreach ($queries as $query) {
+                                    $query = trim($query);
+
+                                    if ($query === '') {
+                                        continue;
                                     }
-                                });
-                            }
-                            catch (Exception $e) {
+
+                                    if (!$pdo->inTransaction()) {
+                                        $dbAdapter->beginTransaction();
+                                    }
+
+                                    $dbAdapter->query($query);
+                                }
+
+                                if ($pdo->inTransaction()) {
+                                    $dbAdapter->commit();
+                                }
+                            } catch (Exception $e) {
+                                if ($pdo->inTransaction()) {
+                                    $dbAdapter->rollBack();
+                                }
+
                                 error_log($e->getMessage());
-                                $pluginMapper->deleteByName($plugin);
+
+                                if ($observerAction === Tools_Plugins_GarbageCollector::CLEAN_ONCREATE) {
+                                    $pluginMapper->deleteByName($plugin);
+                                }
+
                                 $this->_helper->response->fail($e->getMessage());
                             }
                         }
