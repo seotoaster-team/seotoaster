@@ -139,10 +139,23 @@ class Backend_PluginController extends Zend_Controller_Action {
                         $queries = Tools_System_SqlSplitter::split($sqlFileContent);
                         if (is_array($queries) && !empty($queries)) {
                             $currentDbAdapter = Zend_Registry::get('dbAdapter');
+                            $currentDbConfig = $currentDbAdapter->getConfig();
+
+                            if ($currentDbAdapter instanceof Zend_Db_Adapter_Pdo_Mysql) {
+                                $adapterName = 'pdo_mysql';
+                            } elseif ($currentDbAdapter instanceof Zend_Db_Adapter_Mysqli) {
+                                $adapterName = 'mysqli';
+                            } else {
+                                throw new Exception(
+                                    'Unsupported database adapter: ' . get_class($currentDbAdapter)
+                                );
+                            }
 
                             $installerDbAdapter = Zend_Db::factory(
-                                get_class($currentDbAdapter),
-                                $currentDbAdapter->getConfig()
+                                new Zend_Config(array(
+                                    'adapter' => $adapterName,
+                                    'params'  => $currentDbConfig
+                                ))
                             );
 
                             $pdo = $installerDbAdapter->getConnection();
