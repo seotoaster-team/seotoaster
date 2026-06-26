@@ -138,10 +138,18 @@ class Backend_PluginController extends Zend_Controller_Action {
                     if (strlen($sqlFileContent)) {
                         $queries = Tools_System_SqlSplitter::split($sqlFileContent);
                         if (is_array($queries) && !empty($queries)) {
-                            $dbAdapter = Zend_Registry::get('dbAdapter');
-                            $pdo = $dbAdapter->getConnection();
+                            $currentDbAdapter = Zend_Registry::get('dbAdapter');
+
+                            $installerDbAdapter = Zend_Db::factory(
+                                get_class($currentDbAdapter),
+                                $currentDbAdapter->getConfig()
+                            );
+
+                            $pdo = $installerDbAdapter->getConnection();
 
                             try {
+                                $installerDbAdapter->beginTransaction();
+
                                 foreach ($queries as $query) {
                                     $query = trim($query);
 
@@ -149,19 +157,15 @@ class Backend_PluginController extends Zend_Controller_Action {
                                         continue;
                                     }
 
-                                    if (!$pdo->inTransaction()) {
-                                        $dbAdapter->beginTransaction();
-                                    }
-
-                                    $dbAdapter->query($query);
+                                    $installerDbAdapter->query($query);
                                 }
 
                                 if ($pdo->inTransaction()) {
-                                    $dbAdapter->commit();
+                                    $installerDbAdapter->commit();
                                 }
                             } catch (Exception $e) {
                                 if ($pdo->inTransaction()) {
-                                    $dbAdapter->rollBack();
+                                    $installerDbAdapter->rollBack();
                                 }
 
                                 error_log($e->getMessage());
