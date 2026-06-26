@@ -179,9 +179,14 @@ class Backend_PluginController extends Zend_Controller_Action {
                                         . substr(preg_replace('/\s+/', ' ', $query), 0, 500)
                                     );
 
+                                    $queryStart = microtime(true);
+
                                     $installerDbAdapter->query($query);
 
                                     error_log('PLUGIN SQL END #' . ($index + 1));
+                                    error_log(
+                                        'QUERY TIME: ' . round(microtime(true) - $queryStart, 4)
+                                    );
                                 }
 
                                 if ($pdo->inTransaction()) {
