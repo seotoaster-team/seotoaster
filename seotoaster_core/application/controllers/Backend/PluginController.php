@@ -139,10 +139,9 @@ class Backend_PluginController extends Zend_Controller_Action {
                         $queries = Tools_System_SqlSplitter::split($sqlFileContent);
                         if (is_array($queries) && !empty($queries)) {
                             $currentDbAdapter = Zend_Registry::get('dbAdapter');
-                            $currentDbConfig = $currentDbAdapter->getConfig();
+                            $currentDbConfig  = $currentDbAdapter->getConfig();
                             $currentDbConfig['driver_options'] = array(
-                                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8;',
-                                PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
+                                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8;'
                             );
 
                             if ($currentDbAdapter instanceof Zend_Db_Adapter_Pdo_Mysql) {
@@ -167,7 +166,7 @@ class Backend_PluginController extends Zend_Controller_Action {
                             try {
                                 $installerDbAdapter->beginTransaction();
 
-                                foreach ($queries as $index =>  $query) {
+                                foreach ($queries as $index => $query) {
                                     $query = trim($query);
 
                                     if ($query === '') {
@@ -181,7 +180,7 @@ class Backend_PluginController extends Zend_Controller_Action {
 
                                     $queryStart = microtime(true);
 
-                                    $installerDbAdapter->query($query);
+                                    $pdo->exec($query);
 
                                     error_log('PLUGIN SQL END #' . ($index + 1));
                                     error_log(
@@ -207,10 +206,9 @@ class Backend_PluginController extends Zend_Controller_Action {
                             }
                         }
                     }
-                }
-                catch (Exceptions_SeotoasterPluginException $se) {
-                    error_log($se->getMessage());
-                    $this->_helper->response->fail($se->getMessage());
+                } catch (Exception $e) {
+                    error_log($e->getMessage());
+                    $this->_helper->response->fail($e->getMessage());
                 }
             }
 
