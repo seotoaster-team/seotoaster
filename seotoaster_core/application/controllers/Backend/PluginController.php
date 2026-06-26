@@ -173,19 +173,7 @@ class Backend_PluginController extends Zend_Controller_Action {
                                         continue;
                                     }
 
-                                    error_log(
-                                        'PLUGIN SQL START #' . ($index + 1) . ': '
-                                        . substr(preg_replace('/\s+/', ' ', $query), 0, 500)
-                                    );
-
-                                    $queryStart = microtime(true);
-
                                     $pdo->exec($query);
-
-                                    error_log('PLUGIN SQL END #' . ($index + 1));
-                                    error_log(
-                                        'QUERY TIME: ' . round(microtime(true) - $queryStart, 4)
-                                    );
                                 }
 
                                 if ($pdo->inTransaction()) {
