@@ -167,14 +167,21 @@ class Backend_PluginController extends Zend_Controller_Action {
                             try {
                                 $installerDbAdapter->beginTransaction();
 
-                                foreach ($queries as $query) {
+                                foreach ($queries as $index =>  $query) {
                                     $query = trim($query);
 
                                     if ($query === '') {
                                         continue;
                                     }
 
+                                    error_log(
+                                        'PLUGIN SQL START #' . ($index + 1) . ': '
+                                        . substr(preg_replace('/\s+/', ' ', $query), 0, 500)
+                                    );
+
                                     $installerDbAdapter->query($query);
+
+                                    error_log('PLUGIN SQL END #' . ($index + 1));
                                 }
 
                                 if ($pdo->inTransaction()) {
