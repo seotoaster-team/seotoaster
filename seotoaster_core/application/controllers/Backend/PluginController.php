@@ -141,7 +141,8 @@ class Backend_PluginController extends Zend_Controller_Action {
                             $currentDbAdapter = Zend_Registry::get('dbAdapter');
                             $currentDbConfig = $currentDbAdapter->getConfig();
                             $currentDbConfig['driver_options'] = array(
-                                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8;'
+                                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8;',
+                                PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
                             );
 
                             if ($currentDbAdapter instanceof Zend_Db_Adapter_Pdo_Mysql) {
