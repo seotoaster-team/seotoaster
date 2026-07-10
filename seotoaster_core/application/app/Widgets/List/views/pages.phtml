@@ -38,8 +38,18 @@
                     <?php
                         $width = '';
                         $height ='';
-                        if (!empty($src)) {
-                            $fileInfo = getimagesize($src);
+                        $preview = $page->getPreviewImage();
+                        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+                        $websitePath = $websiteHelper->getPath();
+                        if (!empty($preview)) {
+                            $path = (bool)$this->crop ? $websiteHelper->getPreviewCrop() : $websiteHelper->getPreview();
+                            $previewPath = $websitePath . $path . $preview;
+                        } else {
+                            $previewPath = $websitePath.'system'.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'noimage.png';
+                        }
+
+                        if (!empty($previewPath) && is_file($previewPath)) {
+                            $fileInfo = getimagesize($previewPath);
                             if (!empty($fileInfo)) {
                                 $width = $fileInfo[0];
                                 $height = $fileInfo[1];
