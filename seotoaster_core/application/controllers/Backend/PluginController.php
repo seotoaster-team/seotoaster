@@ -137,26 +137,66 @@ class Backend_PluginController extends Zend_Controller_Action {
                     $sqlFileContent = Tools_Filesystem_Tools::getFile($sqlFilePath);
                     if (strlen($sqlFileContent)) {
                         $queries = Tools_System_SqlSplitter::split($sqlFileContent);
-                        if (is_array($queries) && !empty ($queries)) {
-                            $dbAdapter = Zend_Registry::get('dbAdapter');
-                            try {
-                                array_walk($queries, function($query) use ($dbAdapter) {
-                                    if(strlen(trim($query))) {
-                                        $dbAdapter->query($query);
-                                    }
-                                });
+                        if (is_array($queries) && !empty($queries)) {
+                            $currentDbAdapter = Zend_Registry::get('dbAdapter');
+                            $currentDbConfig  = $currentDbAdapter->getConfig();
+                            $currentDbConfig['driver_options'] = array(
+                                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8;'
+                            );
+
+                            if ($currentDbAdapter instanceof Zend_Db_Adapter_Pdo_Mysql) {
+                                $adapterName = 'pdo_mysql';
+                            } elseif ($currentDbAdapter instanceof Zend_Db_Adapter_Mysqli) {
+                                $adapterName = 'mysqli';
+                            } else {
+                                throw new Exception(
+                                    'Unsupported database adapter: ' . get_class($currentDbAdapter)
+                                );
                             }
-                            catch (Exception $e) {
+
+                            $installerDbAdapter = Zend_Db::factory(
+                                new Zend_Config(array(
+                                    'adapter' => $adapterName,
+                                    'params'  => $currentDbConfig
+                                ))
+                            );
+
+                            $pdo = $installerDbAdapter->getConnection();
+
+                            try {
+                                $installerDbAdapter->beginTransaction();
+
+                                foreach ($queries as $index => $query) {
+                                    $query = trim($query);
+
+                                    if ($query === '') {
+                                        continue;
+                                    }
+
+                                    $pdo->exec($query);
+                                }
+
+                                if ($pdo->inTransaction()) {
+                                    $installerDbAdapter->commit();
+                                }
+                            } catch (Exception $e) {
+                                if ($pdo->inTransaction()) {
+                                    $installerDbAdapter->rollBack();
+                                }
+
                                 error_log($e->getMessage());
-                                $pluginMapper->deleteByName($plugin);
+
+                                if ($observerAction === Tools_Plugins_GarbageCollector::CLEAN_ONCREATE) {
+                                    $pluginMapper->deleteByName($plugin);
+                                }
+
                                 $this->_helper->response->fail($e->getMessage());
                             }
                         }
                     }
-                }
-                catch (Exceptions_SeotoasterPluginException $se) {
-                    error_log($se->getMessage());
-                    $this->_helper->response->fail($se->getMessage());
+                } catch (Exception $e) {
+                    error_log($e->getMessage());
+                    $this->_helper->response->fail($e->getMessage());
                 }
             }
 
