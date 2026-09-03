@@ -490,7 +490,7 @@ class Application_Form_Config extends Application_Form_Secure
 
         $this->addElement('text', Tools_System_Tools::GRECAPTCHA_PUBLIC_KEY, array(
             'value' => $this->_grecaptchaPublicKey,
-            'label' => 'greCAPTCHA public key'
+            'label' => 'reCAPTCHA public key'
         ));
 
         $this->addElement('text', Tools_System_Tools::RECAPTCHA_PRIVATE_KEY, array(
@@ -500,7 +500,7 @@ class Application_Form_Config extends Application_Form_Secure
 
         $this->addElement('text', Tools_System_Tools::GRECAPTCHA_PRIVATE_KEY, array(
             'value' => $this->_grecaptchaPrivateKey,
-            'label' => 'greCAPTCHA private Key'
+            'label' => 'reCAPTCHA private Key'
         ));
 
 		$this->addElement('text', 'imgSmall', array(
