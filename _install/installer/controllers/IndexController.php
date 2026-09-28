@@ -532,23 +532,28 @@ class IndexController extends Zend_Controller_Action {
         }
         $queries = SqlSplitter::split($file);
 
-        $pdo = $db->getConnection();
-
         try {
-            $db->beginTransaction();
-            foreach ($queries as $sql) {
-                $db->query($sql);
+            $pdo = $db->getConnection();
+
+            try {
+                $db->beginTransaction();
+                foreach ($queries as $sql) {
+                    $db->query($sql);
+                }
+                if ($pdo->inTransaction()) {
+                    $db->commit();
+                }
+                return true;
+            } catch (Exception $ex) {
+                if ($pdo->inTransaction()) {
+                    $db->rollBack();
+                }
+                return $ex->getMessage();
             }
-            if ($pdo->inTransaction()) {
-                $db->commit();
-            }
-            return true;
-        } catch (Exception $ex) {
-            if ($pdo->inTransaction()) {
-                $db->rollBack();
-            }
-            return $ex->getMessage();
+        } catch (Exception $exc) {
+            return $exc->getMessage();
         }
+
     }
 	
 	private function _findLanguages() {
