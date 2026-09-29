@@ -66,6 +66,9 @@
                 <div class="grid_12">
                     <?php echo $this->userForm->getElement('timezone'); ?>
                 </div>
+                <div class="grid_12">
+                    <?php echo $this->userForm->getElement('timeFormat'); ?>
+                </div>
 				<div class="grid_12 hide">
 					<?php echo $this->userForm->getElement('gplusProfile'); ?>
 				</div>
@@ -550,6 +553,9 @@
             $('#user-desktop-phone').mask('(999) 999 9999', {autoclear: false});
         }
 
+        if (!$('#time-format').val()) {
+            $('#time-format').val('12h');
+        }
 
     }
 

@@ -144,8 +144,12 @@ class Tools_System_FormBlacklist
         }
 
         foreach ($params as $param) {
-            if ($param != strip_tags($param)) {
-                return true;
+            if (is_array($param)) {
+                self::isBlacklistedHtmlTags($param);
+            } else {
+                if ($param != strip_tags($param)) {
+                    return true;
+                }
             }
         }
 

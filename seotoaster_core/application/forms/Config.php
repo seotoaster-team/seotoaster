@@ -37,6 +37,8 @@ class Application_Form_Config extends Application_Form_Secure
     protected $_googleApiKey;
 
     protected $_validateFormEmails;
+    protected $_convertPreviewToWebp;
+    protected $_actionEmailsOldVersion;
 
 	/**
 	 * Wether or not to include protected pages into the menus
@@ -412,6 +414,47 @@ class Application_Form_Config extends Application_Form_Secure
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getConvertPreviewToWebp()
+    {
+        return $this->_convertPreviewToWebp;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActionEmailsOldVersion()
+    {
+        return $this->_actionEmailsOldVersion;
+    }
+
+
+    /**
+     * @return mixed
+     * string $convertPreviewToWebp mixed
+     */
+    public function setConvertPreviewToWebp($convertPreviewToWebp)
+    {
+        $this->_convertPreviewToWebp = $convertPreviewToWebp;
+        $this->getElement('convertPreviewToWebp')->setValue($this->_convertPreviewToWebp);
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     * string $actionEmailsOldVersion mixed
+     */
+    public function setActionEmailsOldVersion($actionEmailsOldVersion)
+    {
+        $this->_actionEmailsOldVersion = $actionEmailsOldVersion;
+        $this->getElement('actionEmailsOldVersion')->setValue($this->_actionEmailsOldVersion);
+
+        return $this;
+    }
+
 	public function init()
     {
         parent::init();
@@ -447,7 +490,7 @@ class Application_Form_Config extends Application_Form_Secure
 
         $this->addElement('text', Tools_System_Tools::GRECAPTCHA_PUBLIC_KEY, array(
             'value' => $this->_grecaptchaPublicKey,
-            'label' => 'greCAPTCHA public key'
+            'label' => 'reCAPTCHA public key'
         ));
 
         $this->addElement('text', Tools_System_Tools::RECAPTCHA_PRIVATE_KEY, array(
@@ -457,7 +500,7 @@ class Application_Form_Config extends Application_Form_Secure
 
         $this->addElement('text', Tools_System_Tools::GRECAPTCHA_PRIVATE_KEY, array(
             'value' => $this->_grecaptchaPrivateKey,
-            'label' => 'greCAPTCHA private Key'
+            'label' => 'reCAPTCHA private Key'
         ));
 
 		$this->addElement('text', 'imgSmall', array(
@@ -631,6 +674,16 @@ class Application_Form_Config extends Application_Form_Secure
         $this->addElement('checkbox', 'validateFormEmails', array(
             'value' => $this->_validateFormEmails,
             'label' => 'Enable form emails validation?'
+        ));
+
+        $this->addElement('checkbox', 'convertPreviewToWebp', array(
+            'value' => $this->_convertPreviewToWebp,
+            'label' => 'Enable WebP conversion for page preview images?'
+        ));
+
+        $this->addElement('checkbox', 'actionEmailsOldVersion', array(
+            'value' => $this->_actionEmailsOldVersion,
+            'label' => 'Enable action emails config old ui?'
         ));
 
         $this->setElementDecorators(array('ViewHelper', 'Label'));

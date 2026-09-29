@@ -5786,6 +5786,88 @@ label[for*="chr-"] {
 #ations-triggers-frm #store-triegger-store_trackingnumber .new-trigger-action {
   padding: 1.4em 0;
 }
+#actions-triggers-frm .tabs-nav-wrap {
+  overflow: visible;
+  margin-top: 0.5em;
+  border-top: 1px solid #dadada;
+}
+#actions-triggers-frm .tabs-nav-wrap .arrow {
+  box-shadow: none;
+}
+#actions-triggers-frm .tabs-nav-wrap .arrow.left {
+  border-right: 2px solid #dadada;
+}
+#actions-triggers-frm .tabs-nav-wrap .arrow.right {
+  border-left: 2px solid #dadada;
+}
+#actions-triggers-frm .tabs-header button {
+  line-height: initial;
+}
+#actions-triggers-frm .tabs-contents {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: normal;
+  align-content: normal;
+}
+#actions-triggers-frm .tabs-contents > * {
+  flex: 0 0 48%;
+  margin: 0 1% 1rem;
+}
+#actions-triggers-frm .tabs-contents fieldset {
+  border: none;
+  border-top: 1px solid #eee;
+}
+#actions-triggers-frm .trigger-title {
+  margin-top: 0;
+}
+#actions-triggers-frm fieldset div {
+  margin-top: 0.65em;
+}
+#actions-triggers-frm .new-trigger-action {
+  cursor: pointer;
+  font-size: 75px;
+  padding: 1.14em 0;
+  background: transparent;
+  border: 3px dashed #eaeaea;
+  color: #eaeaea;
+  box-sizing: border-box;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+#actions-triggers-frm .new-trigger-action:hover {
+  border-color: #b7b7b7;
+  color: #b7b7b7;
+}
+#actions-triggers-frm .tabs-contents fieldset {
+  position: relative;
+}
+#actions-triggers-frm .tabs-contents fieldset .ticon-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.tabs-scroll {
+  overflow-x: auto;
+  white-space: nowrap;
+  box-sizing: content-box;
+}
+.tabs-header {
+  display: flex;
+}
+.tabs-header li {
+  background: #e9e9e9;
+  border-bottom: none;
+}
+.tabs-header li.active {
+  background: #ffffff;
+  font-weight: bold;
+}
+.tabs-end-spacer {
+  width: 30px;
+  /* slightly more than arrow width + buffer */
+  flex-shrink: 0;
+}
 #expusrs {
   display: inline-block;
   vertical-align: middle;
