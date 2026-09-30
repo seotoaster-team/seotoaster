@@ -42,7 +42,9 @@ class Widgets_Member_Member extends Widgets_Abstract {
         'voipPhone',
         'allowRemoteAuthorization',
         'personalCalendarUrl',
-        'avatarLink'
+        'avatarLink',
+        'profileImage',
+        'timeFormat'
     );
 
     const  OPTION_NOCAPTCHA = 'nocaptcha';

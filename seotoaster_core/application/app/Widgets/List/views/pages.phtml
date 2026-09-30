@@ -35,8 +35,34 @@
                 <?php endif; ?>
                 <?php if($this->useImage): ?>
                     <?php $src =  Tools_Page_Tools::getPreview($page, $this->crop); ?>
+                    <?php
+                        $width = '';
+                        $height ='';
+                        $preview = $page->getPreviewImage();
+                        $websiteHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('website');
+                        $websitePath = $websiteHelper->getPath();
+                        if (!empty($preview)) {
+                            $path = (bool)$this->crop ? $websiteHelper->getPreviewCrop() : $websiteHelper->getPreview();
+                            $previewPath = $websitePath . $path . $preview;
+                        } else {
+                            $previewPath = $websitePath.'system'.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'noimage.png';
+                        }
+
+                        if (!empty($previewPath) && is_file($previewPath)) {
+                            $fileInfo = getimagesize($previewPath);
+                            if (!empty($fileInfo)) {
+                                $width = $fileInfo[0];
+                                $height = $fileInfo[1];
+                            }
+                        }
+                    ?>
+
 					<a class="page-teaser-image" href="<?php echo $pageUrl; ?>" <?php echo $targetBlank;?> title="<?php echo $page->getH1(); ?>">
-						<img src="<?php echo $src; ?>" alt="<?php echo $page->getH1(); ?>" />
+						<?php if (!empty($width) && !empty($height)):?>
+                            <img src="<?php echo $src; ?>" alt="<?php echo $page->getH1(); ?>" width="<?php echo $width;?>" height="<?php echo $height;?>" />
+                        <?php else:?>
+                            <img src="<?php echo $src; ?>" alt="<?php echo $page->getH1(); ?>" />
+                        <?php endif;?>
 					</a>
 				<?php endif; ?>
                 <?php $linkPageTitle = false;?>

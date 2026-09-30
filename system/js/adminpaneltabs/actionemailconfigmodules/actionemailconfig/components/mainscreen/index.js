@@ -1,0 +1,1 @@
+export { default as mainscreen } from './mainscreen.vue';

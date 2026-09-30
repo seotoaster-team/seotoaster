@@ -141,6 +141,18 @@
                 <?php echo '<strong>' . $this->translate("Attention!") . '</strong> '. $this->translate('When enabled "Developer mode" disables some functionality that speeds up your sites. Do not forget to turn off the "Developer mode" after work.'); ?>
             </p>
             <?php endif; ?>
+            <div class="grid_5 convertPreviewToWebp">
+                <?php echo $this->configForm->getElement('convertPreviewToWebp')->renderLabel(); ?>
+            </div>
+            <div class="grid_1">
+                <?php echo $this->configForm->getElement('convertPreviewToWebp')->renderViewHelper(); ?>
+            </div>
+            <div class="grid_5 actionEmailsOldVersionEl actionEmailsOldVersion text-right">
+                <?php echo $this->configForm->getElement('actionEmailsOldVersion')->renderLabel(); ?>
+            </div>
+            <div class="grid_1 actionEmailsOldVersionEl">
+                <?php echo $this->configForm->getElement('actionEmailsOldVersion')->renderViewHelper(); ?>
+            </div>
 
             <?php echo $this->configForm->getElement('currentTheme'); ?>
             <?php echo $this->configForm->getElement('adminEmail'); ?>
@@ -235,8 +247,8 @@
 
             </fieldset>
             <fieldset id="securityForm-config" class="content-small-footer pt10px">
-                <div><?php echo $this->configForm->getElement(Tools_System_Tools::RECAPTCHA_PUBLIC_KEY); ?></div>
-                <div><?php echo $this->configForm->getElement(Tools_System_Tools::RECAPTCHA_PRIVATE_KEY); ?></div>
+                <div class="hidden"><?php echo $this->configForm->getElement(Tools_System_Tools::RECAPTCHA_PUBLIC_KEY); ?></div>
+                <div class="hidden"><?php echo $this->configForm->getElement(Tools_System_Tools::RECAPTCHA_PRIVATE_KEY); ?></div>
                 <div><?php echo $this->configForm->getElement(Tools_System_Tools::GRECAPTCHA_PUBLIC_KEY); ?></div>
                 <div><?php echo $this->configForm->getElement(Tools_System_Tools::GRECAPTCHA_PRIVATE_KEY); ?></div>
                 <div class="mt15px">
@@ -269,14 +281,25 @@
             $('.validateFormEmails').addClass('text-right');
         }
 
+        if($('#enableMinifyCss').prop('checked')) {
+            $('.actionEmailsOldVersion').removeClass('text-right');
+            $('.actionEmailsOldVersionEl').addClass('mt0px');
+        } else {
+            $('.actionEmailsOldVersion').addClass('text-right');
+        }
+
         $(document).on('click', '#enableMinifyCss', function(){
             if($('#enableMinifyCss').prop('checked')) {
                 $('.excludeSystemCssEl').show();
 
                 $('.validateFormEmails').removeClass('text-right');
+                $('.actionEmailsOldVersion').removeClass('text-right');
+                $('.actionEmailsOldVersionEl').addClass('mt0px');
             } else {
                 $('.excludeSystemCssEl').hide();
                 $('.validateFormEmails').addClass('text-right');
+                $('.actionEmailsOldVersion').addClass('text-right');
+                $('.actionEmailsOldVersionEl').removeClass('mt0px');
             }
         });
     });

@@ -125,7 +125,7 @@ class Tools_Image_Tools {
             // copying original file to destination and exiting
             if ($destination) {
                 $destination = rtrim($destination, DIRECTORY_SEPARATOR);
-                if (isset($sessionHelper->imageQuality)) {
+                if (isset($sessionHelper->imageQuality) && $mimeType !== 'image/webp') {
                     $optimizedImageName = preg_replace(
                         '~\.[a-zA-Z]{3,4}~iu',
                         '.jpg',
@@ -299,7 +299,7 @@ class Tools_Image_Tools {
             $pathFile = $destination . DIRECTORY_SEPARATOR . Tools_Filesystem_Tools::basename($pathFile);
         }
 
-        if (!isset($sessionHelper->imageQuality)) {
+        if (!isset($sessionHelper->imageQuality) || $mimeType === 'image/webp') {
             switch ($mimeType) {
                 case 'image/gif':
                     imagegif($newImage, $pathFile);
@@ -599,5 +599,118 @@ class Tools_Image_Tools {
         }
         return false;
     }
+
+
+    /**
+     * Convert image to WebP using GD
+     *
+     * @param string $source Full path to source image
+     * @param string $destination Full path to output .webp file
+     * @param int $quality 0–100 (ignored for lossless PNG)
+     *
+     * @return array
+     */
+    public static function convertToWebp($source, $destination, $quality = 100)
+    {
+        if (!file_exists($source) || !is_file($source) || !is_readable($source)) {
+            return array('error' => 1, 'message' => '');
+        }
+
+        if (is_dir($destination)) {
+            $destination = rtrim($destination, '/\\') . '/' . pathinfo($source, PATHINFO_FILENAME) . '.webp';
+        }
+
+        $dir = dirname($destination);
+        if (!is_dir($dir)) {
+            return array('error' => 1, 'message' => '');
+        }
+
+        if (!is_writable($dir)) {
+            return array('error' => 1, 'message' => '');
+        }
+
+        if (empty($quality)) {
+            $quality = 100;
+        } else {
+            $quality = max(0, min(100, (int)$quality));
+        }
+
+        $info = getimagesize($source);
+        if ($info === false) {
+            return array('error' => 1, 'message' => '');
+        }
+
+        $mime = $info['mime'];
+        $image = false;
+
+        // --- Try GD first ---
+        if (function_exists('imagewebp')) {
+            switch ($mime) {
+                case 'image/jpeg':
+                    $image = imagecreatefromjpeg($source);
+                    break;
+                case 'image/png':
+                    $image = imagecreatefrompng($source);
+                    if ($image) {
+                        imagepalettetotruecolor($image);
+                        imagealphablending($image, false);
+                        imagesavealpha($image, true);
+                    }
+                    break;
+                case 'image/gif':
+                    $image = imagecreatefromgif($source);
+                    if ($image) {
+                        imagepalettetotruecolor($image);
+                        imagealphablending($image, false);
+                        imagesavealpha($image, true);
+                    }
+                    break;
+                case 'image/webp':
+                    if ($quality === 100) {
+                        return array('error' => 0, 'message' => '', 'source' => $destination);
+                    }
+                    $image = imagecreatefromwebp($source);
+                    if ($image) {
+                        imagepalettetotruecolor($image);
+                        imagealphablending($image, false);
+                        imagesavealpha($image, true);
+                    }
+
+                    break;
+
+            }
+
+            if ($image && (is_resource($image) || $image instanceof \GdImage)) {
+                $result = imagewebp($image, $destination, $quality);
+                imagedestroy($image);
+
+                if ($result) {
+                    Tools_Filesystem_Tools::deleteFile($source);
+                    return array('error' => 0, 'message' => '', 'source' => $destination);
+                }
+            }
+        }
+
+        // --- GD failed, fallback to Imagick ---
+        if (class_exists('Imagick')) {
+            try {
+                $im = new Imagick($source);
+                $im->setImageFormat('webp');
+                $im->setImageCompressionQuality($quality);
+                $im->writeImage($destination);
+                $im->clear();
+
+                Tools_Filesystem_Tools::deleteFile($source);
+                return array('error' => 0, 'message' => '', 'source' => $destination);
+            } catch (\Exception $e) {
+                return array('error' => 1, 'message' => '');
+            }
+        }
+
+        return array('error' => 1, 'message' => '');
+    }
+
+
+
 
 }

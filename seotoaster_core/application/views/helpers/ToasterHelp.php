@@ -87,14 +87,28 @@ class Zend_View_Helper_ToasterHelp extends Zend_View_Helper_Abstract
         self::SECTION_EDITJS       => 'edit-js-files-in-seotoaster.html'
     );
 
-    public function toasterHelp($section, $hashMap = null)
+    /**
+     * Toaster help section link
+     *
+     * @param string $section predefined section
+     * @param array $hashMap add items for mapping
+     * @param false $linkOnly flag to return clean link without html
+     * @return string
+     */
+    public function toasterHelp($section, $hashMap = null, $linkOnly = false)
     {
         if (is_array($hashMap)) {
             $this->_helpHashMap = array_merge($this->_helpHashMap, $hashMap);
         }
+
         if (array_key_exists($section, $this->_helpHashMap)) {
-            return '<a class="help ticon-help" href="' . self::HELP_WEBSITE_REMOTE_URL . $this->_helpHashMap[$section] . '" target="_blank"></a>';
+            if ($linkOnly === false) {
+                return '<a class="help ticon-help" href="' . self::HELP_WEBSITE_REMOTE_URL . $this->_helpHashMap[$section] . '" target="_blank"></a>';
+            } else {
+                return self::HELP_WEBSITE_REMOTE_URL . $this->_helpHashMap[$section];
+            }
         }
+
         return '<a class="help ticon-help" href="javascript:;"></a>';
     }
 
