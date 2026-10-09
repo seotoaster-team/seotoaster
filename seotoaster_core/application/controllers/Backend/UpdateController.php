@@ -494,25 +494,63 @@ class Backend_UpdateController extends Zend_Controller_Action
      */
     protected function _updateDataBase()
     {
-        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $currentDbAdapter = Zend_Registry::get('dbAdapter');
+        $currentDbConfig  = $currentDbAdapter->getConfig();
+        $currentDbConfig['driver_options'] = array(
+            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8;'
+        );
 
-        $select = $dbAdapter->select()->from('config', array('value'))->where('name = ?', 'version');
-        $dbVersion = $dbAdapter->fetchRow($select);
+        if ($currentDbAdapter instanceof Zend_Db_Adapter_Pdo_Mysql) {
+            $adapterName = 'pdo_mysql';
+        } elseif ($currentDbAdapter instanceof Zend_Db_Adapter_Mysqli) {
+            $adapterName = 'mysqli';
+        } else {
+            throw new Exception(
+                'Unsupported database adapter: ' . get_class($currentDbAdapter)
+            );
+        }
+
+        $select = $currentDbAdapter->select()->from('config', array('value'))->where('name = ?', 'version');
+        $dbVersion = $currentDbAdapter->fetchRow($select);
         $alters = $this->_getFileContent(
             $this->_newToasterPath . '_install/alters.sql',
             '-- version: ' . $dbVersion['value']
         );
 
         $sqlAlters = Tools_System_SqlSplitter::split($alters);
-        $cnt = 0;
+
+        $installerDbAdapter = Zend_Db::factory(
+            new Zend_Config(array(
+                'adapter' => $adapterName,
+                'params'  => $currentDbConfig
+            ))
+        );
+
+        $pdo = $installerDbAdapter->getConnection();
+
         try {
-            foreach ($sqlAlters as $alter) {
-                $dbAdapter->query($alter);
-                $cnt++;
+            $installerDbAdapter->beginTransaction();
+
+            foreach ($sqlAlters as $index => $query) {
+                $query = trim($query);
+
+                if ($query === '') {
+                    continue;
+                }
+
+                $pdo->exec($query);
+            }
+
+            if ($pdo->inTransaction()) {
+                $installerDbAdapter->commit();
             }
             return true;
-        } catch (Exception $ex) {
-            error_log($ex->getMessage());
+        } catch (Exception $e) {
+            if ($pdo->inTransaction()) {
+                $installerDbAdapter->rollBack();
+            }
+
+            error_log($e->getMessage());
             return false;
         }
     }
