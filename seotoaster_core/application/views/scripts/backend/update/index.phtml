@@ -9,7 +9,7 @@
         $.ajax({
             url: url,
             dataType: 'json',
-            timeout: 60000,
+            timeout: 300000,
             success: function (response) {
                 if (!response.error) {
                     if(!$('#progress').length){
