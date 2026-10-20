@@ -140,6 +140,12 @@ class Backend_UpdateController extends Zend_Controller_Action
      */
     public function updateAction()
     {
+
+        $disableWebsiteUpdater = Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('disableWebsiteUpdater');
+        if (!empty($disableWebsiteUpdater)) {
+            return '';
+        }
+
         ini_set('max_execution_time','360');
         ini_set('memory_limit','700M');
 

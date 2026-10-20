@@ -26,6 +26,9 @@ class Helpers_Action_Admin extends Zend_Controller_Action_Helper_Abstract {
             $this->_view->placeholder('logoSource')->set($websiteHelper->getUrl() . 'system/images/cpanel-img.jpg');
         }
         $this->_view->userRole = $userRole;
+        $disableWebsiteUpdater = Zend_Controller_Action_HelperBroker::getStaticHelper('config')->getConfig('disableWebsiteUpdater');
+        $this->_view->disableWebsiteUpdater = $disableWebsiteUpdater;
+
         return $this->_view->render('admin/adminpanel.phtml');
 	}
 
